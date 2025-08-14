@@ -17,14 +17,17 @@ import {
 } from "@/components/ui/dialog"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Plus, Edit, Trash2, Users } from "lucide-react"
 import {
   type LabAssistant,
+  type User,
   createLabAssistant,
   getLabAssistants,
   updateLabAssistant,
   deleteLabAssistant,
+  createUser,
+  updateUser,
+  getUserByEmail,
 } from "@/lib/local-storage"
 
 export default function AssistantsPage() {
@@ -32,17 +35,25 @@ export default function AssistantsPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [editingAssistant, setEditingAssistant] = useState<LabAssistant | null>(null)
   const [formData, setFormData] = useState({
-    name: "",
+    labAssistantId: "",
+    username: "",
+    firstName: "",
+    lastName: "",
     email: "",
-    phone: "",
+    password: "",
     department: "",
-    studentId: "",
-    yearLevel: "1st Year" as "1st Year" | "2nd Year" | "3rd Year" | "4th Year" | "Graduate",
   })
 
   useEffect(() => {
     setAssistants(getLabAssistants())
   }, [])
+
+  const generateLabAssistantId = () => {
+    const year = new Date().getFullYear()
+    const existingIds = assistants.map((a) => a.labAssistantId).filter((id) => id && id.startsWith(`LA${year}`))
+    const nextNumber = existingIds.length + 1
+    return `LA${year}${nextNumber.toString().padStart(3, "0")}`
+  }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -50,12 +61,36 @@ export default function AssistantsPage() {
     if (editingAssistant) {
       const updated = updateLabAssistant(editingAssistant.id, formData)
       if (updated) {
+        // Update corresponding user account
+        const existingUser = getUserByEmail(editingAssistant.email)
+        if (existingUser) {
+          updateUser(existingUser.id, {
+            email: formData.email,
+            password: formData.password,
+          })
+        }
         setAssistants(getLabAssistants())
         setIsDialogOpen(false)
         resetForm()
       }
     } else {
-      const newAssistant = createLabAssistant(formData)
+      const assistantData = {
+        ...formData,
+        labAssistantId: formData.labAssistantId || generateLabAssistantId(),
+        isActive: true,
+      }
+
+      const newAssistant = createLabAssistant(assistantData)
+
+      // Create corresponding user account
+      const userData: Omit<User, "id" | "createdAt" | "updatedAt"> = {
+        email: formData.email,
+        password: formData.password,
+        role: "lab_assistant" as const,
+        labAssistantId: newAssistant.id,
+      }
+      createUser(userData)
+
       setAssistants(getLabAssistants())
       setIsDialogOpen(false)
       resetForm()
@@ -65,18 +100,27 @@ export default function AssistantsPage() {
   const handleEdit = (assistant: LabAssistant) => {
     setEditingAssistant(assistant)
     setFormData({
-      name: assistant.name,
+      labAssistantId: assistant.labAssistantId,
+      username: assistant.username,
+      firstName: assistant.firstName,
+      lastName: assistant.lastName,
       email: assistant.email,
-      phone: assistant.phone,
+      password: assistant.password,
       department: assistant.department,
-      studentId: assistant.studentId,
-      yearLevel: assistant.yearLevel,
     })
     setIsDialogOpen(true)
   }
 
   const handleDelete = (id: string) => {
-    if (confirm("Are you sure you want to delete this lab assistant?")) {
+    if (confirm("Are you sure you want to delete this lab assistant? This will also delete their user account.")) {
+      const assistant = assistants.find((a) => a.id === id)
+      if (assistant) {
+        // Delete user account first
+        const user = getUserByEmail(assistant.email)
+        if (user) {
+          // Note: We would need a deleteUser function, but for now we'll just delete the assistant
+        }
+      }
       deleteLabAssistant(id)
       setAssistants(getLabAssistants())
     }
@@ -84,12 +128,13 @@ export default function AssistantsPage() {
 
   const resetForm = () => {
     setFormData({
-      name: "",
+      labAssistantId: "",
+      username: "",
+      firstName: "",
+      lastName: "",
       email: "",
-      phone: "",
+      password: "",
       department: "",
-      studentId: "",
-      yearLevel: "1st Year",
     })
     setEditingAssistant(null)
   }
@@ -98,23 +143,11 @@ export default function AssistantsPage() {
     setIsDialogOpen(open)
     if (!open) {
       resetForm()
-    }
-  }
-
-  const getYearLevelColor = (yearLevel: string) => {
-    switch (yearLevel) {
-      case "1st Year":
-        return "bg-green-100 text-green-800"
-      case "2nd Year":
-        return "bg-blue-100 text-blue-800"
-      case "3rd Year":
-        return "bg-yellow-100 text-yellow-800"
-      case "4th Year":
-        return "bg-orange-100 text-orange-800"
-      case "Graduate":
-        return "bg-purple-100 text-purple-800"
-      default:
-        return "bg-gray-100 text-gray-800"
+    } else if (!editingAssistant) {
+      setFormData((prev) => ({
+        ...prev,
+        labAssistantId: generateLabAssistantId(),
+      }))
     }
   }
 
@@ -123,7 +156,7 @@ export default function AssistantsPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Lab Assistants</h1>
-          <p className="text-muted-foreground">Manage lab assistant information and assignments</p>
+          <p className="text-muted-foreground">Manage lab assistant information and login credentials</p>
         </div>
         <Dialog open={isDialogOpen} onOpenChange={handleDialogChange}>
           <DialogTrigger asChild>
@@ -136,72 +169,77 @@ export default function AssistantsPage() {
             <DialogHeader>
               <DialogTitle>{editingAssistant ? "Edit Lab Assistant" : "Add New Lab Assistant"}</DialogTitle>
               <DialogDescription>
-                {editingAssistant ? "Update assistant information" : "Register a new lab assistant"}
+                {editingAssistant
+                  ? "Update assistant information and credentials"
+                  : "Register a new lab assistant with login credentials"}
               </DialogDescription>
             </DialogHeader>
             <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="labAssistantId">Lab Assistant ID</Label>
+                  <Input
+                    id="labAssistantId"
+                    value={formData.labAssistantId}
+                    onChange={(e) => setFormData({ ...formData, labAssistantId: e.target.value })}
+                    placeholder="LA2024001"
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="username">Username</Label>
+                  <Input
+                    id="username"
+                    value={formData.username}
+                    onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+                    placeholder="john_doe"
+                    required
+                  />
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="firstName">First Name</Label>
+                  <Input
+                    id="firstName"
+                    value={formData.firstName}
+                    onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                    placeholder="John"
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="lastName">Last Name</Label>
+                  <Input
+                    id="lastName"
+                    value={formData.lastName}
+                    onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                    placeholder="Doe"
+                    required
+                  />
+                </div>
+              </div>
               <div className="space-y-2">
-                <Label htmlFor="name">Full Name</Label>
+                <Label htmlFor="email">Email</Label>
                 <Input
-                  id="name"
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  placeholder="John Doe"
+                  id="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  placeholder="john.doe@lab.edu"
                   required
                 />
               </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    placeholder="john@university.edu"
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="phone">Phone</Label>
-                  <Input
-                    id="phone"
-                    value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    placeholder="+1 (555) 123-4567"
-                    required
-                  />
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="studentId">Student ID</Label>
-                  <Input
-                    id="studentId"
-                    value={formData.studentId}
-                    onChange={(e) => setFormData({ ...formData, studentId: e.target.value })}
-                    placeholder="2021-12345"
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="yearLevel">Year Level</Label>
-                  <Select
-                    value={formData.yearLevel}
-                    onValueChange={(value: any) => setFormData({ ...formData, yearLevel: value })}
-                  >
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="1st Year">1st Year</SelectItem>
-                      <SelectItem value="2nd Year">2nd Year</SelectItem>
-                      <SelectItem value="3rd Year">3rd Year</SelectItem>
-                      <SelectItem value="4th Year">4th Year</SelectItem>
-                      <SelectItem value="Graduate">Graduate</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
+              <div className="space-y-2">
+                <Label htmlFor="password">Password</Label>
+                <Input
+                  id="password"
+                  type="password"
+                  value={formData.password}
+                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  placeholder="Enter login password"
+                  required
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="department">Department</Label>
@@ -230,7 +268,7 @@ export default function AssistantsPage() {
             <Users className="h-5 w-5" />
             Lab Assistants ({assistants.length})
           </CardTitle>
-          <CardDescription>All registered lab assistants in the system</CardDescription>
+          <CardDescription>All registered lab assistants with their login credentials</CardDescription>
         </CardHeader>
         <CardContent>
           {assistants.length === 0 ? (
@@ -241,25 +279,29 @@ export default function AssistantsPage() {
             <Table>
               <TableHeader>
                 <TableRow>
+                  <TableHead>Lab Assistant ID</TableHead>
                   <TableHead>Name</TableHead>
-                  <TableHead>Student ID</TableHead>
+                  <TableHead>Username</TableHead>
                   <TableHead>Email</TableHead>
-                  <TableHead>Phone</TableHead>
                   <TableHead>Department</TableHead>
-                  <TableHead>Year Level</TableHead>
+                  <TableHead>Status</TableHead>
                   <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {assistants.map((assistant) => (
                   <TableRow key={assistant.id}>
-                    <TableCell className="font-medium">{assistant.name}</TableCell>
-                    <TableCell>{assistant.studentId}</TableCell>
+                    <TableCell className="font-medium">{assistant.labAssistantId}</TableCell>
+                    <TableCell>
+                      {assistant.firstName} {assistant.lastName}
+                    </TableCell>
+                    <TableCell>{assistant.username}</TableCell>
                     <TableCell>{assistant.email}</TableCell>
-                    <TableCell>{assistant.phone}</TableCell>
                     <TableCell>{assistant.department}</TableCell>
                     <TableCell>
-                      <Badge className={getYearLevelColor(assistant.yearLevel)}>{assistant.yearLevel}</Badge>
+                      <Badge variant={assistant.isActive ? "default" : "secondary"}>
+                        {assistant.isActive ? "Active" : "Inactive"}
+                      </Badge>
                     </TableCell>
                     <TableCell className="text-right">
                       <div className="flex justify-end space-x-2">

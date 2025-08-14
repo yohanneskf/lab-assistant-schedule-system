@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Button } from "@/components/ui/button"
 import { AuthService } from "@/lib/auth"
 import {
   db,
@@ -13,8 +14,10 @@ import {
   type Section,
   type CourseOffering,
   type Course,
+  type LabAssistant,
 } from "@/lib/local-storage"
-import { Calendar, Clock, MapPin } from "lucide-react"
+import { Calendar, Clock, MapPin, User, LogOut } from "lucide-react"
+import { useRouter } from "next/navigation"
 
 interface ScheduleWithDetails extends ScheduleAssignment {
   labRoom: LabRoom
@@ -26,7 +29,9 @@ interface ScheduleWithDetails extends ScheduleAssignment {
 
 export default function AssistantDashboard() {
   const [schedules, setSchedules] = useState<ScheduleWithDetails[]>([])
+  const [assistant, setAssistant] = useState<LabAssistant | null>(null)
   const [loading, setLoading] = useState(true)
+  const router = useRouter()
 
   useEffect(() => {
     loadSchedules()
@@ -38,6 +43,10 @@ export default function AssistantDashboard() {
       setLoading(false)
       return
     }
+
+    // Get lab assistant details
+    const assistantData = db.findById<LabAssistant>("lab_assistants", user.labAssistantId)
+    setAssistant(assistantData)
 
     // Get all active schedule assignments for this lab assistant
     const assignments = db.findWhere<ScheduleAssignment>(
@@ -76,6 +85,11 @@ export default function AssistantDashboard() {
     setLoading(false)
   }
 
+  const handleLogout = () => {
+    AuthService.logout()
+    router.push("/assistant-login")
+  }
+
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-64">
@@ -86,12 +100,20 @@ export default function AssistantDashboard() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold text-gray-900">My Schedule</h1>
-        <p className="text-gray-600">Your assigned lab sessions</p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900">My Schedule</h1>
+          <p className="text-gray-600">
+            Welcome, {assistant?.firstName} {assistant?.lastName} ({assistant?.labAssistantId})
+          </p>
+        </div>
+        <Button variant="outline" onClick={handleLogout}>
+          <LogOut className="mr-2 h-4 w-4" />
+          Logout
+        </Button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Sessions</CardTitle>
@@ -124,6 +146,17 @@ export default function AssistantDashboard() {
             <p className="text-xs text-muted-foreground">Different rooms</p>
           </CardContent>
         </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Department</CardTitle>
+            <User className="h-4 w-4 text-orange-600" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-lg font-bold">{assistant?.department}</div>
+            <p className="text-xs text-muted-foreground">Your department</p>
+          </CardContent>
+        </Card>
       </div>
 
       <Card>
@@ -143,6 +176,7 @@ export default function AssistantDashboard() {
                   <TableHead>Day & Time</TableHead>
                   <TableHead>Course</TableHead>
                   <TableHead>Section</TableHead>
+                  <TableHead>Year & Batch</TableHead>
                   <TableHead>Lab Room</TableHead>
                   <TableHead>Location</TableHead>
                 </TableRow>
@@ -165,6 +199,17 @@ export default function AssistantDashboard() {
                       </div>
                     </TableCell>
                     <TableCell>Section {schedule.section.sectionNumber}</TableCell>
+                    <TableCell>
+                      <div className="space-y-1">
+                        <Badge variant="secondary">Year {schedule.course.year}</Badge>
+                        <div className="text-sm text-gray-600">
+                          {schedule.course.section} - {schedule.course.batch}
+                        </div>
+                        <Badge variant={schedule.course.studentType === "regular" ? "default" : "outline"}>
+                          {schedule.course.studentType}
+                        </Badge>
+                      </div>
+                    </TableCell>
                     <TableCell className="font-medium">{schedule.labRoom.name}</TableCell>
                     <TableCell className="text-sm text-gray-600">{schedule.labRoom.location}</TableCell>
                   </TableRow>

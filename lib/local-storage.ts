@@ -16,6 +16,10 @@ export interface Course {
   name: string
   department: string
   credits: number
+  year: number // 1st year, 2nd year, etc.
+  section: string // A, B, C, etc.
+  batch: string // 2023, 2024, etc.
+  studentType: "regular" | "extension"
   isActive: boolean
   createdAt: string
   updatedAt: string
@@ -45,6 +49,8 @@ export interface Section {
 
 export interface LabAssistant {
   id: string
+  labAssistantId: string // Unique lab assistant identifier
+  username: string // Login username created by admin
   firstName: string
   lastName: string
   email: string
@@ -251,22 +257,67 @@ export function initializeDefaultData() {
     db.create<LabRoom>("lab_rooms", room)
   })
 
-  // Sample courses
+  // Sample courses with new fields
   const courses = [
     {
       code: "CS101",
       name: "Introduction to Computer Science",
       department: "Computer Science",
       credits: 3,
+      year: 1,
+      section: "A",
+      batch: "2024",
+      studentType: "regular" as const,
       isActive: true,
     },
-    { code: "CS201", name: "Data Structures", department: "Computer Science", credits: 4, isActive: true },
-    { code: "PHYS101", name: "General Physics I", department: "Physics", credits: 4, isActive: true },
+    {
+      code: "CS201",
+      name: "Data Structures",
+      department: "Computer Science",
+      credits: 4,
+      year: 2,
+      section: "B",
+      batch: "2023",
+      studentType: "regular" as const,
+      isActive: true,
+    },
+    {
+      code: "PHYS101",
+      name: "General Physics I",
+      department: "Physics",
+      credits: 4,
+      year: 1,
+      section: "A",
+      batch: "2024",
+      studentType: "extension" as const,
+      isActive: true,
+    },
   ]
 
   courses.forEach((course) => {
     db.create<Course>("courses", course)
   })
+
+  const sampleAssistant: Omit<LabAssistant, "id" | "createdAt" | "updatedAt"> = {
+    labAssistantId: "LA001",
+    username: "john_doe",
+    firstName: "John",
+    lastName: "Doe",
+    email: "john.doe@lab.edu",
+    password: "assistant123",
+    department: "Computer Science",
+    isActive: true,
+  }
+  const createdAssistant = db.create<LabAssistant>("lab_assistants", sampleAssistant)
+
+  // Create user account for the lab assistant
+  const assistantUser: Omit<User, "id" | "createdAt" | "updatedAt"> = {
+    email: "john.doe@lab.edu",
+    password: "assistant123",
+    role: "lab_assistant",
+    labAssistantId: createdAssistant.id,
+  }
+  db.create<User>("users", assistantUser)
 
   localStorage.setItem("lab_management_initialized", "true")
 }
@@ -374,3 +425,6 @@ export const getAssistantScheduleConflicts = (
     )
   })
 }
+
+export const getLabAssistantByUsername = (username: string) =>
+  db.findWhere<LabAssistant>("lab_assistants", (assistant) => assistant.username === username)[0] || null

@@ -125,7 +125,7 @@ export default function SchedulesPage() {
 
   const getLabRoom = (id: string) => labRooms.find((room) => room.id === id)
   const getCourse = (id: string) => courses.find((course) => course.id === id)
-  const getAssistant = (id: string) => assistants.find((assistant) => assistant.id === id)
+  const getAssistant = (id: string) => assistants.find((assistant) => assistant.labAssistantId === id)
   const getTimeSlot = (id: string) => timeSlots.find((slot) => slot.id === id)
 
   const formatTime = (time: string) => {
@@ -208,8 +208,8 @@ export default function SchedulesPage() {
                   </SelectTrigger>
                   <SelectContent>
                     {assistants.map((assistant) => (
-                      <SelectItem key={assistant.id} value={assistant.id}>
-                        {assistant.name} - {assistant.department}
+                      <SelectItem key={assistant.id} value={assistant.labAssistantId}>
+                        {assistant.name} ({assistant.labAssistantId}) - {assistant.department}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -310,7 +310,9 @@ export default function SchedulesPage() {
                       <TableCell>
                         <div>
                           <div className="font-medium">{assistant?.name}</div>
-                          <div className="text-sm text-muted-foreground">{assistant?.department}</div>
+                          <div className="text-sm text-muted-foreground">
+                            {assistant?.labAssistantId} - {assistant?.department}
+                          </div>
                         </div>
                       </TableCell>
                       <TableCell>
