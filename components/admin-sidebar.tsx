@@ -6,7 +6,7 @@ import { usePathname, useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { AuthService } from "@/lib/auth"
-import { Building2, BookOpen, Users, Clock, Calendar, LogOut, Menu, X } from "lucide-react"
+import { Building2, BookOpen, Users, Clock, Calendar, LogOut, Menu, X, Layers } from "lucide-react"
 
 const navigation = [
   { name: "Dashboard", href: "/admin", icon: Building2 },
@@ -14,6 +14,7 @@ const navigation = [
   { name: "Courses", href: "/admin/courses", icon: BookOpen },
   { name: "Lab Assistants", href: "/admin/assistants", icon: Users },
   { name: "Time Slots", href: "/admin/time-slots", icon: Clock },
+  { name: "Sections & Groups", href: "/admin/sections", icon: Layers }, // Added sections and groups menu item
   { name: "Schedules", href: "/admin/schedules", icon: Calendar },
 ]
 

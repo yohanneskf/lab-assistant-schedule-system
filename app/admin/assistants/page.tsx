@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/dialog"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
-import { Plus, Edit, Trash2, Users } from "lucide-react"
+import { Plus, Edit, Trash2, Users, Key, Eye, EyeOff } from "lucide-react"
 import {
   type LabAssistant,
   type User,
@@ -33,7 +33,10 @@ import {
 export default function AssistantsPage() {
   const [assistants, setAssistants] = useState<LabAssistant[]>([])
   const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [isPasswordDialogOpen, setIsPasswordDialogOpen] = useState(false)
   const [editingAssistant, setEditingAssistant] = useState<LabAssistant | null>(null)
+  const [selectedAssistant, setSelectedAssistant] = useState<LabAssistant | null>(null)
+  const [showPassword, setShowPassword] = useState(false)
   const [formData, setFormData] = useState({
     labAssistantId: "",
     username: "",
@@ -42,6 +45,10 @@ export default function AssistantsPage() {
     email: "",
     password: "",
     department: "",
+  })
+  const [passwordData, setPasswordData] = useState({
+    newPassword: "",
+    confirmPassword: "",
   })
 
   useEffect(() => {
@@ -97,6 +104,36 @@ export default function AssistantsPage() {
     }
   }
 
+  const handlePasswordSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+
+    if (passwordData.newPassword !== passwordData.confirmPassword) {
+      alert("Passwords do not match!")
+      return
+    }
+
+    if (passwordData.newPassword.length < 6) {
+      alert("Password must be at least 6 characters long!")
+      return
+    }
+
+    if (selectedAssistant) {
+      // Update assistant password
+      updateLabAssistant(selectedAssistant.id, { password: passwordData.newPassword })
+
+      // Update user account password
+      const user = getUserByEmail(selectedAssistant.email)
+      if (user) {
+        updateUser(user.id, { password: passwordData.newPassword })
+      }
+
+      setAssistants(getLabAssistants())
+      setIsPasswordDialogOpen(false)
+      setPasswordData({ newPassword: "", confirmPassword: "" })
+      setSelectedAssistant(null)
+    }
+  }
+
   const handleEdit = (assistant: LabAssistant) => {
     setEditingAssistant(assistant)
     setFormData({
@@ -109,6 +146,11 @@ export default function AssistantsPage() {
       department: assistant.department,
     })
     setIsDialogOpen(true)
+  }
+
+  const handleChangePassword = (assistant: LabAssistant) => {
+    setSelectedAssistant(assistant)
+    setIsPasswordDialogOpen(true)
   }
 
   const handleDelete = (id: string) => {
@@ -148,6 +190,14 @@ export default function AssistantsPage() {
         ...prev,
         labAssistantId: generateLabAssistantId(),
       }))
+    }
+  }
+
+  const handlePasswordDialogChange = (open: boolean) => {
+    setIsPasswordDialogOpen(open)
+    if (!open) {
+      setPasswordData({ newPassword: "", confirmPassword: "" })
+      setSelectedAssistant(null)
     }
   }
 
@@ -232,14 +282,25 @@ export default function AssistantsPage() {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="password">Password</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  value={formData.password}
-                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                  placeholder="Enter login password"
-                  required
-                />
+                <div className="relative">
+                  <Input
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    value={formData.password}
+                    onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                    placeholder="Enter login password"
+                    required
+                  />
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </Button>
+                </div>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="department">Department</Label>
@@ -262,16 +323,58 @@ export default function AssistantsPage() {
         </Dialog>
       </div>
 
+      {/* Password Change Dialog */}
+      <Dialog open={isPasswordDialogOpen} onOpenChange={handlePasswordDialogChange}>
+        <DialogContent className="sm:max-w-[400px]">
+          <DialogHeader>
+            <DialogTitle>Change Password</DialogTitle>
+            <DialogDescription>
+              Change password for {selectedAssistant?.firstName} {selectedAssistant?.lastName}
+            </DialogDescription>
+          </DialogHeader>
+          <form onSubmit={handlePasswordSubmit} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="newPassword">New Password</Label>
+              <Input
+                id="newPassword"
+                type="password"
+                value={passwordData.newPassword}
+                onChange={(e) => setPasswordData({ ...passwordData, newPassword: e.target.value })}
+                placeholder="Enter new password"
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="confirmPassword">Confirm Password</Label>
+              <Input
+                id="confirmPassword"
+                type="password"
+                value={passwordData.confirmPassword}
+                onChange={(e) => setPasswordData({ ...passwordData, confirmPassword: e.target.value })}
+                placeholder="Confirm new password"
+                required
+              />
+            </div>
+            <div className="flex justify-end space-x-2">
+              <Button type="button" variant="outline" onClick={() => setIsPasswordDialogOpen(false)}>
+                Cancel
+              </Button>
+              <Button type="submit">Change Password</Button>
+            </div>
+          </form>
+        </DialogContent>
+      </Dialog>
+
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Users className="h-5 w-5" />
-            Lab Assistants ({assistants.length})
+            Lab Assistants ({assistants.filter((a) => a.isActive).length})
           </CardTitle>
           <CardDescription>All registered lab assistants with their login credentials</CardDescription>
         </CardHeader>
         <CardContent>
-          {assistants.length === 0 ? (
+          {assistants.filter((a) => a.isActive).length === 0 ? (
             <div className="text-center py-8 text-muted-foreground">
               No lab assistants found. Add your first assistant to get started.
             </div>
@@ -289,32 +392,37 @@ export default function AssistantsPage() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {assistants.map((assistant) => (
-                  <TableRow key={assistant.id}>
-                    <TableCell className="font-medium">{assistant.labAssistantId}</TableCell>
-                    <TableCell>
-                      {assistant.firstName} {assistant.lastName}
-                    </TableCell>
-                    <TableCell>{assistant.username}</TableCell>
-                    <TableCell>{assistant.email}</TableCell>
-                    <TableCell>{assistant.department}</TableCell>
-                    <TableCell>
-                      <Badge variant={assistant.isActive ? "default" : "secondary"}>
-                        {assistant.isActive ? "Active" : "Inactive"}
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex justify-end space-x-2">
-                        <Button variant="outline" size="sm" onClick={() => handleEdit(assistant)}>
-                          <Edit className="h-4 w-4" />
-                        </Button>
-                        <Button variant="outline" size="sm" onClick={() => handleDelete(assistant.id)}>
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                {assistants
+                  .filter((a) => a.isActive)
+                  .map((assistant) => (
+                    <TableRow key={assistant.id}>
+                      <TableCell className="font-medium">{assistant.labAssistantId}</TableCell>
+                      <TableCell>
+                        {assistant.firstName} {assistant.lastName}
+                      </TableCell>
+                      <TableCell>{assistant.username}</TableCell>
+                      <TableCell>{assistant.email}</TableCell>
+                      <TableCell>{assistant.department}</TableCell>
+                      <TableCell>
+                        <Badge variant={assistant.isActive ? "default" : "secondary"}>
+                          {assistant.isActive ? "Active" : "Inactive"}
+                        </Badge>
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <div className="flex justify-end space-x-2">
+                          <Button variant="outline" size="sm" onClick={() => handleEdit(assistant)}>
+                            <Edit className="h-4 w-4" />
+                          </Button>
+                          <Button variant="outline" size="sm" onClick={() => handleChangePassword(assistant)}>
+                            <Key className="h-4 w-4" />
+                          </Button>
+                          <Button variant="outline" size="sm" onClick={() => handleDelete(assistant.id)}>
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
               </TableBody>
             </Table>
           )}

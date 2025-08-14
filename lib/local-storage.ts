@@ -39,9 +39,20 @@ export interface CourseOffering {
 
 export interface Section {
   id: string
-  courseOfferingId: string
-  sectionNumber: number
-  maxStudents: number
+  name: string // Section A, Section B, etc.
+  year: number // 1st year, 2nd year, etc.
+  department: string
+  capacity: number
+  isActive: boolean
+  createdAt: string
+  updatedAt: string
+}
+
+export interface Group {
+  id: string
+  name: string // Group 1, Group 2, etc.
+  sectionId: string
+  capacity: number
   isActive: boolean
   createdAt: string
   updatedAt: string
@@ -74,6 +85,7 @@ export interface TimeSlot {
 export interface ScheduleAssignment {
   id: string
   sectionId: string
+  groupId?: string // Optional group within section
   labRoomId: string
   labAssistantId: string
   timeSlotId: string
@@ -298,6 +310,43 @@ export function initializeDefaultData() {
     db.create<Course>("courses", course)
   })
 
+  const sections = [
+    {
+      name: "Section A",
+      year: 1,
+      department: "Computer Science",
+      capacity: 30,
+      isActive: true,
+    },
+    {
+      name: "Section B",
+      year: 2,
+      department: "Computer Science",
+      capacity: 25,
+      isActive: true,
+    },
+    {
+      name: "Section A",
+      year: 1,
+      department: "Physics",
+      capacity: 20,
+      isActive: true,
+    },
+  ]
+
+  const createdSections = sections.map((section) => db.create<Section>("sections", section))
+
+  const groups = [
+    { name: "Group 1", sectionId: createdSections[0].id, capacity: 15, isActive: true },
+    { name: "Group 2", sectionId: createdSections[0].id, capacity: 15, isActive: true },
+    { name: "Group 1", sectionId: createdSections[1].id, capacity: 12, isActive: true },
+    { name: "Group 2", sectionId: createdSections[1].id, capacity: 13, isActive: true },
+  ]
+
+  groups.forEach((group) => {
+    db.create<Group>("groups", group)
+  })
+
   const sampleAssistant: Omit<LabAssistant, "id" | "createdAt" | "updatedAt"> = {
     labAssistantId: "LA001",
     username: "john_doe",
@@ -350,7 +399,6 @@ export const deleteCourseOffering = (id: string) => db.delete<CourseOffering>("c
 export const getCourseOfferingsByCourse = (courseId: string) =>
   db.findWhere<CourseOffering>("course_offerings", (offering) => offering.courseId === courseId)
 
-// Sections CRUD
 export const getSections = () => db.findAll<Section>("sections")
 export const getSection = (id: string) => db.findById<Section>("sections", id)
 export const createSection = (data: Omit<Section, "id" | "createdAt" | "updatedAt">) =>
@@ -358,8 +406,15 @@ export const createSection = (data: Omit<Section, "id" | "createdAt" | "updatedA
 export const updateSection = (id: string, data: Partial<Omit<Section, "id" | "createdAt">>) =>
   db.update<Section>("sections", id, data)
 export const deleteSection = (id: string) => db.delete<Section>("sections", id)
-export const getSectionsByCourseOffering = (courseOfferingId: string) =>
-  db.findWhere<Section>("sections", (section) => section.courseOfferingId === courseOfferingId)
+
+export const getGroups = () => db.findAll<Group>("groups")
+export const getGroup = (id: string) => db.findById<Group>("groups", id)
+export const createGroup = (data: Omit<Group, "id" | "createdAt" | "updatedAt">) => db.create<Group>("groups", data)
+export const updateGroup = (id: string, data: Partial<Omit<Group, "id" | "createdAt">>) =>
+  db.update<Group>("groups", id, data)
+export const deleteGroup = (id: string) => db.delete<Group>("groups", id)
+export const getGroupsBySection = (sectionId: string) =>
+  db.findWhere<Group>("groups", (group) => group.sectionId === sectionId)
 
 // Lab Assistants CRUD
 export const getLabAssistants = () => db.findAll<LabAssistant>("lab_assistants")

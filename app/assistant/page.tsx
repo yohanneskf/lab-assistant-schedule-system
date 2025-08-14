@@ -12,19 +12,18 @@ import {
   type LabRoom,
   type TimeSlot,
   type Section,
-  type CourseOffering,
-  type Course,
+  type Group,
   type LabAssistant,
 } from "@/lib/local-storage"
-import { Calendar, Clock, MapPin, User, LogOut } from "lucide-react"
+import { Calendar, Clock, MapPin, User, LogOut, Key } from "lucide-react"
 import { useRouter } from "next/navigation"
+import Link from "next/link"
 
 interface ScheduleWithDetails extends ScheduleAssignment {
   labRoom: LabRoom
   timeSlot: TimeSlot
   section: Section
-  courseOffering: CourseOffering
-  course: Course
+  group?: Group
 }
 
 export default function AssistantDashboard() {
@@ -59,16 +58,14 @@ export default function AssistantDashboard() {
       const labRoom = db.findById<LabRoom>("lab_rooms", assignment.labRoomId)!
       const timeSlot = db.findById<TimeSlot>("time_slots", assignment.timeSlotId)!
       const section = db.findById<Section>("sections", assignment.sectionId)!
-      const courseOffering = db.findById<CourseOffering>("course_offerings", section.courseOfferingId)!
-      const course = db.findById<Course>("courses", courseOffering.courseId)!
+      const group = assignment.groupId ? db.findById<Group>("groups", assignment.groupId) : undefined
 
       return {
         ...assignment,
         labRoom,
         timeSlot,
         section,
-        courseOffering,
-        course,
+        group,
       }
     })
 
@@ -90,6 +87,14 @@ export default function AssistantDashboard() {
     router.push("/assistant-login")
   }
 
+  const formatTime = (time: string) => {
+    const [hours, minutes] = time.split(":")
+    const hour = Number.parseInt(hours)
+    const ampm = hour >= 12 ? "PM" : "AM"
+    const displayHour = hour % 12 || 12
+    return `${displayHour}:${minutes} ${ampm}`
+  }
+
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-64">
@@ -107,10 +112,18 @@ export default function AssistantDashboard() {
             Welcome, {assistant?.firstName} {assistant?.lastName} ({assistant?.labAssistantId})
           </p>
         </div>
-        <Button variant="outline" onClick={handleLogout}>
-          <LogOut className="mr-2 h-4 w-4" />
-          Logout
-        </Button>
+        <div className="flex space-x-2">
+          <Link href="/assistant/change-password">
+            <Button variant="outline">
+              <Key className="mr-2 h-4 w-4" />
+              Change Password
+            </Button>
+          </Link>
+          <Button variant="outline" onClick={handleLogout}>
+            <LogOut className="mr-2 h-4 w-4" />
+            Logout
+          </Button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -127,12 +140,12 @@ export default function AssistantDashboard() {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Unique Courses</CardTitle>
+            <CardTitle className="text-sm font-medium">Unique Sections</CardTitle>
             <Clock className="h-4 w-4 text-green-600" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{new Set(schedules.map((s) => s.course.id)).size}</div>
-            <p className="text-xs text-muted-foreground">Different courses</p>
+            <div className="text-2xl font-bold">{new Set(schedules.map((s) => s.section.id)).size}</div>
+            <p className="text-xs text-muted-foreground">Different sections</p>
           </CardContent>
         </Card>
 
@@ -174,9 +187,8 @@ export default function AssistantDashboard() {
               <TableHeader>
                 <TableRow>
                   <TableHead>Day & Time</TableHead>
-                  <TableHead>Course</TableHead>
-                  <TableHead>Section</TableHead>
-                  <TableHead>Year & Batch</TableHead>
+                  <TableHead>Section & Group</TableHead>
+                  <TableHead>Year & Department</TableHead>
                   <TableHead>Lab Room</TableHead>
                   <TableHead>Location</TableHead>
                 </TableRow>
@@ -188,26 +200,20 @@ export default function AssistantDashboard() {
                       <div className="space-y-1">
                         <Badge variant="outline">{schedule.timeSlot.dayOfWeek}</Badge>
                         <div className="text-sm text-gray-600">
-                          {schedule.timeSlot.startTime} - {schedule.timeSlot.endTime}
+                          {formatTime(schedule.timeSlot.startTime)} - {formatTime(schedule.timeSlot.endTime)}
                         </div>
                       </div>
                     </TableCell>
                     <TableCell>
                       <div className="space-y-1">
-                        <div className="font-medium">{schedule.course.code}</div>
-                        <div className="text-sm text-gray-600">{schedule.course.name}</div>
+                        <div className="font-medium">{schedule.section.name}</div>
+                        {schedule.group && <div className="text-sm text-gray-600">{schedule.group.name}</div>}
                       </div>
                     </TableCell>
-                    <TableCell>Section {schedule.section.sectionNumber}</TableCell>
                     <TableCell>
                       <div className="space-y-1">
-                        <Badge variant="secondary">Year {schedule.course.year}</Badge>
-                        <div className="text-sm text-gray-600">
-                          {schedule.course.section} - {schedule.course.batch}
-                        </div>
-                        <Badge variant={schedule.course.studentType === "regular" ? "default" : "outline"}>
-                          {schedule.course.studentType}
-                        </Badge>
+                        <Badge variant="secondary">Year {schedule.section.year}</Badge>
+                        <div className="text-sm text-gray-600">{schedule.section.department}</div>
                       </div>
                     </TableCell>
                     <TableCell className="font-medium">{schedule.labRoom.name}</TableCell>
