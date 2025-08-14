@@ -84,6 +84,7 @@ export interface TimeSlot {
 
 export interface ScheduleAssignment {
   id: string
+  courseId: string // Added courseId to link schedules with courses
   sectionId: string
   groupId?: string // Optional group within section
   labRoomId: string

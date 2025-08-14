@@ -22,6 +22,7 @@ import {
   type LabRoom,
   type LabAssistant,
   type TimeSlot,
+  type Course,
   type Section,
   type Group,
   createScheduleAssignment,
@@ -30,6 +31,7 @@ import {
   getLabRooms,
   getLabAssistants,
   getTimeSlots,
+  getCourses,
   getSections,
   getGroups,
   getGroupsBySection,
@@ -40,11 +42,13 @@ export default function SchedulesPage() {
   const [labRooms, setLabRooms] = useState<LabRoom[]>([])
   const [assistants, setAssistants] = useState<LabAssistant[]>([])
   const [timeSlots, setTimeSlots] = useState<TimeSlot[]>([])
+  const [courses, setCourses] = useState<Course[]>([])
   const [sections, setSections] = useState<Section[]>([])
   const [groups, setGroups] = useState<Group[]>([])
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [editingSchedule, setEditingSchedule] = useState<ScheduleAssignment | null>(null)
   const [formData, setFormData] = useState({
+    courseId: "",
     sectionId: "",
     groupId: "",
     labRoomId: "",
@@ -61,6 +65,7 @@ export default function SchedulesPage() {
     setLabRooms(getLabRooms())
     setAssistants(getLabAssistants())
     setTimeSlots(getTimeSlots())
+    setCourses(getCourses())
     setSections(getSections())
     setGroups(getGroups())
   }
@@ -105,6 +110,7 @@ export default function SchedulesPage() {
   const handleEdit = (schedule: ScheduleAssignment) => {
     setEditingSchedule(schedule)
     setFormData({
+      courseId: schedule.courseId,
       sectionId: schedule.sectionId,
       groupId: schedule.groupId || "",
       labRoomId: schedule.labRoomId,
@@ -123,6 +129,7 @@ export default function SchedulesPage() {
 
   const resetForm = () => {
     setFormData({
+      courseId: "",
       sectionId: "",
       groupId: "",
       labRoomId: "",
@@ -144,6 +151,7 @@ export default function SchedulesPage() {
   const getTimeSlot = (id: string) => timeSlots.find((slot) => slot.id === id)
   const getSection = (id: string) => sections.find((section) => section.id === id)
   const getGroup = (id: string) => groups.find((group) => group.id === id)
+  const getCourse = (id: string) => courses.find((course) => course.id === id)
 
   const formatTime = (time: string) => {
     const [hours, minutes] = time.split(":")
@@ -157,7 +165,8 @@ export default function SchedulesPage() {
   const availableGroups = formData.sectionId ? getGroupsBySection(formData.sectionId) : []
 
   // Check if we have all required data
-  const hasRequiredData = labRooms.length > 0 && sections.length > 0 && assistants.length > 0 && timeSlots.length > 0
+  const hasRequiredData =
+    labRooms.length > 0 && courses.length > 0 && sections.length > 0 && assistants.length > 0 && timeSlots.length > 0
 
   return (
     <div className="space-y-6">
@@ -181,6 +190,34 @@ export default function SchedulesPage() {
               </DialogDescription>
             </DialogHeader>
             <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="courseId">Course</Label>
+                <Select
+                  value={formData.courseId}
+                  onValueChange={(value) => setFormData({ ...formData, courseId: value })}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a course" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {courses
+                      .filter((c) => c.isActive)
+                      .map((course) => (
+                        <SelectItem key={course.id} value={course.id}>
+                          <div className="flex flex-col">
+                            <span className="font-medium">
+                              {course.code} - {course.name}
+                            </span>
+                            <span className="text-sm text-muted-foreground">
+                              {course.department} • {course.year} Year • {course.credits} Credits
+                            </span>
+                          </div>
+                        </SelectItem>
+                      ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
               <div className="space-y-2">
                 <Label htmlFor="sectionId">Section</Label>
                 <Select
@@ -313,8 +350,8 @@ export default function SchedulesPage() {
               <div>
                 <p className="font-medium">Missing Required Data</p>
                 <p className="text-sm">
-                  You need to create lab rooms, sections, lab assistants, and time slots before you can create schedule
-                  assignments.
+                  You need to create courses, lab rooms, sections, lab assistants, and time slots before you can create
+                  schedule assignments.
                 </p>
               </div>
             </div>
@@ -339,6 +376,7 @@ export default function SchedulesPage() {
             <Table>
               <TableHeader>
                 <TableRow>
+                  <TableHead>Course</TableHead>
                   <TableHead>Section & Group</TableHead>
                   <TableHead>Lab Room</TableHead>
                   <TableHead>Lab Assistant</TableHead>
@@ -350,6 +388,7 @@ export default function SchedulesPage() {
                 {schedules
                   .filter((s) => s.status === "active")
                   .map((schedule) => {
+                    const course = getCourse(schedule.courseId)
                     const section = getSection(schedule.sectionId)
                     const group = schedule.groupId ? getGroup(schedule.groupId) : null
                     const labRoom = getLabRoom(schedule.labRoomId)
@@ -358,6 +397,12 @@ export default function SchedulesPage() {
 
                     return (
                       <TableRow key={schedule.id}>
+                        <TableCell>
+                          <div>
+                            <div className="font-medium">{course?.code}</div>
+                            <div className="text-sm text-muted-foreground">{course?.name}</div>
+                          </div>
+                        </TableCell>
                         <TableCell>
                           <div>
                             <div className="font-medium">{section?.name}</div>
