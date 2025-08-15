@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
@@ -10,7 +9,6 @@ import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { AuthService } from "@/lib/auth"
-import { initializeDefaultData } from "@/lib/local-storage"
 import { Users, ArrowLeft } from "lucide-react"
 import Link from "next/link"
 
@@ -22,7 +20,24 @@ export default function AssistantLoginPage() {
   const router = useRouter()
 
   useEffect(() => {
-    initializeDefaultData()
+    const initializeData = async () => {
+      await AuthService.initializeDefaultUsers()
+
+      // Create demo lab assistant if not exists
+      try {
+        await AuthService.createUser({
+          email: "john.doe@lab.edu",
+          password: "assistant123",
+          role: "lab_assistant",
+          labAssistantId: "LA2024001",
+        })
+      } catch (error) {
+        // User might already exist, ignore error
+        console.log("[v0] Demo assistant user already exists or error creating:", error)
+      }
+    }
+
+    initializeData()
   }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -31,7 +46,8 @@ export default function AssistantLoginPage() {
     setError("")
 
     try {
-      const user = AuthService.login(email, password)
+      console.log("[v0] Attempting assistant login with:", email)
+      const user = await AuthService.login(email, password)
 
       if (!user) {
         setError("Invalid email or password")
@@ -43,8 +59,10 @@ export default function AssistantLoginPage() {
         return
       }
 
+      console.log("[v0] Assistant login successful, redirecting...")
       router.push("/assistant")
     } catch (err) {
+      console.error("[v0] Assistant login error:", err)
       setError("Login failed. Please try again.")
     } finally {
       setIsLoading(false)

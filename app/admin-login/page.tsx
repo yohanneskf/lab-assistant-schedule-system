@@ -1,8 +1,7 @@
 "use client"
 
 import type React from "react"
-
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -20,13 +19,18 @@ export default function AdminLoginPage() {
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
 
+  useEffect(() => {
+    AuthService.initializeDefaultUsers()
+  }, [])
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
     setError("")
 
     try {
-      const user = AuthService.login(email, password)
+      console.log("[v0] Attempting admin login with:", email)
+      const user = await AuthService.login(email, password)
 
       if (!user) {
         setError("Invalid email or password")
@@ -38,8 +42,10 @@ export default function AdminLoginPage() {
         return
       }
 
+      console.log("[v0] Admin login successful, redirecting...")
       router.push("/admin")
     } catch (err) {
+      console.error("[v0] Login error:", err)
       setError("Login failed. Please try again.")
     } finally {
       setIsLoading(false)
@@ -81,7 +87,7 @@ export default function AdminLoginPage() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="admin@example.com"
+                  placeholder="admin@lab.edu"
                   required
                 />
               </div>
