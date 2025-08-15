@@ -10,131 +10,132 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql" // PostgreSQL is the recommended relational database
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-// Enum for Role-Based Access Control
-enum Role {
-  ADMIN
-  LAB_ASSISTANT
-}
-
-// User model for authentication and roles
-model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  password  String // Hashed password
-  role      Role     @default(LAB_ASSISTANT)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  // A User can be a LabAssistant
-  labAssistant LabAssistant?
-}
-
-// Department model for organizing courses and assistants
-model Department {
-  id   String @id @default(cuid())
-  name String @unique
-
-  // A Department has many LabAssistants and many Courses
-  courses       Course[]
-  labAssistants LabAssistant[]
-}
-
-// Lab Assistant model, linked to a User
-model LabAssistant {
-  id           String @id @default(cuid())
-  userId       String @unique // Foreign key to User
-  firstName    String
-  lastName     String
-  departmentId String
-
-  // A LabAssistant belongs to one User and one Department
-  user       User       @relation(fields: [userId], references: [id])
-  department Department @relation(fields: [departmentId], references: [id])
-
-  // A LabAssistant can have many assignments
-  assignments ScheduleAssignment[]
-}
-
-// Lab Room model for physical spaces
 model LabRoom {
-  id       String @id @default(cuid())
-  name     String @unique
-  capacity Int // e.g., max number of students
-  status   String @default("available")
-
-  // A LabRoom can have many assignments
-  assignments ScheduleAssignment[]
+  id                  String               @id @default(cuid())
+  name                String
+  capacity            Int
+  location            String
+  equipment           String[]             @db.Text
+  isActive            Boolean
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+  ScheduleAssignments ScheduleAssignment[]
 }
 
-// Standardized time slots
-model TimeSlot {
-  id        String @id @default(cuid())
-  dayOfWeek String
-  startTime String
-  endTime   String
-
-  // A TimeSlot can have many assignments
-  assignments ScheduleAssignment[]
-}
-
-// Course model with department association
 model Course {
-  id           String @id @default(cuid())
-  name         String
-  courseCode   String @unique
-  departmentId String
+  id              String           @id @default(cuid())
+  code            String
+  name            String
+  department      String
+  credits         Int
+  year            Int
+  section         String
+  batch           String
+  studentType     String
+  isActive        Boolean
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  CourseOfferings CourseOffering[]
 
-  // A Course belongs to one Department and can have many CourseOfferings
-  department      Department       @relation(fields: [departmentId], references: [id])
-  courseOfferings CourseOffering[]
+  ScheduleAssignment ScheduleAssignment[]
 }
 
-// Course offering for a specific semester/year
 model CourseOffering {
-  id       String @id @default(cuid())
-  courseId String
-  semester String
-  year     Int
-
-  // A CourseOffering belongs to one Course and has many Sections
-  course   Course    @relation(fields: [courseId], references: [id])
-  sections Section[]
+  id              String   @id @default(cuid())
+  courseId        String
+  semester        String
+  year            Int
+  totalSections   Int
+  requiredLabSize Int
+  isActive        Boolean
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  course          Course   @relation(fields: [courseId], references: [id])
 }
 
-// Section model, a specific instance of a course offering
 model Section {
-  id               String @id @default(cuid())
-  sectionNumber    String
-  requiredLabSize  Int
-  courseOfferingId String
+  id         String   @id @default(cuid())
+  name       String
+  year       Int
+  department String
+  capacity   Int
+  isActive   Boolean
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  Groups     Group[]
 
-  // A Section belongs to one CourseOffering
-  courseOffering CourseOffering @relation(fields: [courseOfferingId], references: [id])
-
-  // A Section has one, and only one, ScheduleAssignment
-  assignment ScheduleAssignment?
+  ScheduleAssignment ScheduleAssignment[]
 }
 
-// The central scheduling assignment model
-model ScheduleAssignment {
+model Group {
   id        String   @id @default(cuid())
-  status    String   @default("active") // active, inactive, etc.
+  name      String
+  sectionId String
+  capacity  Int
+  isActive  Boolean
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  section   Section  @relation(fields: [sectionId], references: [id])
 
-  // A ScheduleAssignment links a Section, a LabRoom, a LabAssistant, and a TimeSlot
-  sectionId      String @unique // Ensures a section can only be assigned once
+  ScheduleAssignment ScheduleAssignment[]
+}
+
+model LabAssistant {
+  id                  String               @id @default(cuid())
+  labAssistantId      String
+  username            String
+  firstName           String
+  lastName            String
+  email               String
+  password            String
+  department          String
+  isActive            Boolean
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+  ScheduleAssignments ScheduleAssignment[]
+}
+
+model TimeSlot {
+  id                  String               @id @default(cuid())
+  dayOfWeek           String
+  startTime           String
+  endTime             String
+  isActive            Boolean
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+  ScheduleAssignments ScheduleAssignment[]
+}
+
+model ScheduleAssignment {
+  id             String   @id @default(cuid())
+  courseId       String
+  sectionId      String
+  groupId        String?
   labRoomId      String
   labAssistantId String
   timeSlotId     String
+  status         String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 
-  // Relationships
+  course       Course       @relation(fields: [courseId], references: [id])
   section      Section      @relation(fields: [sectionId], references: [id])
+  group        Group?       @relation(fields: [groupId], references: [id])
   labRoom      LabRoom      @relation(fields: [labRoomId], references: [id])
   labAssistant LabAssistant @relation(fields: [labAssistantId], references: [id])
   timeSlot     TimeSlot     @relation(fields: [timeSlotId], references: [id])
+}
+
+model User {
+  id             String   @id @default(cuid())
+  email          String   @unique
+  password       String
+  role           String
+  labAssistantId String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 }
