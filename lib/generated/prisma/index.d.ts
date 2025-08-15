@@ -14,30 +14,10 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
 
 
 /**
- * Model User
- * 
- */
-export type User = $Result.DefaultSelection<Prisma.$UserPayload>
-/**
- * Model Department
- * 
- */
-export type Department = $Result.DefaultSelection<Prisma.$DepartmentPayload>
-/**
- * Model LabAssistant
- * 
- */
-export type LabAssistant = $Result.DefaultSelection<Prisma.$LabAssistantPayload>
-/**
  * Model LabRoom
  * 
  */
 export type LabRoom = $Result.DefaultSelection<Prisma.$LabRoomPayload>
-/**
- * Model TimeSlot
- * 
- */
-export type TimeSlot = $Result.DefaultSelection<Prisma.$TimeSlotPayload>
 /**
  * Model Course
  * 
@@ -54,27 +34,30 @@ export type CourseOffering = $Result.DefaultSelection<Prisma.$CourseOfferingPayl
  */
 export type Section = $Result.DefaultSelection<Prisma.$SectionPayload>
 /**
+ * Model Group
+ * 
+ */
+export type Group = $Result.DefaultSelection<Prisma.$GroupPayload>
+/**
+ * Model LabAssistant
+ * 
+ */
+export type LabAssistant = $Result.DefaultSelection<Prisma.$LabAssistantPayload>
+/**
+ * Model TimeSlot
+ * 
+ */
+export type TimeSlot = $Result.DefaultSelection<Prisma.$TimeSlotPayload>
+/**
  * Model ScheduleAssignment
  * 
  */
 export type ScheduleAssignment = $Result.DefaultSelection<Prisma.$ScheduleAssignmentPayload>
-
 /**
- * Enums
+ * Model User
+ * 
  */
-export namespace $Enums {
-  export const Role: {
-  ADMIN: 'ADMIN',
-  LAB_ASSISTANT: 'LAB_ASSISTANT'
-};
-
-export type Role = (typeof Role)[keyof typeof Role]
-
-}
-
-export type Role = $Enums.Role
-
-export const Role: typeof $Enums.Role
+export type User = $Result.DefaultSelection<Prisma.$UserPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -83,8 +66,8 @@ export const Role: typeof $Enums.Role
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more Users
- * const users = await prisma.user.findMany()
+ * // Fetch zero or more LabRooms
+ * const labRooms = await prisma.labRoom.findMany()
  * ```
  *
  *
@@ -104,8 +87,8 @@ export class PrismaClient<
    * @example
    * ```
    * const prisma = new PrismaClient()
-   * // Fetch zero or more Users
-   * const users = await prisma.user.findMany()
+   * // Fetch zero or more LabRooms
+   * const labRooms = await prisma.labRoom.findMany()
    * ```
    *
    *
@@ -195,36 +178,6 @@ export class PrismaClient<
   }>>
 
       /**
-   * `prisma.user`: Exposes CRUD operations for the **User** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Users
-    * const users = await prisma.user.findMany()
-    * ```
-    */
-  get user(): Prisma.UserDelegate<ExtArgs, ClientOptions>;
-
-  /**
-   * `prisma.department`: Exposes CRUD operations for the **Department** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Departments
-    * const departments = await prisma.department.findMany()
-    * ```
-    */
-  get department(): Prisma.DepartmentDelegate<ExtArgs, ClientOptions>;
-
-  /**
-   * `prisma.labAssistant`: Exposes CRUD operations for the **LabAssistant** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more LabAssistants
-    * const labAssistants = await prisma.labAssistant.findMany()
-    * ```
-    */
-  get labAssistant(): Prisma.LabAssistantDelegate<ExtArgs, ClientOptions>;
-
-  /**
    * `prisma.labRoom`: Exposes CRUD operations for the **LabRoom** model.
     * Example usage:
     * ```ts
@@ -233,16 +186,6 @@ export class PrismaClient<
     * ```
     */
   get labRoom(): Prisma.LabRoomDelegate<ExtArgs, ClientOptions>;
-
-  /**
-   * `prisma.timeSlot`: Exposes CRUD operations for the **TimeSlot** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more TimeSlots
-    * const timeSlots = await prisma.timeSlot.findMany()
-    * ```
-    */
-  get timeSlot(): Prisma.TimeSlotDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.course`: Exposes CRUD operations for the **Course** model.
@@ -275,6 +218,36 @@ export class PrismaClient<
   get section(): Prisma.SectionDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.group`: Exposes CRUD operations for the **Group** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Groups
+    * const groups = await prisma.group.findMany()
+    * ```
+    */
+  get group(): Prisma.GroupDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.labAssistant`: Exposes CRUD operations for the **LabAssistant** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more LabAssistants
+    * const labAssistants = await prisma.labAssistant.findMany()
+    * ```
+    */
+  get labAssistant(): Prisma.LabAssistantDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.timeSlot`: Exposes CRUD operations for the **TimeSlot** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TimeSlots
+    * const timeSlots = await prisma.timeSlot.findMany()
+    * ```
+    */
+  get timeSlot(): Prisma.TimeSlotDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.scheduleAssignment`: Exposes CRUD operations for the **ScheduleAssignment** model.
     * Example usage:
     * ```ts
@@ -283,6 +256,16 @@ export class PrismaClient<
     * ```
     */
   get scheduleAssignment(): Prisma.ScheduleAssignmentDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.user`: Exposes CRUD operations for the **User** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Users
+    * const users = await prisma.user.findMany()
+    * ```
+    */
+  get user(): Prisma.UserDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -723,15 +706,15 @@ export namespace Prisma {
 
 
   export const ModelName: {
-    User: 'User',
-    Department: 'Department',
-    LabAssistant: 'LabAssistant',
     LabRoom: 'LabRoom',
-    TimeSlot: 'TimeSlot',
     Course: 'Course',
     CourseOffering: 'CourseOffering',
     Section: 'Section',
-    ScheduleAssignment: 'ScheduleAssignment'
+    Group: 'Group',
+    LabAssistant: 'LabAssistant',
+    TimeSlot: 'TimeSlot',
+    ScheduleAssignment: 'ScheduleAssignment',
+    User: 'User'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -750,232 +733,10 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "department" | "labAssistant" | "labRoom" | "timeSlot" | "course" | "courseOffering" | "section" | "scheduleAssignment"
+      modelProps: "labRoom" | "course" | "courseOffering" | "section" | "group" | "labAssistant" | "timeSlot" | "scheduleAssignment" | "user"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
-      User: {
-        payload: Prisma.$UserPayload<ExtArgs>
-        fields: Prisma.UserFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.UserFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UserPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.UserFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UserPayload>
-          }
-          findFirst: {
-            args: Prisma.UserFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UserPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.UserFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UserPayload>
-          }
-          findMany: {
-            args: Prisma.UserFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UserPayload>[]
-          }
-          create: {
-            args: Prisma.UserCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UserPayload>
-          }
-          createMany: {
-            args: Prisma.UserCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.UserCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UserPayload>[]
-          }
-          delete: {
-            args: Prisma.UserDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UserPayload>
-          }
-          update: {
-            args: Prisma.UserUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UserPayload>
-          }
-          deleteMany: {
-            args: Prisma.UserDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.UserUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.UserUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UserPayload>[]
-          }
-          upsert: {
-            args: Prisma.UserUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UserPayload>
-          }
-          aggregate: {
-            args: Prisma.UserAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateUser>
-          }
-          groupBy: {
-            args: Prisma.UserGroupByArgs<ExtArgs>
-            result: $Utils.Optional<UserGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.UserCountArgs<ExtArgs>
-            result: $Utils.Optional<UserCountAggregateOutputType> | number
-          }
-        }
-      }
-      Department: {
-        payload: Prisma.$DepartmentPayload<ExtArgs>
-        fields: Prisma.DepartmentFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.DepartmentFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DepartmentPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.DepartmentFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DepartmentPayload>
-          }
-          findFirst: {
-            args: Prisma.DepartmentFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DepartmentPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.DepartmentFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DepartmentPayload>
-          }
-          findMany: {
-            args: Prisma.DepartmentFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DepartmentPayload>[]
-          }
-          create: {
-            args: Prisma.DepartmentCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DepartmentPayload>
-          }
-          createMany: {
-            args: Prisma.DepartmentCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.DepartmentCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DepartmentPayload>[]
-          }
-          delete: {
-            args: Prisma.DepartmentDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DepartmentPayload>
-          }
-          update: {
-            args: Prisma.DepartmentUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DepartmentPayload>
-          }
-          deleteMany: {
-            args: Prisma.DepartmentDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.DepartmentUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.DepartmentUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DepartmentPayload>[]
-          }
-          upsert: {
-            args: Prisma.DepartmentUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DepartmentPayload>
-          }
-          aggregate: {
-            args: Prisma.DepartmentAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateDepartment>
-          }
-          groupBy: {
-            args: Prisma.DepartmentGroupByArgs<ExtArgs>
-            result: $Utils.Optional<DepartmentGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.DepartmentCountArgs<ExtArgs>
-            result: $Utils.Optional<DepartmentCountAggregateOutputType> | number
-          }
-        }
-      }
-      LabAssistant: {
-        payload: Prisma.$LabAssistantPayload<ExtArgs>
-        fields: Prisma.LabAssistantFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.LabAssistantFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$LabAssistantPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.LabAssistantFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$LabAssistantPayload>
-          }
-          findFirst: {
-            args: Prisma.LabAssistantFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$LabAssistantPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.LabAssistantFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$LabAssistantPayload>
-          }
-          findMany: {
-            args: Prisma.LabAssistantFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$LabAssistantPayload>[]
-          }
-          create: {
-            args: Prisma.LabAssistantCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$LabAssistantPayload>
-          }
-          createMany: {
-            args: Prisma.LabAssistantCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.LabAssistantCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$LabAssistantPayload>[]
-          }
-          delete: {
-            args: Prisma.LabAssistantDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$LabAssistantPayload>
-          }
-          update: {
-            args: Prisma.LabAssistantUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$LabAssistantPayload>
-          }
-          deleteMany: {
-            args: Prisma.LabAssistantDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.LabAssistantUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.LabAssistantUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$LabAssistantPayload>[]
-          }
-          upsert: {
-            args: Prisma.LabAssistantUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$LabAssistantPayload>
-          }
-          aggregate: {
-            args: Prisma.LabAssistantAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateLabAssistant>
-          }
-          groupBy: {
-            args: Prisma.LabAssistantGroupByArgs<ExtArgs>
-            result: $Utils.Optional<LabAssistantGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.LabAssistantCountArgs<ExtArgs>
-            result: $Utils.Optional<LabAssistantCountAggregateOutputType> | number
-          }
-        }
-      }
       LabRoom: {
         payload: Prisma.$LabRoomPayload<ExtArgs>
         fields: Prisma.LabRoomFieldRefs
@@ -1047,80 +808,6 @@ export namespace Prisma {
           count: {
             args: Prisma.LabRoomCountArgs<ExtArgs>
             result: $Utils.Optional<LabRoomCountAggregateOutputType> | number
-          }
-        }
-      }
-      TimeSlot: {
-        payload: Prisma.$TimeSlotPayload<ExtArgs>
-        fields: Prisma.TimeSlotFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.TimeSlotFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$TimeSlotPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.TimeSlotFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$TimeSlotPayload>
-          }
-          findFirst: {
-            args: Prisma.TimeSlotFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$TimeSlotPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.TimeSlotFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$TimeSlotPayload>
-          }
-          findMany: {
-            args: Prisma.TimeSlotFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$TimeSlotPayload>[]
-          }
-          create: {
-            args: Prisma.TimeSlotCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$TimeSlotPayload>
-          }
-          createMany: {
-            args: Prisma.TimeSlotCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.TimeSlotCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$TimeSlotPayload>[]
-          }
-          delete: {
-            args: Prisma.TimeSlotDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$TimeSlotPayload>
-          }
-          update: {
-            args: Prisma.TimeSlotUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$TimeSlotPayload>
-          }
-          deleteMany: {
-            args: Prisma.TimeSlotDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.TimeSlotUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.TimeSlotUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$TimeSlotPayload>[]
-          }
-          upsert: {
-            args: Prisma.TimeSlotUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$TimeSlotPayload>
-          }
-          aggregate: {
-            args: Prisma.TimeSlotAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateTimeSlot>
-          }
-          groupBy: {
-            args: Prisma.TimeSlotGroupByArgs<ExtArgs>
-            result: $Utils.Optional<TimeSlotGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.TimeSlotCountArgs<ExtArgs>
-            result: $Utils.Optional<TimeSlotCountAggregateOutputType> | number
           }
         }
       }
@@ -1346,6 +1033,228 @@ export namespace Prisma {
           }
         }
       }
+      Group: {
+        payload: Prisma.$GroupPayload<ExtArgs>
+        fields: Prisma.GroupFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.GroupFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GroupPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.GroupFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GroupPayload>
+          }
+          findFirst: {
+            args: Prisma.GroupFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GroupPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.GroupFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GroupPayload>
+          }
+          findMany: {
+            args: Prisma.GroupFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GroupPayload>[]
+          }
+          create: {
+            args: Prisma.GroupCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GroupPayload>
+          }
+          createMany: {
+            args: Prisma.GroupCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.GroupCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GroupPayload>[]
+          }
+          delete: {
+            args: Prisma.GroupDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GroupPayload>
+          }
+          update: {
+            args: Prisma.GroupUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GroupPayload>
+          }
+          deleteMany: {
+            args: Prisma.GroupDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.GroupUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.GroupUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GroupPayload>[]
+          }
+          upsert: {
+            args: Prisma.GroupUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GroupPayload>
+          }
+          aggregate: {
+            args: Prisma.GroupAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateGroup>
+          }
+          groupBy: {
+            args: Prisma.GroupGroupByArgs<ExtArgs>
+            result: $Utils.Optional<GroupGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.GroupCountArgs<ExtArgs>
+            result: $Utils.Optional<GroupCountAggregateOutputType> | number
+          }
+        }
+      }
+      LabAssistant: {
+        payload: Prisma.$LabAssistantPayload<ExtArgs>
+        fields: Prisma.LabAssistantFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.LabAssistantFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LabAssistantPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.LabAssistantFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LabAssistantPayload>
+          }
+          findFirst: {
+            args: Prisma.LabAssistantFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LabAssistantPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.LabAssistantFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LabAssistantPayload>
+          }
+          findMany: {
+            args: Prisma.LabAssistantFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LabAssistantPayload>[]
+          }
+          create: {
+            args: Prisma.LabAssistantCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LabAssistantPayload>
+          }
+          createMany: {
+            args: Prisma.LabAssistantCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.LabAssistantCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LabAssistantPayload>[]
+          }
+          delete: {
+            args: Prisma.LabAssistantDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LabAssistantPayload>
+          }
+          update: {
+            args: Prisma.LabAssistantUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LabAssistantPayload>
+          }
+          deleteMany: {
+            args: Prisma.LabAssistantDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.LabAssistantUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.LabAssistantUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LabAssistantPayload>[]
+          }
+          upsert: {
+            args: Prisma.LabAssistantUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LabAssistantPayload>
+          }
+          aggregate: {
+            args: Prisma.LabAssistantAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateLabAssistant>
+          }
+          groupBy: {
+            args: Prisma.LabAssistantGroupByArgs<ExtArgs>
+            result: $Utils.Optional<LabAssistantGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.LabAssistantCountArgs<ExtArgs>
+            result: $Utils.Optional<LabAssistantCountAggregateOutputType> | number
+          }
+        }
+      }
+      TimeSlot: {
+        payload: Prisma.$TimeSlotPayload<ExtArgs>
+        fields: Prisma.TimeSlotFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TimeSlotFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimeSlotPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TimeSlotFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimeSlotPayload>
+          }
+          findFirst: {
+            args: Prisma.TimeSlotFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimeSlotPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TimeSlotFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimeSlotPayload>
+          }
+          findMany: {
+            args: Prisma.TimeSlotFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimeSlotPayload>[]
+          }
+          create: {
+            args: Prisma.TimeSlotCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimeSlotPayload>
+          }
+          createMany: {
+            args: Prisma.TimeSlotCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TimeSlotCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimeSlotPayload>[]
+          }
+          delete: {
+            args: Prisma.TimeSlotDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimeSlotPayload>
+          }
+          update: {
+            args: Prisma.TimeSlotUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimeSlotPayload>
+          }
+          deleteMany: {
+            args: Prisma.TimeSlotDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TimeSlotUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TimeSlotUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimeSlotPayload>[]
+          }
+          upsert: {
+            args: Prisma.TimeSlotUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimeSlotPayload>
+          }
+          aggregate: {
+            args: Prisma.TimeSlotAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTimeSlot>
+          }
+          groupBy: {
+            args: Prisma.TimeSlotGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TimeSlotGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TimeSlotCountArgs<ExtArgs>
+            result: $Utils.Optional<TimeSlotCountAggregateOutputType> | number
+          }
+        }
+      }
       ScheduleAssignment: {
         payload: Prisma.$ScheduleAssignmentPayload<ExtArgs>
         fields: Prisma.ScheduleAssignmentFieldRefs
@@ -1417,6 +1326,80 @@ export namespace Prisma {
           count: {
             args: Prisma.ScheduleAssignmentCountArgs<ExtArgs>
             result: $Utils.Optional<ScheduleAssignmentCountAggregateOutputType> | number
+          }
+        }
+      }
+      User: {
+        payload: Prisma.$UserPayload<ExtArgs>
+        fields: Prisma.UserFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.UserFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.UserFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>
+          }
+          findFirst: {
+            args: Prisma.UserFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.UserFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>
+          }
+          findMany: {
+            args: Prisma.UserFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>[]
+          }
+          create: {
+            args: Prisma.UserCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>
+          }
+          createMany: {
+            args: Prisma.UserCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.UserCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>[]
+          }
+          delete: {
+            args: Prisma.UserDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>
+          }
+          update: {
+            args: Prisma.UserUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>
+          }
+          deleteMany: {
+            args: Prisma.UserDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.UserUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.UserUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>[]
+          }
+          upsert: {
+            args: Prisma.UserUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>
+          }
+          aggregate: {
+            args: Prisma.UserAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateUser>
+          }
+          groupBy: {
+            args: Prisma.UserGroupByArgs<ExtArgs>
+            result: $Utils.Optional<UserGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.UserCountArgs<ExtArgs>
+            result: $Utils.Optional<UserCountAggregateOutputType> | number
           }
         }
       }
@@ -1512,15 +1495,15 @@ export namespace Prisma {
     omit?: Prisma.GlobalOmitConfig
   }
   export type GlobalOmitConfig = {
-    user?: UserOmit
-    department?: DepartmentOmit
-    labAssistant?: LabAssistantOmit
     labRoom?: LabRoomOmit
-    timeSlot?: TimeSlotOmit
     course?: CourseOmit
     courseOffering?: CourseOfferingOmit
     section?: SectionOmit
+    group?: GroupOmit
+    labAssistant?: LabAssistantOmit
+    timeSlot?: TimeSlotOmit
     scheduleAssignment?: ScheduleAssignmentOmit
+    user?: UserOmit
   }
 
   /* Types for Logging */
@@ -1597,86 +1580,15 @@ export namespace Prisma {
 
 
   /**
-   * Count Type DepartmentCountOutputType
-   */
-
-  export type DepartmentCountOutputType = {
-    courses: number
-    labAssistants: number
-  }
-
-  export type DepartmentCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    courses?: boolean | DepartmentCountOutputTypeCountCoursesArgs
-    labAssistants?: boolean | DepartmentCountOutputTypeCountLabAssistantsArgs
-  }
-
-  // Custom InputTypes
-  /**
-   * DepartmentCountOutputType without action
-   */
-  export type DepartmentCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the DepartmentCountOutputType
-     */
-    select?: DepartmentCountOutputTypeSelect<ExtArgs> | null
-  }
-
-  /**
-   * DepartmentCountOutputType without action
-   */
-  export type DepartmentCountOutputTypeCountCoursesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: CourseWhereInput
-  }
-
-  /**
-   * DepartmentCountOutputType without action
-   */
-  export type DepartmentCountOutputTypeCountLabAssistantsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: LabAssistantWhereInput
-  }
-
-
-  /**
-   * Count Type LabAssistantCountOutputType
-   */
-
-  export type LabAssistantCountOutputType = {
-    assignments: number
-  }
-
-  export type LabAssistantCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    assignments?: boolean | LabAssistantCountOutputTypeCountAssignmentsArgs
-  }
-
-  // Custom InputTypes
-  /**
-   * LabAssistantCountOutputType without action
-   */
-  export type LabAssistantCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the LabAssistantCountOutputType
-     */
-    select?: LabAssistantCountOutputTypeSelect<ExtArgs> | null
-  }
-
-  /**
-   * LabAssistantCountOutputType without action
-   */
-  export type LabAssistantCountOutputTypeCountAssignmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ScheduleAssignmentWhereInput
-  }
-
-
-  /**
    * Count Type LabRoomCountOutputType
    */
 
   export type LabRoomCountOutputType = {
-    assignments: number
+    ScheduleAssignments: number
   }
 
   export type LabRoomCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    assignments?: boolean | LabRoomCountOutputTypeCountAssignmentsArgs
+    ScheduleAssignments?: boolean | LabRoomCountOutputTypeCountScheduleAssignmentsArgs
   }
 
   // Custom InputTypes
@@ -1693,38 +1605,7 @@ export namespace Prisma {
   /**
    * LabRoomCountOutputType without action
    */
-  export type LabRoomCountOutputTypeCountAssignmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ScheduleAssignmentWhereInput
-  }
-
-
-  /**
-   * Count Type TimeSlotCountOutputType
-   */
-
-  export type TimeSlotCountOutputType = {
-    assignments: number
-  }
-
-  export type TimeSlotCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    assignments?: boolean | TimeSlotCountOutputTypeCountAssignmentsArgs
-  }
-
-  // Custom InputTypes
-  /**
-   * TimeSlotCountOutputType without action
-   */
-  export type TimeSlotCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the TimeSlotCountOutputType
-     */
-    select?: TimeSlotCountOutputTypeSelect<ExtArgs> | null
-  }
-
-  /**
-   * TimeSlotCountOutputType without action
-   */
-  export type TimeSlotCountOutputTypeCountAssignmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type LabRoomCountOutputTypeCountScheduleAssignmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ScheduleAssignmentWhereInput
   }
 
@@ -1734,11 +1615,13 @@ export namespace Prisma {
    */
 
   export type CourseCountOutputType = {
-    courseOfferings: number
+    CourseOfferings: number
+    ScheduleAssignment: number
   }
 
   export type CourseCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    courseOfferings?: boolean | CourseCountOutputTypeCountCourseOfferingsArgs
+    CourseOfferings?: boolean | CourseCountOutputTypeCountCourseOfferingsArgs
+    ScheduleAssignment?: boolean | CourseCountOutputTypeCountScheduleAssignmentArgs
   }
 
   // Custom InputTypes
@@ -1759,3272 +1642,150 @@ export namespace Prisma {
     where?: CourseOfferingWhereInput
   }
 
-
   /**
-   * Count Type CourseOfferingCountOutputType
+   * CourseCountOutputType without action
    */
-
-  export type CourseOfferingCountOutputType = {
-    sections: number
+  export type CourseCountOutputTypeCountScheduleAssignmentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ScheduleAssignmentWhereInput
   }
 
-  export type CourseOfferingCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    sections?: boolean | CourseOfferingCountOutputTypeCountSectionsArgs
+
+  /**
+   * Count Type SectionCountOutputType
+   */
+
+  export type SectionCountOutputType = {
+    Groups: number
+    ScheduleAssignment: number
+  }
+
+  export type SectionCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    Groups?: boolean | SectionCountOutputTypeCountGroupsArgs
+    ScheduleAssignment?: boolean | SectionCountOutputTypeCountScheduleAssignmentArgs
   }
 
   // Custom InputTypes
   /**
-   * CourseOfferingCountOutputType without action
+   * SectionCountOutputType without action
    */
-  export type CourseOfferingCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type SectionCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the CourseOfferingCountOutputType
+     * Select specific fields to fetch from the SectionCountOutputType
      */
-    select?: CourseOfferingCountOutputTypeSelect<ExtArgs> | null
+    select?: SectionCountOutputTypeSelect<ExtArgs> | null
   }
 
   /**
-   * CourseOfferingCountOutputType without action
+   * SectionCountOutputType without action
    */
-  export type CourseOfferingCountOutputTypeCountSectionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: SectionWhereInput
+  export type SectionCountOutputTypeCountGroupsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: GroupWhereInput
+  }
+
+  /**
+   * SectionCountOutputType without action
+   */
+  export type SectionCountOutputTypeCountScheduleAssignmentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ScheduleAssignmentWhereInput
+  }
+
+
+  /**
+   * Count Type GroupCountOutputType
+   */
+
+  export type GroupCountOutputType = {
+    ScheduleAssignment: number
+  }
+
+  export type GroupCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    ScheduleAssignment?: boolean | GroupCountOutputTypeCountScheduleAssignmentArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * GroupCountOutputType without action
+   */
+  export type GroupCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GroupCountOutputType
+     */
+    select?: GroupCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * GroupCountOutputType without action
+   */
+  export type GroupCountOutputTypeCountScheduleAssignmentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ScheduleAssignmentWhereInput
+  }
+
+
+  /**
+   * Count Type LabAssistantCountOutputType
+   */
+
+  export type LabAssistantCountOutputType = {
+    ScheduleAssignments: number
+  }
+
+  export type LabAssistantCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    ScheduleAssignments?: boolean | LabAssistantCountOutputTypeCountScheduleAssignmentsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * LabAssistantCountOutputType without action
+   */
+  export type LabAssistantCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LabAssistantCountOutputType
+     */
+    select?: LabAssistantCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * LabAssistantCountOutputType without action
+   */
+  export type LabAssistantCountOutputTypeCountScheduleAssignmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ScheduleAssignmentWhereInput
+  }
+
+
+  /**
+   * Count Type TimeSlotCountOutputType
+   */
+
+  export type TimeSlotCountOutputType = {
+    ScheduleAssignments: number
+  }
+
+  export type TimeSlotCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    ScheduleAssignments?: boolean | TimeSlotCountOutputTypeCountScheduleAssignmentsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * TimeSlotCountOutputType without action
+   */
+  export type TimeSlotCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimeSlotCountOutputType
+     */
+    select?: TimeSlotCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * TimeSlotCountOutputType without action
+   */
+  export type TimeSlotCountOutputTypeCountScheduleAssignmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ScheduleAssignmentWhereInput
   }
 
 
   /**
    * Models
    */
-
-  /**
-   * Model User
-   */
-
-  export type AggregateUser = {
-    _count: UserCountAggregateOutputType | null
-    _min: UserMinAggregateOutputType | null
-    _max: UserMaxAggregateOutputType | null
-  }
-
-  export type UserMinAggregateOutputType = {
-    id: string | null
-    email: string | null
-    password: string | null
-    role: $Enums.Role | null
-    createdAt: Date | null
-    updatedAt: Date | null
-  }
-
-  export type UserMaxAggregateOutputType = {
-    id: string | null
-    email: string | null
-    password: string | null
-    role: $Enums.Role | null
-    createdAt: Date | null
-    updatedAt: Date | null
-  }
-
-  export type UserCountAggregateOutputType = {
-    id: number
-    email: number
-    password: number
-    role: number
-    createdAt: number
-    updatedAt: number
-    _all: number
-  }
-
-
-  export type UserMinAggregateInputType = {
-    id?: true
-    email?: true
-    password?: true
-    role?: true
-    createdAt?: true
-    updatedAt?: true
-  }
-
-  export type UserMaxAggregateInputType = {
-    id?: true
-    email?: true
-    password?: true
-    role?: true
-    createdAt?: true
-    updatedAt?: true
-  }
-
-  export type UserCountAggregateInputType = {
-    id?: true
-    email?: true
-    password?: true
-    role?: true
-    createdAt?: true
-    updatedAt?: true
-    _all?: true
-  }
-
-  export type UserAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which User to aggregate.
-     */
-    where?: UserWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Users to fetch.
-     */
-    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: UserWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Users from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Users.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned Users
-    **/
-    _count?: true | UserCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: UserMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: UserMaxAggregateInputType
-  }
-
-  export type GetUserAggregateType<T extends UserAggregateArgs> = {
-        [P in keyof T & keyof AggregateUser]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateUser[P]>
-      : GetScalarType<T[P], AggregateUser[P]>
-  }
-
-
-
-
-  export type UserGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: UserWhereInput
-    orderBy?: UserOrderByWithAggregationInput | UserOrderByWithAggregationInput[]
-    by: UserScalarFieldEnum[] | UserScalarFieldEnum
-    having?: UserScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: UserCountAggregateInputType | true
-    _min?: UserMinAggregateInputType
-    _max?: UserMaxAggregateInputType
-  }
-
-  export type UserGroupByOutputType = {
-    id: string
-    email: string
-    password: string
-    role: $Enums.Role
-    createdAt: Date
-    updatedAt: Date
-    _count: UserCountAggregateOutputType | null
-    _min: UserMinAggregateOutputType | null
-    _max: UserMaxAggregateOutputType | null
-  }
-
-  type GetUserGroupByPayload<T extends UserGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<UserGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof UserGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], UserGroupByOutputType[P]>
-            : GetScalarType<T[P], UserGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type UserSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    email?: boolean
-    password?: boolean
-    role?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    labAssistant?: boolean | User$labAssistantArgs<ExtArgs>
-  }, ExtArgs["result"]["user"]>
-
-  export type UserSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    email?: boolean
-    password?: boolean
-    role?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }, ExtArgs["result"]["user"]>
-
-  export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    email?: boolean
-    password?: boolean
-    role?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }, ExtArgs["result"]["user"]>
-
-  export type UserSelectScalar = {
-    id?: boolean
-    email?: boolean
-    password?: boolean
-    role?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }
-
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "role" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
-  export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    labAssistant?: boolean | User$labAssistantArgs<ExtArgs>
-  }
-  export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-  export type UserIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-
-  export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "User"
-    objects: {
-      labAssistant: Prisma.$LabAssistantPayload<ExtArgs> | null
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: string
-      email: string
-      password: string
-      role: $Enums.Role
-      createdAt: Date
-      updatedAt: Date
-    }, ExtArgs["result"]["user"]>
-    composites: {}
-  }
-
-  type UserGetPayload<S extends boolean | null | undefined | UserDefaultArgs> = $Result.GetResult<Prisma.$UserPayload, S>
-
-  type UserCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<UserFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: UserCountAggregateInputType | true
-    }
-
-  export interface UserDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['User'], meta: { name: 'User' } }
-    /**
-     * Find zero or one User that matches the filter.
-     * @param {UserFindUniqueArgs} args - Arguments to find a User
-     * @example
-     * // Get one User
-     * const user = await prisma.user.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends UserFindUniqueArgs>(args: SelectSubset<T, UserFindUniqueArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one User that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {UserFindUniqueOrThrowArgs} args - Arguments to find a User
-     * @example
-     * // Get one User
-     * const user = await prisma.user.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends UserFindUniqueOrThrowArgs>(args: SelectSubset<T, UserFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first User that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserFindFirstArgs} args - Arguments to find a User
-     * @example
-     * // Get one User
-     * const user = await prisma.user.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends UserFindFirstArgs>(args?: SelectSubset<T, UserFindFirstArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first User that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserFindFirstOrThrowArgs} args - Arguments to find a User
-     * @example
-     * // Get one User
-     * const user = await prisma.user.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends UserFindFirstOrThrowArgs>(args?: SelectSubset<T, UserFindFirstOrThrowArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more Users that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all Users
-     * const users = await prisma.user.findMany()
-     * 
-     * // Get first 10 Users
-     * const users = await prisma.user.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const userWithIdOnly = await prisma.user.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends UserFindManyArgs>(args?: SelectSubset<T, UserFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a User.
-     * @param {UserCreateArgs} args - Arguments to create a User.
-     * @example
-     * // Create one User
-     * const User = await prisma.user.create({
-     *   data: {
-     *     // ... data to create a User
-     *   }
-     * })
-     * 
-     */
-    create<T extends UserCreateArgs>(args: SelectSubset<T, UserCreateArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many Users.
-     * @param {UserCreateManyArgs} args - Arguments to create many Users.
-     * @example
-     * // Create many Users
-     * const user = await prisma.user.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends UserCreateManyArgs>(args?: SelectSubset<T, UserCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many Users and returns the data saved in the database.
-     * @param {UserCreateManyAndReturnArgs} args - Arguments to create many Users.
-     * @example
-     * // Create many Users
-     * const user = await prisma.user.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many Users and only return the `id`
-     * const userWithIdOnly = await prisma.user.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends UserCreateManyAndReturnArgs>(args?: SelectSubset<T, UserCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a User.
-     * @param {UserDeleteArgs} args - Arguments to delete one User.
-     * @example
-     * // Delete one User
-     * const User = await prisma.user.delete({
-     *   where: {
-     *     // ... filter to delete one User
-     *   }
-     * })
-     * 
-     */
-    delete<T extends UserDeleteArgs>(args: SelectSubset<T, UserDeleteArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one User.
-     * @param {UserUpdateArgs} args - Arguments to update one User.
-     * @example
-     * // Update one User
-     * const user = await prisma.user.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends UserUpdateArgs>(args: SelectSubset<T, UserUpdateArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more Users.
-     * @param {UserDeleteManyArgs} args - Arguments to filter Users to delete.
-     * @example
-     * // Delete a few Users
-     * const { count } = await prisma.user.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends UserDeleteManyArgs>(args?: SelectSubset<T, UserDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Users.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many Users
-     * const user = await prisma.user.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends UserUpdateManyArgs>(args: SelectSubset<T, UserUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Users and returns the data updated in the database.
-     * @param {UserUpdateManyAndReturnArgs} args - Arguments to update many Users.
-     * @example
-     * // Update many Users
-     * const user = await prisma.user.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more Users and only return the `id`
-     * const userWithIdOnly = await prisma.user.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends UserUpdateManyAndReturnArgs>(args: SelectSubset<T, UserUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one User.
-     * @param {UserUpsertArgs} args - Arguments to update or create a User.
-     * @example
-     * // Update or create a User
-     * const user = await prisma.user.upsert({
-     *   create: {
-     *     // ... data to create a User
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the User we want to update
-     *   }
-     * })
-     */
-    upsert<T extends UserUpsertArgs>(args: SelectSubset<T, UserUpsertArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of Users.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserCountArgs} args - Arguments to filter Users to count.
-     * @example
-     * // Count the number of Users
-     * const count = await prisma.user.count({
-     *   where: {
-     *     // ... the filter for the Users we want to count
-     *   }
-     * })
-    **/
-    count<T extends UserCountArgs>(
-      args?: Subset<T, UserCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], UserCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a User.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends UserAggregateArgs>(args: Subset<T, UserAggregateArgs>): Prisma.PrismaPromise<GetUserAggregateType<T>>
-
-    /**
-     * Group by User.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends UserGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: UserGroupByArgs['orderBy'] }
-        : { orderBy?: UserGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, UserGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the User model
-   */
-  readonly fields: UserFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for User.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    labAssistant<T extends User$labAssistantArgs<ExtArgs> = {}>(args?: Subset<T, User$labAssistantArgs<ExtArgs>>): Prisma__LabAssistantClient<$Result.GetResult<Prisma.$LabAssistantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the User model
-   */
-  interface UserFieldRefs {
-    readonly id: FieldRef<"User", 'String'>
-    readonly email: FieldRef<"User", 'String'>
-    readonly password: FieldRef<"User", 'String'>
-    readonly role: FieldRef<"User", 'Role'>
-    readonly createdAt: FieldRef<"User", 'DateTime'>
-    readonly updatedAt: FieldRef<"User", 'DateTime'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * User findUnique
-   */
-  export type UserFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the User
-     */
-    select?: UserSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the User
-     */
-    omit?: UserOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserInclude<ExtArgs> | null
-    /**
-     * Filter, which User to fetch.
-     */
-    where: UserWhereUniqueInput
-  }
-
-  /**
-   * User findUniqueOrThrow
-   */
-  export type UserFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the User
-     */
-    select?: UserSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the User
-     */
-    omit?: UserOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserInclude<ExtArgs> | null
-    /**
-     * Filter, which User to fetch.
-     */
-    where: UserWhereUniqueInput
-  }
-
-  /**
-   * User findFirst
-   */
-  export type UserFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the User
-     */
-    select?: UserSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the User
-     */
-    omit?: UserOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserInclude<ExtArgs> | null
-    /**
-     * Filter, which User to fetch.
-     */
-    where?: UserWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Users to fetch.
-     */
-    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Users.
-     */
-    cursor?: UserWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Users from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Users.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Users.
-     */
-    distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
-  }
-
-  /**
-   * User findFirstOrThrow
-   */
-  export type UserFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the User
-     */
-    select?: UserSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the User
-     */
-    omit?: UserOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserInclude<ExtArgs> | null
-    /**
-     * Filter, which User to fetch.
-     */
-    where?: UserWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Users to fetch.
-     */
-    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Users.
-     */
-    cursor?: UserWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Users from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Users.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Users.
-     */
-    distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
-  }
-
-  /**
-   * User findMany
-   */
-  export type UserFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the User
-     */
-    select?: UserSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the User
-     */
-    omit?: UserOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserInclude<ExtArgs> | null
-    /**
-     * Filter, which Users to fetch.
-     */
-    where?: UserWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Users to fetch.
-     */
-    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing Users.
-     */
-    cursor?: UserWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Users from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Users.
-     */
-    skip?: number
-    distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
-  }
-
-  /**
-   * User create
-   */
-  export type UserCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the User
-     */
-    select?: UserSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the User
-     */
-    omit?: UserOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserInclude<ExtArgs> | null
-    /**
-     * The data needed to create a User.
-     */
-    data: XOR<UserCreateInput, UserUncheckedCreateInput>
-  }
-
-  /**
-   * User createMany
-   */
-  export type UserCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many Users.
-     */
-    data: UserCreateManyInput | UserCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * User createManyAndReturn
-   */
-  export type UserCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the User
-     */
-    select?: UserSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the User
-     */
-    omit?: UserOmit<ExtArgs> | null
-    /**
-     * The data used to create many Users.
-     */
-    data: UserCreateManyInput | UserCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * User update
-   */
-  export type UserUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the User
-     */
-    select?: UserSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the User
-     */
-    omit?: UserOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserInclude<ExtArgs> | null
-    /**
-     * The data needed to update a User.
-     */
-    data: XOR<UserUpdateInput, UserUncheckedUpdateInput>
-    /**
-     * Choose, which User to update.
-     */
-    where: UserWhereUniqueInput
-  }
-
-  /**
-   * User updateMany
-   */
-  export type UserUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update Users.
-     */
-    data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyInput>
-    /**
-     * Filter which Users to update
-     */
-    where?: UserWhereInput
-    /**
-     * Limit how many Users to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * User updateManyAndReturn
-   */
-  export type UserUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the User
-     */
-    select?: UserSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the User
-     */
-    omit?: UserOmit<ExtArgs> | null
-    /**
-     * The data used to update Users.
-     */
-    data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyInput>
-    /**
-     * Filter which Users to update
-     */
-    where?: UserWhereInput
-    /**
-     * Limit how many Users to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * User upsert
-   */
-  export type UserUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the User
-     */
-    select?: UserSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the User
-     */
-    omit?: UserOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserInclude<ExtArgs> | null
-    /**
-     * The filter to search for the User to update in case it exists.
-     */
-    where: UserWhereUniqueInput
-    /**
-     * In case the User found by the `where` argument doesn't exist, create a new User with this data.
-     */
-    create: XOR<UserCreateInput, UserUncheckedCreateInput>
-    /**
-     * In case the User was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<UserUpdateInput, UserUncheckedUpdateInput>
-  }
-
-  /**
-   * User delete
-   */
-  export type UserDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the User
-     */
-    select?: UserSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the User
-     */
-    omit?: UserOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserInclude<ExtArgs> | null
-    /**
-     * Filter which User to delete.
-     */
-    where: UserWhereUniqueInput
-  }
-
-  /**
-   * User deleteMany
-   */
-  export type UserDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Users to delete
-     */
-    where?: UserWhereInput
-    /**
-     * Limit how many Users to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * User.labAssistant
-   */
-  export type User$labAssistantArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the LabAssistant
-     */
-    select?: LabAssistantSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the LabAssistant
-     */
-    omit?: LabAssistantOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: LabAssistantInclude<ExtArgs> | null
-    where?: LabAssistantWhereInput
-  }
-
-  /**
-   * User without action
-   */
-  export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the User
-     */
-    select?: UserSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the User
-     */
-    omit?: UserOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserInclude<ExtArgs> | null
-  }
-
-
-  /**
-   * Model Department
-   */
-
-  export type AggregateDepartment = {
-    _count: DepartmentCountAggregateOutputType | null
-    _min: DepartmentMinAggregateOutputType | null
-    _max: DepartmentMaxAggregateOutputType | null
-  }
-
-  export type DepartmentMinAggregateOutputType = {
-    id: string | null
-    name: string | null
-  }
-
-  export type DepartmentMaxAggregateOutputType = {
-    id: string | null
-    name: string | null
-  }
-
-  export type DepartmentCountAggregateOutputType = {
-    id: number
-    name: number
-    _all: number
-  }
-
-
-  export type DepartmentMinAggregateInputType = {
-    id?: true
-    name?: true
-  }
-
-  export type DepartmentMaxAggregateInputType = {
-    id?: true
-    name?: true
-  }
-
-  export type DepartmentCountAggregateInputType = {
-    id?: true
-    name?: true
-    _all?: true
-  }
-
-  export type DepartmentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Department to aggregate.
-     */
-    where?: DepartmentWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Departments to fetch.
-     */
-    orderBy?: DepartmentOrderByWithRelationInput | DepartmentOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: DepartmentWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Departments from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Departments.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned Departments
-    **/
-    _count?: true | DepartmentCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: DepartmentMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: DepartmentMaxAggregateInputType
-  }
-
-  export type GetDepartmentAggregateType<T extends DepartmentAggregateArgs> = {
-        [P in keyof T & keyof AggregateDepartment]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateDepartment[P]>
-      : GetScalarType<T[P], AggregateDepartment[P]>
-  }
-
-
-
-
-  export type DepartmentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: DepartmentWhereInput
-    orderBy?: DepartmentOrderByWithAggregationInput | DepartmentOrderByWithAggregationInput[]
-    by: DepartmentScalarFieldEnum[] | DepartmentScalarFieldEnum
-    having?: DepartmentScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: DepartmentCountAggregateInputType | true
-    _min?: DepartmentMinAggregateInputType
-    _max?: DepartmentMaxAggregateInputType
-  }
-
-  export type DepartmentGroupByOutputType = {
-    id: string
-    name: string
-    _count: DepartmentCountAggregateOutputType | null
-    _min: DepartmentMinAggregateOutputType | null
-    _max: DepartmentMaxAggregateOutputType | null
-  }
-
-  type GetDepartmentGroupByPayload<T extends DepartmentGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<DepartmentGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof DepartmentGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], DepartmentGroupByOutputType[P]>
-            : GetScalarType<T[P], DepartmentGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type DepartmentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    courses?: boolean | Department$coursesArgs<ExtArgs>
-    labAssistants?: boolean | Department$labAssistantsArgs<ExtArgs>
-    _count?: boolean | DepartmentCountOutputTypeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["department"]>
-
-  export type DepartmentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-  }, ExtArgs["result"]["department"]>
-
-  export type DepartmentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-  }, ExtArgs["result"]["department"]>
-
-  export type DepartmentSelectScalar = {
-    id?: boolean
-    name?: boolean
-  }
-
-  export type DepartmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name", ExtArgs["result"]["department"]>
-  export type DepartmentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    courses?: boolean | Department$coursesArgs<ExtArgs>
-    labAssistants?: boolean | Department$labAssistantsArgs<ExtArgs>
-    _count?: boolean | DepartmentCountOutputTypeDefaultArgs<ExtArgs>
-  }
-  export type DepartmentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-  export type DepartmentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-
-  export type $DepartmentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Department"
-    objects: {
-      courses: Prisma.$CoursePayload<ExtArgs>[]
-      labAssistants: Prisma.$LabAssistantPayload<ExtArgs>[]
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: string
-      name: string
-    }, ExtArgs["result"]["department"]>
-    composites: {}
-  }
-
-  type DepartmentGetPayload<S extends boolean | null | undefined | DepartmentDefaultArgs> = $Result.GetResult<Prisma.$DepartmentPayload, S>
-
-  type DepartmentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<DepartmentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: DepartmentCountAggregateInputType | true
-    }
-
-  export interface DepartmentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Department'], meta: { name: 'Department' } }
-    /**
-     * Find zero or one Department that matches the filter.
-     * @param {DepartmentFindUniqueArgs} args - Arguments to find a Department
-     * @example
-     * // Get one Department
-     * const department = await prisma.department.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends DepartmentFindUniqueArgs>(args: SelectSubset<T, DepartmentFindUniqueArgs<ExtArgs>>): Prisma__DepartmentClient<$Result.GetResult<Prisma.$DepartmentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one Department that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {DepartmentFindUniqueOrThrowArgs} args - Arguments to find a Department
-     * @example
-     * // Get one Department
-     * const department = await prisma.department.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends DepartmentFindUniqueOrThrowArgs>(args: SelectSubset<T, DepartmentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__DepartmentClient<$Result.GetResult<Prisma.$DepartmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Department that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {DepartmentFindFirstArgs} args - Arguments to find a Department
-     * @example
-     * // Get one Department
-     * const department = await prisma.department.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends DepartmentFindFirstArgs>(args?: SelectSubset<T, DepartmentFindFirstArgs<ExtArgs>>): Prisma__DepartmentClient<$Result.GetResult<Prisma.$DepartmentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Department that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {DepartmentFindFirstOrThrowArgs} args - Arguments to find a Department
-     * @example
-     * // Get one Department
-     * const department = await prisma.department.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends DepartmentFindFirstOrThrowArgs>(args?: SelectSubset<T, DepartmentFindFirstOrThrowArgs<ExtArgs>>): Prisma__DepartmentClient<$Result.GetResult<Prisma.$DepartmentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more Departments that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {DepartmentFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all Departments
-     * const departments = await prisma.department.findMany()
-     * 
-     * // Get first 10 Departments
-     * const departments = await prisma.department.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const departmentWithIdOnly = await prisma.department.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends DepartmentFindManyArgs>(args?: SelectSubset<T, DepartmentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DepartmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a Department.
-     * @param {DepartmentCreateArgs} args - Arguments to create a Department.
-     * @example
-     * // Create one Department
-     * const Department = await prisma.department.create({
-     *   data: {
-     *     // ... data to create a Department
-     *   }
-     * })
-     * 
-     */
-    create<T extends DepartmentCreateArgs>(args: SelectSubset<T, DepartmentCreateArgs<ExtArgs>>): Prisma__DepartmentClient<$Result.GetResult<Prisma.$DepartmentPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many Departments.
-     * @param {DepartmentCreateManyArgs} args - Arguments to create many Departments.
-     * @example
-     * // Create many Departments
-     * const department = await prisma.department.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends DepartmentCreateManyArgs>(args?: SelectSubset<T, DepartmentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many Departments and returns the data saved in the database.
-     * @param {DepartmentCreateManyAndReturnArgs} args - Arguments to create many Departments.
-     * @example
-     * // Create many Departments
-     * const department = await prisma.department.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many Departments and only return the `id`
-     * const departmentWithIdOnly = await prisma.department.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends DepartmentCreateManyAndReturnArgs>(args?: SelectSubset<T, DepartmentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DepartmentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a Department.
-     * @param {DepartmentDeleteArgs} args - Arguments to delete one Department.
-     * @example
-     * // Delete one Department
-     * const Department = await prisma.department.delete({
-     *   where: {
-     *     // ... filter to delete one Department
-     *   }
-     * })
-     * 
-     */
-    delete<T extends DepartmentDeleteArgs>(args: SelectSubset<T, DepartmentDeleteArgs<ExtArgs>>): Prisma__DepartmentClient<$Result.GetResult<Prisma.$DepartmentPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one Department.
-     * @param {DepartmentUpdateArgs} args - Arguments to update one Department.
-     * @example
-     * // Update one Department
-     * const department = await prisma.department.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends DepartmentUpdateArgs>(args: SelectSubset<T, DepartmentUpdateArgs<ExtArgs>>): Prisma__DepartmentClient<$Result.GetResult<Prisma.$DepartmentPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more Departments.
-     * @param {DepartmentDeleteManyArgs} args - Arguments to filter Departments to delete.
-     * @example
-     * // Delete a few Departments
-     * const { count } = await prisma.department.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends DepartmentDeleteManyArgs>(args?: SelectSubset<T, DepartmentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Departments.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {DepartmentUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many Departments
-     * const department = await prisma.department.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends DepartmentUpdateManyArgs>(args: SelectSubset<T, DepartmentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Departments and returns the data updated in the database.
-     * @param {DepartmentUpdateManyAndReturnArgs} args - Arguments to update many Departments.
-     * @example
-     * // Update many Departments
-     * const department = await prisma.department.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more Departments and only return the `id`
-     * const departmentWithIdOnly = await prisma.department.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends DepartmentUpdateManyAndReturnArgs>(args: SelectSubset<T, DepartmentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DepartmentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one Department.
-     * @param {DepartmentUpsertArgs} args - Arguments to update or create a Department.
-     * @example
-     * // Update or create a Department
-     * const department = await prisma.department.upsert({
-     *   create: {
-     *     // ... data to create a Department
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the Department we want to update
-     *   }
-     * })
-     */
-    upsert<T extends DepartmentUpsertArgs>(args: SelectSubset<T, DepartmentUpsertArgs<ExtArgs>>): Prisma__DepartmentClient<$Result.GetResult<Prisma.$DepartmentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of Departments.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {DepartmentCountArgs} args - Arguments to filter Departments to count.
-     * @example
-     * // Count the number of Departments
-     * const count = await prisma.department.count({
-     *   where: {
-     *     // ... the filter for the Departments we want to count
-     *   }
-     * })
-    **/
-    count<T extends DepartmentCountArgs>(
-      args?: Subset<T, DepartmentCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], DepartmentCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a Department.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {DepartmentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends DepartmentAggregateArgs>(args: Subset<T, DepartmentAggregateArgs>): Prisma.PrismaPromise<GetDepartmentAggregateType<T>>
-
-    /**
-     * Group by Department.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {DepartmentGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends DepartmentGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: DepartmentGroupByArgs['orderBy'] }
-        : { orderBy?: DepartmentGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, DepartmentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDepartmentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the Department model
-   */
-  readonly fields: DepartmentFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for Department.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__DepartmentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    courses<T extends Department$coursesArgs<ExtArgs> = {}>(args?: Subset<T, Department$coursesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CoursePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    labAssistants<T extends Department$labAssistantsArgs<ExtArgs> = {}>(args?: Subset<T, Department$labAssistantsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LabAssistantPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the Department model
-   */
-  interface DepartmentFieldRefs {
-    readonly id: FieldRef<"Department", 'String'>
-    readonly name: FieldRef<"Department", 'String'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * Department findUnique
-   */
-  export type DepartmentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Department
-     */
-    select?: DepartmentSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Department
-     */
-    omit?: DepartmentOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: DepartmentInclude<ExtArgs> | null
-    /**
-     * Filter, which Department to fetch.
-     */
-    where: DepartmentWhereUniqueInput
-  }
-
-  /**
-   * Department findUniqueOrThrow
-   */
-  export type DepartmentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Department
-     */
-    select?: DepartmentSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Department
-     */
-    omit?: DepartmentOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: DepartmentInclude<ExtArgs> | null
-    /**
-     * Filter, which Department to fetch.
-     */
-    where: DepartmentWhereUniqueInput
-  }
-
-  /**
-   * Department findFirst
-   */
-  export type DepartmentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Department
-     */
-    select?: DepartmentSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Department
-     */
-    omit?: DepartmentOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: DepartmentInclude<ExtArgs> | null
-    /**
-     * Filter, which Department to fetch.
-     */
-    where?: DepartmentWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Departments to fetch.
-     */
-    orderBy?: DepartmentOrderByWithRelationInput | DepartmentOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Departments.
-     */
-    cursor?: DepartmentWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Departments from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Departments.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Departments.
-     */
-    distinct?: DepartmentScalarFieldEnum | DepartmentScalarFieldEnum[]
-  }
-
-  /**
-   * Department findFirstOrThrow
-   */
-  export type DepartmentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Department
-     */
-    select?: DepartmentSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Department
-     */
-    omit?: DepartmentOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: DepartmentInclude<ExtArgs> | null
-    /**
-     * Filter, which Department to fetch.
-     */
-    where?: DepartmentWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Departments to fetch.
-     */
-    orderBy?: DepartmentOrderByWithRelationInput | DepartmentOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Departments.
-     */
-    cursor?: DepartmentWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Departments from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Departments.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Departments.
-     */
-    distinct?: DepartmentScalarFieldEnum | DepartmentScalarFieldEnum[]
-  }
-
-  /**
-   * Department findMany
-   */
-  export type DepartmentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Department
-     */
-    select?: DepartmentSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Department
-     */
-    omit?: DepartmentOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: DepartmentInclude<ExtArgs> | null
-    /**
-     * Filter, which Departments to fetch.
-     */
-    where?: DepartmentWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Departments to fetch.
-     */
-    orderBy?: DepartmentOrderByWithRelationInput | DepartmentOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing Departments.
-     */
-    cursor?: DepartmentWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Departments from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Departments.
-     */
-    skip?: number
-    distinct?: DepartmentScalarFieldEnum | DepartmentScalarFieldEnum[]
-  }
-
-  /**
-   * Department create
-   */
-  export type DepartmentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Department
-     */
-    select?: DepartmentSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Department
-     */
-    omit?: DepartmentOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: DepartmentInclude<ExtArgs> | null
-    /**
-     * The data needed to create a Department.
-     */
-    data: XOR<DepartmentCreateInput, DepartmentUncheckedCreateInput>
-  }
-
-  /**
-   * Department createMany
-   */
-  export type DepartmentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many Departments.
-     */
-    data: DepartmentCreateManyInput | DepartmentCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * Department createManyAndReturn
-   */
-  export type DepartmentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Department
-     */
-    select?: DepartmentSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Department
-     */
-    omit?: DepartmentOmit<ExtArgs> | null
-    /**
-     * The data used to create many Departments.
-     */
-    data: DepartmentCreateManyInput | DepartmentCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * Department update
-   */
-  export type DepartmentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Department
-     */
-    select?: DepartmentSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Department
-     */
-    omit?: DepartmentOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: DepartmentInclude<ExtArgs> | null
-    /**
-     * The data needed to update a Department.
-     */
-    data: XOR<DepartmentUpdateInput, DepartmentUncheckedUpdateInput>
-    /**
-     * Choose, which Department to update.
-     */
-    where: DepartmentWhereUniqueInput
-  }
-
-  /**
-   * Department updateMany
-   */
-  export type DepartmentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update Departments.
-     */
-    data: XOR<DepartmentUpdateManyMutationInput, DepartmentUncheckedUpdateManyInput>
-    /**
-     * Filter which Departments to update
-     */
-    where?: DepartmentWhereInput
-    /**
-     * Limit how many Departments to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * Department updateManyAndReturn
-   */
-  export type DepartmentUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Department
-     */
-    select?: DepartmentSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Department
-     */
-    omit?: DepartmentOmit<ExtArgs> | null
-    /**
-     * The data used to update Departments.
-     */
-    data: XOR<DepartmentUpdateManyMutationInput, DepartmentUncheckedUpdateManyInput>
-    /**
-     * Filter which Departments to update
-     */
-    where?: DepartmentWhereInput
-    /**
-     * Limit how many Departments to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * Department upsert
-   */
-  export type DepartmentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Department
-     */
-    select?: DepartmentSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Department
-     */
-    omit?: DepartmentOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: DepartmentInclude<ExtArgs> | null
-    /**
-     * The filter to search for the Department to update in case it exists.
-     */
-    where: DepartmentWhereUniqueInput
-    /**
-     * In case the Department found by the `where` argument doesn't exist, create a new Department with this data.
-     */
-    create: XOR<DepartmentCreateInput, DepartmentUncheckedCreateInput>
-    /**
-     * In case the Department was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<DepartmentUpdateInput, DepartmentUncheckedUpdateInput>
-  }
-
-  /**
-   * Department delete
-   */
-  export type DepartmentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Department
-     */
-    select?: DepartmentSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Department
-     */
-    omit?: DepartmentOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: DepartmentInclude<ExtArgs> | null
-    /**
-     * Filter which Department to delete.
-     */
-    where: DepartmentWhereUniqueInput
-  }
-
-  /**
-   * Department deleteMany
-   */
-  export type DepartmentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Departments to delete
-     */
-    where?: DepartmentWhereInput
-    /**
-     * Limit how many Departments to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * Department.courses
-   */
-  export type Department$coursesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Course
-     */
-    select?: CourseSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Course
-     */
-    omit?: CourseOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CourseInclude<ExtArgs> | null
-    where?: CourseWhereInput
-    orderBy?: CourseOrderByWithRelationInput | CourseOrderByWithRelationInput[]
-    cursor?: CourseWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: CourseScalarFieldEnum | CourseScalarFieldEnum[]
-  }
-
-  /**
-   * Department.labAssistants
-   */
-  export type Department$labAssistantsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the LabAssistant
-     */
-    select?: LabAssistantSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the LabAssistant
-     */
-    omit?: LabAssistantOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: LabAssistantInclude<ExtArgs> | null
-    where?: LabAssistantWhereInput
-    orderBy?: LabAssistantOrderByWithRelationInput | LabAssistantOrderByWithRelationInput[]
-    cursor?: LabAssistantWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: LabAssistantScalarFieldEnum | LabAssistantScalarFieldEnum[]
-  }
-
-  /**
-   * Department without action
-   */
-  export type DepartmentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Department
-     */
-    select?: DepartmentSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Department
-     */
-    omit?: DepartmentOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: DepartmentInclude<ExtArgs> | null
-  }
-
-
-  /**
-   * Model LabAssistant
-   */
-
-  export type AggregateLabAssistant = {
-    _count: LabAssistantCountAggregateOutputType | null
-    _min: LabAssistantMinAggregateOutputType | null
-    _max: LabAssistantMaxAggregateOutputType | null
-  }
-
-  export type LabAssistantMinAggregateOutputType = {
-    id: string | null
-    userId: string | null
-    firstName: string | null
-    lastName: string | null
-    departmentId: string | null
-  }
-
-  export type LabAssistantMaxAggregateOutputType = {
-    id: string | null
-    userId: string | null
-    firstName: string | null
-    lastName: string | null
-    departmentId: string | null
-  }
-
-  export type LabAssistantCountAggregateOutputType = {
-    id: number
-    userId: number
-    firstName: number
-    lastName: number
-    departmentId: number
-    _all: number
-  }
-
-
-  export type LabAssistantMinAggregateInputType = {
-    id?: true
-    userId?: true
-    firstName?: true
-    lastName?: true
-    departmentId?: true
-  }
-
-  export type LabAssistantMaxAggregateInputType = {
-    id?: true
-    userId?: true
-    firstName?: true
-    lastName?: true
-    departmentId?: true
-  }
-
-  export type LabAssistantCountAggregateInputType = {
-    id?: true
-    userId?: true
-    firstName?: true
-    lastName?: true
-    departmentId?: true
-    _all?: true
-  }
-
-  export type LabAssistantAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which LabAssistant to aggregate.
-     */
-    where?: LabAssistantWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of LabAssistants to fetch.
-     */
-    orderBy?: LabAssistantOrderByWithRelationInput | LabAssistantOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: LabAssistantWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` LabAssistants from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` LabAssistants.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned LabAssistants
-    **/
-    _count?: true | LabAssistantCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: LabAssistantMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: LabAssistantMaxAggregateInputType
-  }
-
-  export type GetLabAssistantAggregateType<T extends LabAssistantAggregateArgs> = {
-        [P in keyof T & keyof AggregateLabAssistant]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateLabAssistant[P]>
-      : GetScalarType<T[P], AggregateLabAssistant[P]>
-  }
-
-
-
-
-  export type LabAssistantGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: LabAssistantWhereInput
-    orderBy?: LabAssistantOrderByWithAggregationInput | LabAssistantOrderByWithAggregationInput[]
-    by: LabAssistantScalarFieldEnum[] | LabAssistantScalarFieldEnum
-    having?: LabAssistantScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: LabAssistantCountAggregateInputType | true
-    _min?: LabAssistantMinAggregateInputType
-    _max?: LabAssistantMaxAggregateInputType
-  }
-
-  export type LabAssistantGroupByOutputType = {
-    id: string
-    userId: string
-    firstName: string
-    lastName: string
-    departmentId: string
-    _count: LabAssistantCountAggregateOutputType | null
-    _min: LabAssistantMinAggregateOutputType | null
-    _max: LabAssistantMaxAggregateOutputType | null
-  }
-
-  type GetLabAssistantGroupByPayload<T extends LabAssistantGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<LabAssistantGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof LabAssistantGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], LabAssistantGroupByOutputType[P]>
-            : GetScalarType<T[P], LabAssistantGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type LabAssistantSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    userId?: boolean
-    firstName?: boolean
-    lastName?: boolean
-    departmentId?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
-    department?: boolean | DepartmentDefaultArgs<ExtArgs>
-    assignments?: boolean | LabAssistant$assignmentsArgs<ExtArgs>
-    _count?: boolean | LabAssistantCountOutputTypeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["labAssistant"]>
-
-  export type LabAssistantSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    userId?: boolean
-    firstName?: boolean
-    lastName?: boolean
-    departmentId?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
-    department?: boolean | DepartmentDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["labAssistant"]>
-
-  export type LabAssistantSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    userId?: boolean
-    firstName?: boolean
-    lastName?: boolean
-    departmentId?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
-    department?: boolean | DepartmentDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["labAssistant"]>
-
-  export type LabAssistantSelectScalar = {
-    id?: boolean
-    userId?: boolean
-    firstName?: boolean
-    lastName?: boolean
-    departmentId?: boolean
-  }
-
-  export type LabAssistantOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "firstName" | "lastName" | "departmentId", ExtArgs["result"]["labAssistant"]>
-  export type LabAssistantInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
-    department?: boolean | DepartmentDefaultArgs<ExtArgs>
-    assignments?: boolean | LabAssistant$assignmentsArgs<ExtArgs>
-    _count?: boolean | LabAssistantCountOutputTypeDefaultArgs<ExtArgs>
-  }
-  export type LabAssistantIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
-    department?: boolean | DepartmentDefaultArgs<ExtArgs>
-  }
-  export type LabAssistantIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
-    department?: boolean | DepartmentDefaultArgs<ExtArgs>
-  }
-
-  export type $LabAssistantPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "LabAssistant"
-    objects: {
-      user: Prisma.$UserPayload<ExtArgs>
-      department: Prisma.$DepartmentPayload<ExtArgs>
-      assignments: Prisma.$ScheduleAssignmentPayload<ExtArgs>[]
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: string
-      userId: string
-      firstName: string
-      lastName: string
-      departmentId: string
-    }, ExtArgs["result"]["labAssistant"]>
-    composites: {}
-  }
-
-  type LabAssistantGetPayload<S extends boolean | null | undefined | LabAssistantDefaultArgs> = $Result.GetResult<Prisma.$LabAssistantPayload, S>
-
-  type LabAssistantCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<LabAssistantFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: LabAssistantCountAggregateInputType | true
-    }
-
-  export interface LabAssistantDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['LabAssistant'], meta: { name: 'LabAssistant' } }
-    /**
-     * Find zero or one LabAssistant that matches the filter.
-     * @param {LabAssistantFindUniqueArgs} args - Arguments to find a LabAssistant
-     * @example
-     * // Get one LabAssistant
-     * const labAssistant = await prisma.labAssistant.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends LabAssistantFindUniqueArgs>(args: SelectSubset<T, LabAssistantFindUniqueArgs<ExtArgs>>): Prisma__LabAssistantClient<$Result.GetResult<Prisma.$LabAssistantPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one LabAssistant that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {LabAssistantFindUniqueOrThrowArgs} args - Arguments to find a LabAssistant
-     * @example
-     * // Get one LabAssistant
-     * const labAssistant = await prisma.labAssistant.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends LabAssistantFindUniqueOrThrowArgs>(args: SelectSubset<T, LabAssistantFindUniqueOrThrowArgs<ExtArgs>>): Prisma__LabAssistantClient<$Result.GetResult<Prisma.$LabAssistantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first LabAssistant that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {LabAssistantFindFirstArgs} args - Arguments to find a LabAssistant
-     * @example
-     * // Get one LabAssistant
-     * const labAssistant = await prisma.labAssistant.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends LabAssistantFindFirstArgs>(args?: SelectSubset<T, LabAssistantFindFirstArgs<ExtArgs>>): Prisma__LabAssistantClient<$Result.GetResult<Prisma.$LabAssistantPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first LabAssistant that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {LabAssistantFindFirstOrThrowArgs} args - Arguments to find a LabAssistant
-     * @example
-     * // Get one LabAssistant
-     * const labAssistant = await prisma.labAssistant.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends LabAssistantFindFirstOrThrowArgs>(args?: SelectSubset<T, LabAssistantFindFirstOrThrowArgs<ExtArgs>>): Prisma__LabAssistantClient<$Result.GetResult<Prisma.$LabAssistantPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more LabAssistants that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {LabAssistantFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all LabAssistants
-     * const labAssistants = await prisma.labAssistant.findMany()
-     * 
-     * // Get first 10 LabAssistants
-     * const labAssistants = await prisma.labAssistant.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const labAssistantWithIdOnly = await prisma.labAssistant.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends LabAssistantFindManyArgs>(args?: SelectSubset<T, LabAssistantFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LabAssistantPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a LabAssistant.
-     * @param {LabAssistantCreateArgs} args - Arguments to create a LabAssistant.
-     * @example
-     * // Create one LabAssistant
-     * const LabAssistant = await prisma.labAssistant.create({
-     *   data: {
-     *     // ... data to create a LabAssistant
-     *   }
-     * })
-     * 
-     */
-    create<T extends LabAssistantCreateArgs>(args: SelectSubset<T, LabAssistantCreateArgs<ExtArgs>>): Prisma__LabAssistantClient<$Result.GetResult<Prisma.$LabAssistantPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many LabAssistants.
-     * @param {LabAssistantCreateManyArgs} args - Arguments to create many LabAssistants.
-     * @example
-     * // Create many LabAssistants
-     * const labAssistant = await prisma.labAssistant.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends LabAssistantCreateManyArgs>(args?: SelectSubset<T, LabAssistantCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many LabAssistants and returns the data saved in the database.
-     * @param {LabAssistantCreateManyAndReturnArgs} args - Arguments to create many LabAssistants.
-     * @example
-     * // Create many LabAssistants
-     * const labAssistant = await prisma.labAssistant.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many LabAssistants and only return the `id`
-     * const labAssistantWithIdOnly = await prisma.labAssistant.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends LabAssistantCreateManyAndReturnArgs>(args?: SelectSubset<T, LabAssistantCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LabAssistantPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a LabAssistant.
-     * @param {LabAssistantDeleteArgs} args - Arguments to delete one LabAssistant.
-     * @example
-     * // Delete one LabAssistant
-     * const LabAssistant = await prisma.labAssistant.delete({
-     *   where: {
-     *     // ... filter to delete one LabAssistant
-     *   }
-     * })
-     * 
-     */
-    delete<T extends LabAssistantDeleteArgs>(args: SelectSubset<T, LabAssistantDeleteArgs<ExtArgs>>): Prisma__LabAssistantClient<$Result.GetResult<Prisma.$LabAssistantPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one LabAssistant.
-     * @param {LabAssistantUpdateArgs} args - Arguments to update one LabAssistant.
-     * @example
-     * // Update one LabAssistant
-     * const labAssistant = await prisma.labAssistant.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends LabAssistantUpdateArgs>(args: SelectSubset<T, LabAssistantUpdateArgs<ExtArgs>>): Prisma__LabAssistantClient<$Result.GetResult<Prisma.$LabAssistantPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more LabAssistants.
-     * @param {LabAssistantDeleteManyArgs} args - Arguments to filter LabAssistants to delete.
-     * @example
-     * // Delete a few LabAssistants
-     * const { count } = await prisma.labAssistant.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends LabAssistantDeleteManyArgs>(args?: SelectSubset<T, LabAssistantDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more LabAssistants.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {LabAssistantUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many LabAssistants
-     * const labAssistant = await prisma.labAssistant.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends LabAssistantUpdateManyArgs>(args: SelectSubset<T, LabAssistantUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more LabAssistants and returns the data updated in the database.
-     * @param {LabAssistantUpdateManyAndReturnArgs} args - Arguments to update many LabAssistants.
-     * @example
-     * // Update many LabAssistants
-     * const labAssistant = await prisma.labAssistant.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more LabAssistants and only return the `id`
-     * const labAssistantWithIdOnly = await prisma.labAssistant.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends LabAssistantUpdateManyAndReturnArgs>(args: SelectSubset<T, LabAssistantUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LabAssistantPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one LabAssistant.
-     * @param {LabAssistantUpsertArgs} args - Arguments to update or create a LabAssistant.
-     * @example
-     * // Update or create a LabAssistant
-     * const labAssistant = await prisma.labAssistant.upsert({
-     *   create: {
-     *     // ... data to create a LabAssistant
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the LabAssistant we want to update
-     *   }
-     * })
-     */
-    upsert<T extends LabAssistantUpsertArgs>(args: SelectSubset<T, LabAssistantUpsertArgs<ExtArgs>>): Prisma__LabAssistantClient<$Result.GetResult<Prisma.$LabAssistantPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of LabAssistants.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {LabAssistantCountArgs} args - Arguments to filter LabAssistants to count.
-     * @example
-     * // Count the number of LabAssistants
-     * const count = await prisma.labAssistant.count({
-     *   where: {
-     *     // ... the filter for the LabAssistants we want to count
-     *   }
-     * })
-    **/
-    count<T extends LabAssistantCountArgs>(
-      args?: Subset<T, LabAssistantCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], LabAssistantCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a LabAssistant.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {LabAssistantAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends LabAssistantAggregateArgs>(args: Subset<T, LabAssistantAggregateArgs>): Prisma.PrismaPromise<GetLabAssistantAggregateType<T>>
-
-    /**
-     * Group by LabAssistant.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {LabAssistantGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends LabAssistantGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: LabAssistantGroupByArgs['orderBy'] }
-        : { orderBy?: LabAssistantGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, LabAssistantGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLabAssistantGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the LabAssistant model
-   */
-  readonly fields: LabAssistantFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for LabAssistant.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__LabAssistantClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    department<T extends DepartmentDefaultArgs<ExtArgs> = {}>(args?: Subset<T, DepartmentDefaultArgs<ExtArgs>>): Prisma__DepartmentClient<$Result.GetResult<Prisma.$DepartmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    assignments<T extends LabAssistant$assignmentsArgs<ExtArgs> = {}>(args?: Subset<T, LabAssistant$assignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScheduleAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the LabAssistant model
-   */
-  interface LabAssistantFieldRefs {
-    readonly id: FieldRef<"LabAssistant", 'String'>
-    readonly userId: FieldRef<"LabAssistant", 'String'>
-    readonly firstName: FieldRef<"LabAssistant", 'String'>
-    readonly lastName: FieldRef<"LabAssistant", 'String'>
-    readonly departmentId: FieldRef<"LabAssistant", 'String'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * LabAssistant findUnique
-   */
-  export type LabAssistantFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the LabAssistant
-     */
-    select?: LabAssistantSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the LabAssistant
-     */
-    omit?: LabAssistantOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: LabAssistantInclude<ExtArgs> | null
-    /**
-     * Filter, which LabAssistant to fetch.
-     */
-    where: LabAssistantWhereUniqueInput
-  }
-
-  /**
-   * LabAssistant findUniqueOrThrow
-   */
-  export type LabAssistantFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the LabAssistant
-     */
-    select?: LabAssistantSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the LabAssistant
-     */
-    omit?: LabAssistantOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: LabAssistantInclude<ExtArgs> | null
-    /**
-     * Filter, which LabAssistant to fetch.
-     */
-    where: LabAssistantWhereUniqueInput
-  }
-
-  /**
-   * LabAssistant findFirst
-   */
-  export type LabAssistantFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the LabAssistant
-     */
-    select?: LabAssistantSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the LabAssistant
-     */
-    omit?: LabAssistantOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: LabAssistantInclude<ExtArgs> | null
-    /**
-     * Filter, which LabAssistant to fetch.
-     */
-    where?: LabAssistantWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of LabAssistants to fetch.
-     */
-    orderBy?: LabAssistantOrderByWithRelationInput | LabAssistantOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for LabAssistants.
-     */
-    cursor?: LabAssistantWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` LabAssistants from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` LabAssistants.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of LabAssistants.
-     */
-    distinct?: LabAssistantScalarFieldEnum | LabAssistantScalarFieldEnum[]
-  }
-
-  /**
-   * LabAssistant findFirstOrThrow
-   */
-  export type LabAssistantFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the LabAssistant
-     */
-    select?: LabAssistantSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the LabAssistant
-     */
-    omit?: LabAssistantOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: LabAssistantInclude<ExtArgs> | null
-    /**
-     * Filter, which LabAssistant to fetch.
-     */
-    where?: LabAssistantWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of LabAssistants to fetch.
-     */
-    orderBy?: LabAssistantOrderByWithRelationInput | LabAssistantOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for LabAssistants.
-     */
-    cursor?: LabAssistantWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` LabAssistants from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` LabAssistants.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of LabAssistants.
-     */
-    distinct?: LabAssistantScalarFieldEnum | LabAssistantScalarFieldEnum[]
-  }
-
-  /**
-   * LabAssistant findMany
-   */
-  export type LabAssistantFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the LabAssistant
-     */
-    select?: LabAssistantSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the LabAssistant
-     */
-    omit?: LabAssistantOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: LabAssistantInclude<ExtArgs> | null
-    /**
-     * Filter, which LabAssistants to fetch.
-     */
-    where?: LabAssistantWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of LabAssistants to fetch.
-     */
-    orderBy?: LabAssistantOrderByWithRelationInput | LabAssistantOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing LabAssistants.
-     */
-    cursor?: LabAssistantWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` LabAssistants from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` LabAssistants.
-     */
-    skip?: number
-    distinct?: LabAssistantScalarFieldEnum | LabAssistantScalarFieldEnum[]
-  }
-
-  /**
-   * LabAssistant create
-   */
-  export type LabAssistantCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the LabAssistant
-     */
-    select?: LabAssistantSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the LabAssistant
-     */
-    omit?: LabAssistantOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: LabAssistantInclude<ExtArgs> | null
-    /**
-     * The data needed to create a LabAssistant.
-     */
-    data: XOR<LabAssistantCreateInput, LabAssistantUncheckedCreateInput>
-  }
-
-  /**
-   * LabAssistant createMany
-   */
-  export type LabAssistantCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many LabAssistants.
-     */
-    data: LabAssistantCreateManyInput | LabAssistantCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * LabAssistant createManyAndReturn
-   */
-  export type LabAssistantCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the LabAssistant
-     */
-    select?: LabAssistantSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the LabAssistant
-     */
-    omit?: LabAssistantOmit<ExtArgs> | null
-    /**
-     * The data used to create many LabAssistants.
-     */
-    data: LabAssistantCreateManyInput | LabAssistantCreateManyInput[]
-    skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: LabAssistantIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * LabAssistant update
-   */
-  export type LabAssistantUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the LabAssistant
-     */
-    select?: LabAssistantSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the LabAssistant
-     */
-    omit?: LabAssistantOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: LabAssistantInclude<ExtArgs> | null
-    /**
-     * The data needed to update a LabAssistant.
-     */
-    data: XOR<LabAssistantUpdateInput, LabAssistantUncheckedUpdateInput>
-    /**
-     * Choose, which LabAssistant to update.
-     */
-    where: LabAssistantWhereUniqueInput
-  }
-
-  /**
-   * LabAssistant updateMany
-   */
-  export type LabAssistantUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update LabAssistants.
-     */
-    data: XOR<LabAssistantUpdateManyMutationInput, LabAssistantUncheckedUpdateManyInput>
-    /**
-     * Filter which LabAssistants to update
-     */
-    where?: LabAssistantWhereInput
-    /**
-     * Limit how many LabAssistants to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * LabAssistant updateManyAndReturn
-   */
-  export type LabAssistantUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the LabAssistant
-     */
-    select?: LabAssistantSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the LabAssistant
-     */
-    omit?: LabAssistantOmit<ExtArgs> | null
-    /**
-     * The data used to update LabAssistants.
-     */
-    data: XOR<LabAssistantUpdateManyMutationInput, LabAssistantUncheckedUpdateManyInput>
-    /**
-     * Filter which LabAssistants to update
-     */
-    where?: LabAssistantWhereInput
-    /**
-     * Limit how many LabAssistants to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: LabAssistantIncludeUpdateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * LabAssistant upsert
-   */
-  export type LabAssistantUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the LabAssistant
-     */
-    select?: LabAssistantSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the LabAssistant
-     */
-    omit?: LabAssistantOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: LabAssistantInclude<ExtArgs> | null
-    /**
-     * The filter to search for the LabAssistant to update in case it exists.
-     */
-    where: LabAssistantWhereUniqueInput
-    /**
-     * In case the LabAssistant found by the `where` argument doesn't exist, create a new LabAssistant with this data.
-     */
-    create: XOR<LabAssistantCreateInput, LabAssistantUncheckedCreateInput>
-    /**
-     * In case the LabAssistant was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<LabAssistantUpdateInput, LabAssistantUncheckedUpdateInput>
-  }
-
-  /**
-   * LabAssistant delete
-   */
-  export type LabAssistantDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the LabAssistant
-     */
-    select?: LabAssistantSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the LabAssistant
-     */
-    omit?: LabAssistantOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: LabAssistantInclude<ExtArgs> | null
-    /**
-     * Filter which LabAssistant to delete.
-     */
-    where: LabAssistantWhereUniqueInput
-  }
-
-  /**
-   * LabAssistant deleteMany
-   */
-  export type LabAssistantDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which LabAssistants to delete
-     */
-    where?: LabAssistantWhereInput
-    /**
-     * Limit how many LabAssistants to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * LabAssistant.assignments
-   */
-  export type LabAssistant$assignmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ScheduleAssignment
-     */
-    select?: ScheduleAssignmentSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ScheduleAssignment
-     */
-    omit?: ScheduleAssignmentOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ScheduleAssignmentInclude<ExtArgs> | null
-    where?: ScheduleAssignmentWhereInput
-    orderBy?: ScheduleAssignmentOrderByWithRelationInput | ScheduleAssignmentOrderByWithRelationInput[]
-    cursor?: ScheduleAssignmentWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: ScheduleAssignmentScalarFieldEnum | ScheduleAssignmentScalarFieldEnum[]
-  }
-
-  /**
-   * LabAssistant without action
-   */
-  export type LabAssistantDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the LabAssistant
-     */
-    select?: LabAssistantSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the LabAssistant
-     */
-    omit?: LabAssistantOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: LabAssistantInclude<ExtArgs> | null
-  }
-
 
   /**
    * Model LabRoom
@@ -5050,21 +1811,31 @@ export namespace Prisma {
     id: string | null
     name: string | null
     capacity: number | null
-    status: string | null
+    location: string | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type LabRoomMaxAggregateOutputType = {
     id: string | null
     name: string | null
     capacity: number | null
-    status: string | null
+    location: string | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type LabRoomCountAggregateOutputType = {
     id: number
     name: number
     capacity: number
-    status: number
+    location: number
+    equipment: number
+    isActive: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
@@ -5081,21 +1852,31 @@ export namespace Prisma {
     id?: true
     name?: true
     capacity?: true
-    status?: true
+    location?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type LabRoomMaxAggregateInputType = {
     id?: true
     name?: true
     capacity?: true
-    status?: true
+    location?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type LabRoomCountAggregateInputType = {
     id?: true
     name?: true
     capacity?: true
-    status?: true
+    location?: true
+    equipment?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -5189,7 +1970,11 @@ export namespace Prisma {
     id: string
     name: string
     capacity: number
-    status: string
+    location: string
+    equipment: string[]
+    isActive: boolean
+    createdAt: Date
+    updatedAt: Date
     _count: LabRoomCountAggregateOutputType | null
     _avg: LabRoomAvgAggregateOutputType | null
     _sum: LabRoomSumAggregateOutputType | null
@@ -5215,8 +2000,12 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     capacity?: boolean
-    status?: boolean
-    assignments?: boolean | LabRoom$assignmentsArgs<ExtArgs>
+    location?: boolean
+    equipment?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    ScheduleAssignments?: boolean | LabRoom$ScheduleAssignmentsArgs<ExtArgs>
     _count?: boolean | LabRoomCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["labRoom"]>
 
@@ -5224,26 +2013,38 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     capacity?: boolean
-    status?: boolean
+    location?: boolean
+    equipment?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }, ExtArgs["result"]["labRoom"]>
 
   export type LabRoomSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
     capacity?: boolean
-    status?: boolean
+    location?: boolean
+    equipment?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }, ExtArgs["result"]["labRoom"]>
 
   export type LabRoomSelectScalar = {
     id?: boolean
     name?: boolean
     capacity?: boolean
-    status?: boolean
+    location?: boolean
+    equipment?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type LabRoomOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "capacity" | "status", ExtArgs["result"]["labRoom"]>
+  export type LabRoomOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "capacity" | "location" | "equipment" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["labRoom"]>
   export type LabRoomInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    assignments?: boolean | LabRoom$assignmentsArgs<ExtArgs>
+    ScheduleAssignments?: boolean | LabRoom$ScheduleAssignmentsArgs<ExtArgs>
     _count?: boolean | LabRoomCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type LabRoomIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -5252,13 +2053,17 @@ export namespace Prisma {
   export type $LabRoomPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "LabRoom"
     objects: {
-      assignments: Prisma.$ScheduleAssignmentPayload<ExtArgs>[]
+      ScheduleAssignments: Prisma.$ScheduleAssignmentPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       name: string
       capacity: number
-      status: string
+      location: string
+      equipment: string[]
+      isActive: boolean
+      createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["labRoom"]>
     composites: {}
   }
@@ -5653,7 +2458,7 @@ export namespace Prisma {
    */
   export interface Prisma__LabRoomClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    assignments<T extends LabRoom$assignmentsArgs<ExtArgs> = {}>(args?: Subset<T, LabRoom$assignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScheduleAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    ScheduleAssignments<T extends LabRoom$ScheduleAssignmentsArgs<ExtArgs> = {}>(args?: Subset<T, LabRoom$ScheduleAssignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScheduleAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5686,7 +2491,11 @@ export namespace Prisma {
     readonly id: FieldRef<"LabRoom", 'String'>
     readonly name: FieldRef<"LabRoom", 'String'>
     readonly capacity: FieldRef<"LabRoom", 'Int'>
-    readonly status: FieldRef<"LabRoom", 'String'>
+    readonly location: FieldRef<"LabRoom", 'String'>
+    readonly equipment: FieldRef<"LabRoom", 'String[]'>
+    readonly isActive: FieldRef<"LabRoom", 'Boolean'>
+    readonly createdAt: FieldRef<"LabRoom", 'DateTime'>
+    readonly updatedAt: FieldRef<"LabRoom", 'DateTime'>
   }
     
 
@@ -6075,9 +2884,9 @@ export namespace Prisma {
   }
 
   /**
-   * LabRoom.assignments
+   * LabRoom.ScheduleAssignments
    */
-  export type LabRoom$assignmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type LabRoom$ScheduleAssignmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ScheduleAssignment
      */
@@ -6118,1114 +2927,127 @@ export namespace Prisma {
 
 
   /**
-   * Model TimeSlot
-   */
-
-  export type AggregateTimeSlot = {
-    _count: TimeSlotCountAggregateOutputType | null
-    _min: TimeSlotMinAggregateOutputType | null
-    _max: TimeSlotMaxAggregateOutputType | null
-  }
-
-  export type TimeSlotMinAggregateOutputType = {
-    id: string | null
-    dayOfWeek: string | null
-    startTime: string | null
-    endTime: string | null
-  }
-
-  export type TimeSlotMaxAggregateOutputType = {
-    id: string | null
-    dayOfWeek: string | null
-    startTime: string | null
-    endTime: string | null
-  }
-
-  export type TimeSlotCountAggregateOutputType = {
-    id: number
-    dayOfWeek: number
-    startTime: number
-    endTime: number
-    _all: number
-  }
-
-
-  export type TimeSlotMinAggregateInputType = {
-    id?: true
-    dayOfWeek?: true
-    startTime?: true
-    endTime?: true
-  }
-
-  export type TimeSlotMaxAggregateInputType = {
-    id?: true
-    dayOfWeek?: true
-    startTime?: true
-    endTime?: true
-  }
-
-  export type TimeSlotCountAggregateInputType = {
-    id?: true
-    dayOfWeek?: true
-    startTime?: true
-    endTime?: true
-    _all?: true
-  }
-
-  export type TimeSlotAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which TimeSlot to aggregate.
-     */
-    where?: TimeSlotWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of TimeSlots to fetch.
-     */
-    orderBy?: TimeSlotOrderByWithRelationInput | TimeSlotOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: TimeSlotWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` TimeSlots from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` TimeSlots.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned TimeSlots
-    **/
-    _count?: true | TimeSlotCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: TimeSlotMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: TimeSlotMaxAggregateInputType
-  }
-
-  export type GetTimeSlotAggregateType<T extends TimeSlotAggregateArgs> = {
-        [P in keyof T & keyof AggregateTimeSlot]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateTimeSlot[P]>
-      : GetScalarType<T[P], AggregateTimeSlot[P]>
-  }
-
-
-
-
-  export type TimeSlotGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: TimeSlotWhereInput
-    orderBy?: TimeSlotOrderByWithAggregationInput | TimeSlotOrderByWithAggregationInput[]
-    by: TimeSlotScalarFieldEnum[] | TimeSlotScalarFieldEnum
-    having?: TimeSlotScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: TimeSlotCountAggregateInputType | true
-    _min?: TimeSlotMinAggregateInputType
-    _max?: TimeSlotMaxAggregateInputType
-  }
-
-  export type TimeSlotGroupByOutputType = {
-    id: string
-    dayOfWeek: string
-    startTime: string
-    endTime: string
-    _count: TimeSlotCountAggregateOutputType | null
-    _min: TimeSlotMinAggregateOutputType | null
-    _max: TimeSlotMaxAggregateOutputType | null
-  }
-
-  type GetTimeSlotGroupByPayload<T extends TimeSlotGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<TimeSlotGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof TimeSlotGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], TimeSlotGroupByOutputType[P]>
-            : GetScalarType<T[P], TimeSlotGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type TimeSlotSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    dayOfWeek?: boolean
-    startTime?: boolean
-    endTime?: boolean
-    assignments?: boolean | TimeSlot$assignmentsArgs<ExtArgs>
-    _count?: boolean | TimeSlotCountOutputTypeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["timeSlot"]>
-
-  export type TimeSlotSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    dayOfWeek?: boolean
-    startTime?: boolean
-    endTime?: boolean
-  }, ExtArgs["result"]["timeSlot"]>
-
-  export type TimeSlotSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    dayOfWeek?: boolean
-    startTime?: boolean
-    endTime?: boolean
-  }, ExtArgs["result"]["timeSlot"]>
-
-  export type TimeSlotSelectScalar = {
-    id?: boolean
-    dayOfWeek?: boolean
-    startTime?: boolean
-    endTime?: boolean
-  }
-
-  export type TimeSlotOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "dayOfWeek" | "startTime" | "endTime", ExtArgs["result"]["timeSlot"]>
-  export type TimeSlotInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    assignments?: boolean | TimeSlot$assignmentsArgs<ExtArgs>
-    _count?: boolean | TimeSlotCountOutputTypeDefaultArgs<ExtArgs>
-  }
-  export type TimeSlotIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-  export type TimeSlotIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-
-  export type $TimeSlotPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "TimeSlot"
-    objects: {
-      assignments: Prisma.$ScheduleAssignmentPayload<ExtArgs>[]
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: string
-      dayOfWeek: string
-      startTime: string
-      endTime: string
-    }, ExtArgs["result"]["timeSlot"]>
-    composites: {}
-  }
-
-  type TimeSlotGetPayload<S extends boolean | null | undefined | TimeSlotDefaultArgs> = $Result.GetResult<Prisma.$TimeSlotPayload, S>
-
-  type TimeSlotCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<TimeSlotFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: TimeSlotCountAggregateInputType | true
-    }
-
-  export interface TimeSlotDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['TimeSlot'], meta: { name: 'TimeSlot' } }
-    /**
-     * Find zero or one TimeSlot that matches the filter.
-     * @param {TimeSlotFindUniqueArgs} args - Arguments to find a TimeSlot
-     * @example
-     * // Get one TimeSlot
-     * const timeSlot = await prisma.timeSlot.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends TimeSlotFindUniqueArgs>(args: SelectSubset<T, TimeSlotFindUniqueArgs<ExtArgs>>): Prisma__TimeSlotClient<$Result.GetResult<Prisma.$TimeSlotPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one TimeSlot that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {TimeSlotFindUniqueOrThrowArgs} args - Arguments to find a TimeSlot
-     * @example
-     * // Get one TimeSlot
-     * const timeSlot = await prisma.timeSlot.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends TimeSlotFindUniqueOrThrowArgs>(args: SelectSubset<T, TimeSlotFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TimeSlotClient<$Result.GetResult<Prisma.$TimeSlotPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first TimeSlot that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {TimeSlotFindFirstArgs} args - Arguments to find a TimeSlot
-     * @example
-     * // Get one TimeSlot
-     * const timeSlot = await prisma.timeSlot.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends TimeSlotFindFirstArgs>(args?: SelectSubset<T, TimeSlotFindFirstArgs<ExtArgs>>): Prisma__TimeSlotClient<$Result.GetResult<Prisma.$TimeSlotPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first TimeSlot that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {TimeSlotFindFirstOrThrowArgs} args - Arguments to find a TimeSlot
-     * @example
-     * // Get one TimeSlot
-     * const timeSlot = await prisma.timeSlot.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends TimeSlotFindFirstOrThrowArgs>(args?: SelectSubset<T, TimeSlotFindFirstOrThrowArgs<ExtArgs>>): Prisma__TimeSlotClient<$Result.GetResult<Prisma.$TimeSlotPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more TimeSlots that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {TimeSlotFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all TimeSlots
-     * const timeSlots = await prisma.timeSlot.findMany()
-     * 
-     * // Get first 10 TimeSlots
-     * const timeSlots = await prisma.timeSlot.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const timeSlotWithIdOnly = await prisma.timeSlot.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends TimeSlotFindManyArgs>(args?: SelectSubset<T, TimeSlotFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TimeSlotPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a TimeSlot.
-     * @param {TimeSlotCreateArgs} args - Arguments to create a TimeSlot.
-     * @example
-     * // Create one TimeSlot
-     * const TimeSlot = await prisma.timeSlot.create({
-     *   data: {
-     *     // ... data to create a TimeSlot
-     *   }
-     * })
-     * 
-     */
-    create<T extends TimeSlotCreateArgs>(args: SelectSubset<T, TimeSlotCreateArgs<ExtArgs>>): Prisma__TimeSlotClient<$Result.GetResult<Prisma.$TimeSlotPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many TimeSlots.
-     * @param {TimeSlotCreateManyArgs} args - Arguments to create many TimeSlots.
-     * @example
-     * // Create many TimeSlots
-     * const timeSlot = await prisma.timeSlot.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends TimeSlotCreateManyArgs>(args?: SelectSubset<T, TimeSlotCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many TimeSlots and returns the data saved in the database.
-     * @param {TimeSlotCreateManyAndReturnArgs} args - Arguments to create many TimeSlots.
-     * @example
-     * // Create many TimeSlots
-     * const timeSlot = await prisma.timeSlot.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many TimeSlots and only return the `id`
-     * const timeSlotWithIdOnly = await prisma.timeSlot.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends TimeSlotCreateManyAndReturnArgs>(args?: SelectSubset<T, TimeSlotCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TimeSlotPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a TimeSlot.
-     * @param {TimeSlotDeleteArgs} args - Arguments to delete one TimeSlot.
-     * @example
-     * // Delete one TimeSlot
-     * const TimeSlot = await prisma.timeSlot.delete({
-     *   where: {
-     *     // ... filter to delete one TimeSlot
-     *   }
-     * })
-     * 
-     */
-    delete<T extends TimeSlotDeleteArgs>(args: SelectSubset<T, TimeSlotDeleteArgs<ExtArgs>>): Prisma__TimeSlotClient<$Result.GetResult<Prisma.$TimeSlotPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one TimeSlot.
-     * @param {TimeSlotUpdateArgs} args - Arguments to update one TimeSlot.
-     * @example
-     * // Update one TimeSlot
-     * const timeSlot = await prisma.timeSlot.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends TimeSlotUpdateArgs>(args: SelectSubset<T, TimeSlotUpdateArgs<ExtArgs>>): Prisma__TimeSlotClient<$Result.GetResult<Prisma.$TimeSlotPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more TimeSlots.
-     * @param {TimeSlotDeleteManyArgs} args - Arguments to filter TimeSlots to delete.
-     * @example
-     * // Delete a few TimeSlots
-     * const { count } = await prisma.timeSlot.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends TimeSlotDeleteManyArgs>(args?: SelectSubset<T, TimeSlotDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more TimeSlots.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {TimeSlotUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many TimeSlots
-     * const timeSlot = await prisma.timeSlot.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends TimeSlotUpdateManyArgs>(args: SelectSubset<T, TimeSlotUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more TimeSlots and returns the data updated in the database.
-     * @param {TimeSlotUpdateManyAndReturnArgs} args - Arguments to update many TimeSlots.
-     * @example
-     * // Update many TimeSlots
-     * const timeSlot = await prisma.timeSlot.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more TimeSlots and only return the `id`
-     * const timeSlotWithIdOnly = await prisma.timeSlot.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends TimeSlotUpdateManyAndReturnArgs>(args: SelectSubset<T, TimeSlotUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TimeSlotPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one TimeSlot.
-     * @param {TimeSlotUpsertArgs} args - Arguments to update or create a TimeSlot.
-     * @example
-     * // Update or create a TimeSlot
-     * const timeSlot = await prisma.timeSlot.upsert({
-     *   create: {
-     *     // ... data to create a TimeSlot
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the TimeSlot we want to update
-     *   }
-     * })
-     */
-    upsert<T extends TimeSlotUpsertArgs>(args: SelectSubset<T, TimeSlotUpsertArgs<ExtArgs>>): Prisma__TimeSlotClient<$Result.GetResult<Prisma.$TimeSlotPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of TimeSlots.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {TimeSlotCountArgs} args - Arguments to filter TimeSlots to count.
-     * @example
-     * // Count the number of TimeSlots
-     * const count = await prisma.timeSlot.count({
-     *   where: {
-     *     // ... the filter for the TimeSlots we want to count
-     *   }
-     * })
-    **/
-    count<T extends TimeSlotCountArgs>(
-      args?: Subset<T, TimeSlotCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], TimeSlotCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a TimeSlot.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {TimeSlotAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends TimeSlotAggregateArgs>(args: Subset<T, TimeSlotAggregateArgs>): Prisma.PrismaPromise<GetTimeSlotAggregateType<T>>
-
-    /**
-     * Group by TimeSlot.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {TimeSlotGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends TimeSlotGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: TimeSlotGroupByArgs['orderBy'] }
-        : { orderBy?: TimeSlotGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, TimeSlotGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTimeSlotGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the TimeSlot model
-   */
-  readonly fields: TimeSlotFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for TimeSlot.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__TimeSlotClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    assignments<T extends TimeSlot$assignmentsArgs<ExtArgs> = {}>(args?: Subset<T, TimeSlot$assignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScheduleAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the TimeSlot model
-   */
-  interface TimeSlotFieldRefs {
-    readonly id: FieldRef<"TimeSlot", 'String'>
-    readonly dayOfWeek: FieldRef<"TimeSlot", 'String'>
-    readonly startTime: FieldRef<"TimeSlot", 'String'>
-    readonly endTime: FieldRef<"TimeSlot", 'String'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * TimeSlot findUnique
-   */
-  export type TimeSlotFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the TimeSlot
-     */
-    select?: TimeSlotSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the TimeSlot
-     */
-    omit?: TimeSlotOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: TimeSlotInclude<ExtArgs> | null
-    /**
-     * Filter, which TimeSlot to fetch.
-     */
-    where: TimeSlotWhereUniqueInput
-  }
-
-  /**
-   * TimeSlot findUniqueOrThrow
-   */
-  export type TimeSlotFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the TimeSlot
-     */
-    select?: TimeSlotSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the TimeSlot
-     */
-    omit?: TimeSlotOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: TimeSlotInclude<ExtArgs> | null
-    /**
-     * Filter, which TimeSlot to fetch.
-     */
-    where: TimeSlotWhereUniqueInput
-  }
-
-  /**
-   * TimeSlot findFirst
-   */
-  export type TimeSlotFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the TimeSlot
-     */
-    select?: TimeSlotSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the TimeSlot
-     */
-    omit?: TimeSlotOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: TimeSlotInclude<ExtArgs> | null
-    /**
-     * Filter, which TimeSlot to fetch.
-     */
-    where?: TimeSlotWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of TimeSlots to fetch.
-     */
-    orderBy?: TimeSlotOrderByWithRelationInput | TimeSlotOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for TimeSlots.
-     */
-    cursor?: TimeSlotWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` TimeSlots from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` TimeSlots.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of TimeSlots.
-     */
-    distinct?: TimeSlotScalarFieldEnum | TimeSlotScalarFieldEnum[]
-  }
-
-  /**
-   * TimeSlot findFirstOrThrow
-   */
-  export type TimeSlotFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the TimeSlot
-     */
-    select?: TimeSlotSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the TimeSlot
-     */
-    omit?: TimeSlotOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: TimeSlotInclude<ExtArgs> | null
-    /**
-     * Filter, which TimeSlot to fetch.
-     */
-    where?: TimeSlotWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of TimeSlots to fetch.
-     */
-    orderBy?: TimeSlotOrderByWithRelationInput | TimeSlotOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for TimeSlots.
-     */
-    cursor?: TimeSlotWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` TimeSlots from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` TimeSlots.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of TimeSlots.
-     */
-    distinct?: TimeSlotScalarFieldEnum | TimeSlotScalarFieldEnum[]
-  }
-
-  /**
-   * TimeSlot findMany
-   */
-  export type TimeSlotFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the TimeSlot
-     */
-    select?: TimeSlotSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the TimeSlot
-     */
-    omit?: TimeSlotOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: TimeSlotInclude<ExtArgs> | null
-    /**
-     * Filter, which TimeSlots to fetch.
-     */
-    where?: TimeSlotWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of TimeSlots to fetch.
-     */
-    orderBy?: TimeSlotOrderByWithRelationInput | TimeSlotOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing TimeSlots.
-     */
-    cursor?: TimeSlotWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` TimeSlots from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` TimeSlots.
-     */
-    skip?: number
-    distinct?: TimeSlotScalarFieldEnum | TimeSlotScalarFieldEnum[]
-  }
-
-  /**
-   * TimeSlot create
-   */
-  export type TimeSlotCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the TimeSlot
-     */
-    select?: TimeSlotSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the TimeSlot
-     */
-    omit?: TimeSlotOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: TimeSlotInclude<ExtArgs> | null
-    /**
-     * The data needed to create a TimeSlot.
-     */
-    data: XOR<TimeSlotCreateInput, TimeSlotUncheckedCreateInput>
-  }
-
-  /**
-   * TimeSlot createMany
-   */
-  export type TimeSlotCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many TimeSlots.
-     */
-    data: TimeSlotCreateManyInput | TimeSlotCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * TimeSlot createManyAndReturn
-   */
-  export type TimeSlotCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the TimeSlot
-     */
-    select?: TimeSlotSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the TimeSlot
-     */
-    omit?: TimeSlotOmit<ExtArgs> | null
-    /**
-     * The data used to create many TimeSlots.
-     */
-    data: TimeSlotCreateManyInput | TimeSlotCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * TimeSlot update
-   */
-  export type TimeSlotUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the TimeSlot
-     */
-    select?: TimeSlotSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the TimeSlot
-     */
-    omit?: TimeSlotOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: TimeSlotInclude<ExtArgs> | null
-    /**
-     * The data needed to update a TimeSlot.
-     */
-    data: XOR<TimeSlotUpdateInput, TimeSlotUncheckedUpdateInput>
-    /**
-     * Choose, which TimeSlot to update.
-     */
-    where: TimeSlotWhereUniqueInput
-  }
-
-  /**
-   * TimeSlot updateMany
-   */
-  export type TimeSlotUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update TimeSlots.
-     */
-    data: XOR<TimeSlotUpdateManyMutationInput, TimeSlotUncheckedUpdateManyInput>
-    /**
-     * Filter which TimeSlots to update
-     */
-    where?: TimeSlotWhereInput
-    /**
-     * Limit how many TimeSlots to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * TimeSlot updateManyAndReturn
-   */
-  export type TimeSlotUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the TimeSlot
-     */
-    select?: TimeSlotSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the TimeSlot
-     */
-    omit?: TimeSlotOmit<ExtArgs> | null
-    /**
-     * The data used to update TimeSlots.
-     */
-    data: XOR<TimeSlotUpdateManyMutationInput, TimeSlotUncheckedUpdateManyInput>
-    /**
-     * Filter which TimeSlots to update
-     */
-    where?: TimeSlotWhereInput
-    /**
-     * Limit how many TimeSlots to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * TimeSlot upsert
-   */
-  export type TimeSlotUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the TimeSlot
-     */
-    select?: TimeSlotSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the TimeSlot
-     */
-    omit?: TimeSlotOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: TimeSlotInclude<ExtArgs> | null
-    /**
-     * The filter to search for the TimeSlot to update in case it exists.
-     */
-    where: TimeSlotWhereUniqueInput
-    /**
-     * In case the TimeSlot found by the `where` argument doesn't exist, create a new TimeSlot with this data.
-     */
-    create: XOR<TimeSlotCreateInput, TimeSlotUncheckedCreateInput>
-    /**
-     * In case the TimeSlot was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<TimeSlotUpdateInput, TimeSlotUncheckedUpdateInput>
-  }
-
-  /**
-   * TimeSlot delete
-   */
-  export type TimeSlotDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the TimeSlot
-     */
-    select?: TimeSlotSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the TimeSlot
-     */
-    omit?: TimeSlotOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: TimeSlotInclude<ExtArgs> | null
-    /**
-     * Filter which TimeSlot to delete.
-     */
-    where: TimeSlotWhereUniqueInput
-  }
-
-  /**
-   * TimeSlot deleteMany
-   */
-  export type TimeSlotDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which TimeSlots to delete
-     */
-    where?: TimeSlotWhereInput
-    /**
-     * Limit how many TimeSlots to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * TimeSlot.assignments
-   */
-  export type TimeSlot$assignmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ScheduleAssignment
-     */
-    select?: ScheduleAssignmentSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ScheduleAssignment
-     */
-    omit?: ScheduleAssignmentOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ScheduleAssignmentInclude<ExtArgs> | null
-    where?: ScheduleAssignmentWhereInput
-    orderBy?: ScheduleAssignmentOrderByWithRelationInput | ScheduleAssignmentOrderByWithRelationInput[]
-    cursor?: ScheduleAssignmentWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: ScheduleAssignmentScalarFieldEnum | ScheduleAssignmentScalarFieldEnum[]
-  }
-
-  /**
-   * TimeSlot without action
-   */
-  export type TimeSlotDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the TimeSlot
-     */
-    select?: TimeSlotSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the TimeSlot
-     */
-    omit?: TimeSlotOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: TimeSlotInclude<ExtArgs> | null
-  }
-
-
-  /**
    * Model Course
    */
 
   export type AggregateCourse = {
     _count: CourseCountAggregateOutputType | null
+    _avg: CourseAvgAggregateOutputType | null
+    _sum: CourseSumAggregateOutputType | null
     _min: CourseMinAggregateOutputType | null
     _max: CourseMaxAggregateOutputType | null
   }
 
+  export type CourseAvgAggregateOutputType = {
+    credits: number | null
+    year: number | null
+  }
+
+  export type CourseSumAggregateOutputType = {
+    credits: number | null
+    year: number | null
+  }
+
   export type CourseMinAggregateOutputType = {
     id: string | null
+    code: string | null
     name: string | null
-    courseCode: string | null
-    departmentId: string | null
+    department: string | null
+    credits: number | null
+    year: number | null
+    section: string | null
+    batch: string | null
+    studentType: string | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type CourseMaxAggregateOutputType = {
     id: string | null
+    code: string | null
     name: string | null
-    courseCode: string | null
-    departmentId: string | null
+    department: string | null
+    credits: number | null
+    year: number | null
+    section: string | null
+    batch: string | null
+    studentType: string | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type CourseCountAggregateOutputType = {
     id: number
+    code: number
     name: number
-    courseCode: number
-    departmentId: number
+    department: number
+    credits: number
+    year: number
+    section: number
+    batch: number
+    studentType: number
+    isActive: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
 
+  export type CourseAvgAggregateInputType = {
+    credits?: true
+    year?: true
+  }
+
+  export type CourseSumAggregateInputType = {
+    credits?: true
+    year?: true
+  }
+
   export type CourseMinAggregateInputType = {
     id?: true
+    code?: true
     name?: true
-    courseCode?: true
-    departmentId?: true
+    department?: true
+    credits?: true
+    year?: true
+    section?: true
+    batch?: true
+    studentType?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type CourseMaxAggregateInputType = {
     id?: true
+    code?: true
     name?: true
-    courseCode?: true
-    departmentId?: true
+    department?: true
+    credits?: true
+    year?: true
+    section?: true
+    batch?: true
+    studentType?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type CourseCountAggregateInputType = {
     id?: true
+    code?: true
     name?: true
-    courseCode?: true
-    departmentId?: true
+    department?: true
+    credits?: true
+    year?: true
+    section?: true
+    batch?: true
+    studentType?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -7267,6 +3089,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: CourseAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CourseSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: CourseMinAggregateInputType
@@ -7297,16 +3131,28 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: CourseCountAggregateInputType | true
+    _avg?: CourseAvgAggregateInputType
+    _sum?: CourseSumAggregateInputType
     _min?: CourseMinAggregateInputType
     _max?: CourseMaxAggregateInputType
   }
 
   export type CourseGroupByOutputType = {
     id: string
+    code: string
     name: string
-    courseCode: string
-    departmentId: string
+    department: string
+    credits: number
+    year: number
+    section: string
+    batch: string
+    studentType: string
+    isActive: boolean
+    createdAt: Date
+    updatedAt: Date
     _count: CourseCountAggregateOutputType | null
+    _avg: CourseAvgAggregateOutputType | null
+    _sum: CourseSumAggregateOutputType | null
     _min: CourseMinAggregateOutputType | null
     _max: CourseMaxAggregateOutputType | null
   }
@@ -7327,61 +3173,95 @@ export namespace Prisma {
 
   export type CourseSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    code?: boolean
     name?: boolean
-    courseCode?: boolean
-    departmentId?: boolean
-    department?: boolean | DepartmentDefaultArgs<ExtArgs>
-    courseOfferings?: boolean | Course$courseOfferingsArgs<ExtArgs>
+    department?: boolean
+    credits?: boolean
+    year?: boolean
+    section?: boolean
+    batch?: boolean
+    studentType?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    CourseOfferings?: boolean | Course$CourseOfferingsArgs<ExtArgs>
+    ScheduleAssignment?: boolean | Course$ScheduleAssignmentArgs<ExtArgs>
     _count?: boolean | CourseCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["course"]>
 
   export type CourseSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    code?: boolean
     name?: boolean
-    courseCode?: boolean
-    departmentId?: boolean
-    department?: boolean | DepartmentDefaultArgs<ExtArgs>
+    department?: boolean
+    credits?: boolean
+    year?: boolean
+    section?: boolean
+    batch?: boolean
+    studentType?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }, ExtArgs["result"]["course"]>
 
   export type CourseSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    code?: boolean
     name?: boolean
-    courseCode?: boolean
-    departmentId?: boolean
-    department?: boolean | DepartmentDefaultArgs<ExtArgs>
+    department?: boolean
+    credits?: boolean
+    year?: boolean
+    section?: boolean
+    batch?: boolean
+    studentType?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }, ExtArgs["result"]["course"]>
 
   export type CourseSelectScalar = {
     id?: boolean
+    code?: boolean
     name?: boolean
-    courseCode?: boolean
-    departmentId?: boolean
+    department?: boolean
+    credits?: boolean
+    year?: boolean
+    section?: boolean
+    batch?: boolean
+    studentType?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type CourseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "courseCode" | "departmentId", ExtArgs["result"]["course"]>
+  export type CourseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "name" | "department" | "credits" | "year" | "section" | "batch" | "studentType" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["course"]>
   export type CourseInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    department?: boolean | DepartmentDefaultArgs<ExtArgs>
-    courseOfferings?: boolean | Course$courseOfferingsArgs<ExtArgs>
+    CourseOfferings?: boolean | Course$CourseOfferingsArgs<ExtArgs>
+    ScheduleAssignment?: boolean | Course$ScheduleAssignmentArgs<ExtArgs>
     _count?: boolean | CourseCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type CourseIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    department?: boolean | DepartmentDefaultArgs<ExtArgs>
-  }
-  export type CourseIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    department?: boolean | DepartmentDefaultArgs<ExtArgs>
-  }
+  export type CourseIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type CourseIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
   export type $CoursePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Course"
     objects: {
-      department: Prisma.$DepartmentPayload<ExtArgs>
-      courseOfferings: Prisma.$CourseOfferingPayload<ExtArgs>[]
+      CourseOfferings: Prisma.$CourseOfferingPayload<ExtArgs>[]
+      ScheduleAssignment: Prisma.$ScheduleAssignmentPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
+      code: string
       name: string
-      courseCode: string
-      departmentId: string
+      department: string
+      credits: number
+      year: number
+      section: string
+      batch: string
+      studentType: string
+      isActive: boolean
+      createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["course"]>
     composites: {}
   }
@@ -7776,8 +3656,8 @@ export namespace Prisma {
    */
   export interface Prisma__CourseClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    department<T extends DepartmentDefaultArgs<ExtArgs> = {}>(args?: Subset<T, DepartmentDefaultArgs<ExtArgs>>): Prisma__DepartmentClient<$Result.GetResult<Prisma.$DepartmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    courseOfferings<T extends Course$courseOfferingsArgs<ExtArgs> = {}>(args?: Subset<T, Course$courseOfferingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CourseOfferingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    CourseOfferings<T extends Course$CourseOfferingsArgs<ExtArgs> = {}>(args?: Subset<T, Course$CourseOfferingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CourseOfferingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    ScheduleAssignment<T extends Course$ScheduleAssignmentArgs<ExtArgs> = {}>(args?: Subset<T, Course$ScheduleAssignmentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScheduleAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7808,9 +3688,17 @@ export namespace Prisma {
    */
   interface CourseFieldRefs {
     readonly id: FieldRef<"Course", 'String'>
+    readonly code: FieldRef<"Course", 'String'>
     readonly name: FieldRef<"Course", 'String'>
-    readonly courseCode: FieldRef<"Course", 'String'>
-    readonly departmentId: FieldRef<"Course", 'String'>
+    readonly department: FieldRef<"Course", 'String'>
+    readonly credits: FieldRef<"Course", 'Int'>
+    readonly year: FieldRef<"Course", 'Int'>
+    readonly section: FieldRef<"Course", 'String'>
+    readonly batch: FieldRef<"Course", 'String'>
+    readonly studentType: FieldRef<"Course", 'String'>
+    readonly isActive: FieldRef<"Course", 'Boolean'>
+    readonly createdAt: FieldRef<"Course", 'DateTime'>
+    readonly updatedAt: FieldRef<"Course", 'DateTime'>
   }
     
 
@@ -8060,10 +3948,6 @@ export namespace Prisma {
      */
     data: CourseCreateManyInput | CourseCreateManyInput[]
     skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CourseIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -8134,10 +4018,6 @@ export namespace Prisma {
      * Limit how many Courses to update.
      */
     limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CourseIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -8207,9 +4087,9 @@ export namespace Prisma {
   }
 
   /**
-   * Course.courseOfferings
+   * Course.CourseOfferings
    */
-  export type Course$courseOfferingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Course$CourseOfferingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the CourseOffering
      */
@@ -8228,6 +4108,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: CourseOfferingScalarFieldEnum | CourseOfferingScalarFieldEnum[]
+  }
+
+  /**
+   * Course.ScheduleAssignment
+   */
+  export type Course$ScheduleAssignmentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScheduleAssignment
+     */
+    select?: ScheduleAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScheduleAssignment
+     */
+    omit?: ScheduleAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduleAssignmentInclude<ExtArgs> | null
+    where?: ScheduleAssignmentWhereInput
+    orderBy?: ScheduleAssignmentOrderByWithRelationInput | ScheduleAssignmentOrderByWithRelationInput[]
+    cursor?: ScheduleAssignmentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ScheduleAssignmentScalarFieldEnum | ScheduleAssignmentScalarFieldEnum[]
   }
 
   /**
@@ -8263,10 +4167,14 @@ export namespace Prisma {
 
   export type CourseOfferingAvgAggregateOutputType = {
     year: number | null
+    totalSections: number | null
+    requiredLabSize: number | null
   }
 
   export type CourseOfferingSumAggregateOutputType = {
     year: number | null
+    totalSections: number | null
+    requiredLabSize: number | null
   }
 
   export type CourseOfferingMinAggregateOutputType = {
@@ -8274,6 +4182,11 @@ export namespace Prisma {
     courseId: string | null
     semester: string | null
     year: number | null
+    totalSections: number | null
+    requiredLabSize: number | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type CourseOfferingMaxAggregateOutputType = {
@@ -8281,6 +4194,11 @@ export namespace Prisma {
     courseId: string | null
     semester: string | null
     year: number | null
+    totalSections: number | null
+    requiredLabSize: number | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type CourseOfferingCountAggregateOutputType = {
@@ -8288,16 +4206,25 @@ export namespace Prisma {
     courseId: number
     semester: number
     year: number
+    totalSections: number
+    requiredLabSize: number
+    isActive: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
 
   export type CourseOfferingAvgAggregateInputType = {
     year?: true
+    totalSections?: true
+    requiredLabSize?: true
   }
 
   export type CourseOfferingSumAggregateInputType = {
     year?: true
+    totalSections?: true
+    requiredLabSize?: true
   }
 
   export type CourseOfferingMinAggregateInputType = {
@@ -8305,6 +4232,11 @@ export namespace Prisma {
     courseId?: true
     semester?: true
     year?: true
+    totalSections?: true
+    requiredLabSize?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type CourseOfferingMaxAggregateInputType = {
@@ -8312,6 +4244,11 @@ export namespace Prisma {
     courseId?: true
     semester?: true
     year?: true
+    totalSections?: true
+    requiredLabSize?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type CourseOfferingCountAggregateInputType = {
@@ -8319,6 +4256,11 @@ export namespace Prisma {
     courseId?: true
     semester?: true
     year?: true
+    totalSections?: true
+    requiredLabSize?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -8413,6 +4355,11 @@ export namespace Prisma {
     courseId: string
     semester: string
     year: number
+    totalSections: number
+    requiredLabSize: number
+    isActive: boolean
+    createdAt: Date
+    updatedAt: Date
     _count: CourseOfferingCountAggregateOutputType | null
     _avg: CourseOfferingAvgAggregateOutputType | null
     _sum: CourseOfferingSumAggregateOutputType | null
@@ -8439,9 +4386,12 @@ export namespace Prisma {
     courseId?: boolean
     semester?: boolean
     year?: boolean
+    totalSections?: boolean
+    requiredLabSize?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     course?: boolean | CourseDefaultArgs<ExtArgs>
-    sections?: boolean | CourseOffering$sectionsArgs<ExtArgs>
-    _count?: boolean | CourseOfferingCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["courseOffering"]>
 
   export type CourseOfferingSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -8449,6 +4399,11 @@ export namespace Prisma {
     courseId?: boolean
     semester?: boolean
     year?: boolean
+    totalSections?: boolean
+    requiredLabSize?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     course?: boolean | CourseDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["courseOffering"]>
 
@@ -8457,6 +4412,11 @@ export namespace Prisma {
     courseId?: boolean
     semester?: boolean
     year?: boolean
+    totalSections?: boolean
+    requiredLabSize?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     course?: boolean | CourseDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["courseOffering"]>
 
@@ -8465,13 +4425,16 @@ export namespace Prisma {
     courseId?: boolean
     semester?: boolean
     year?: boolean
+    totalSections?: boolean
+    requiredLabSize?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type CourseOfferingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "courseId" | "semester" | "year", ExtArgs["result"]["courseOffering"]>
+  export type CourseOfferingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "courseId" | "semester" | "year" | "totalSections" | "requiredLabSize" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["courseOffering"]>
   export type CourseOfferingInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     course?: boolean | CourseDefaultArgs<ExtArgs>
-    sections?: boolean | CourseOffering$sectionsArgs<ExtArgs>
-    _count?: boolean | CourseOfferingCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CourseOfferingIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     course?: boolean | CourseDefaultArgs<ExtArgs>
@@ -8484,13 +4447,17 @@ export namespace Prisma {
     name: "CourseOffering"
     objects: {
       course: Prisma.$CoursePayload<ExtArgs>
-      sections: Prisma.$SectionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       courseId: string
       semester: string
       year: number
+      totalSections: number
+      requiredLabSize: number
+      isActive: boolean
+      createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["courseOffering"]>
     composites: {}
   }
@@ -8886,7 +4853,6 @@ export namespace Prisma {
   export interface Prisma__CourseOfferingClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     course<T extends CourseDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CourseDefaultArgs<ExtArgs>>): Prisma__CourseClient<$Result.GetResult<Prisma.$CoursePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    sections<T extends CourseOffering$sectionsArgs<ExtArgs> = {}>(args?: Subset<T, CourseOffering$sectionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8920,6 +4886,11 @@ export namespace Prisma {
     readonly courseId: FieldRef<"CourseOffering", 'String'>
     readonly semester: FieldRef<"CourseOffering", 'String'>
     readonly year: FieldRef<"CourseOffering", 'Int'>
+    readonly totalSections: FieldRef<"CourseOffering", 'Int'>
+    readonly requiredLabSize: FieldRef<"CourseOffering", 'Int'>
+    readonly isActive: FieldRef<"CourseOffering", 'Boolean'>
+    readonly createdAt: FieldRef<"CourseOffering", 'DateTime'>
+    readonly updatedAt: FieldRef<"CourseOffering", 'DateTime'>
   }
     
 
@@ -9316,30 +5287,6 @@ export namespace Prisma {
   }
 
   /**
-   * CourseOffering.sections
-   */
-  export type CourseOffering$sectionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Section
-     */
-    select?: SectionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Section
-     */
-    omit?: SectionOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SectionInclude<ExtArgs> | null
-    where?: SectionWhereInput
-    orderBy?: SectionOrderByWithRelationInput | SectionOrderByWithRelationInput[]
-    cursor?: SectionWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: SectionScalarFieldEnum | SectionScalarFieldEnum[]
-  }
-
-  /**
    * CourseOffering without action
    */
   export type CourseOfferingDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9371,63 +5318,91 @@ export namespace Prisma {
   }
 
   export type SectionAvgAggregateOutputType = {
-    requiredLabSize: number | null
+    year: number | null
+    capacity: number | null
   }
 
   export type SectionSumAggregateOutputType = {
-    requiredLabSize: number | null
+    year: number | null
+    capacity: number | null
   }
 
   export type SectionMinAggregateOutputType = {
     id: string | null
-    sectionNumber: string | null
-    requiredLabSize: number | null
-    courseOfferingId: string | null
+    name: string | null
+    year: number | null
+    department: string | null
+    capacity: number | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type SectionMaxAggregateOutputType = {
     id: string | null
-    sectionNumber: string | null
-    requiredLabSize: number | null
-    courseOfferingId: string | null
+    name: string | null
+    year: number | null
+    department: string | null
+    capacity: number | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type SectionCountAggregateOutputType = {
     id: number
-    sectionNumber: number
-    requiredLabSize: number
-    courseOfferingId: number
+    name: number
+    year: number
+    department: number
+    capacity: number
+    isActive: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
 
   export type SectionAvgAggregateInputType = {
-    requiredLabSize?: true
+    year?: true
+    capacity?: true
   }
 
   export type SectionSumAggregateInputType = {
-    requiredLabSize?: true
+    year?: true
+    capacity?: true
   }
 
   export type SectionMinAggregateInputType = {
     id?: true
-    sectionNumber?: true
-    requiredLabSize?: true
-    courseOfferingId?: true
+    name?: true
+    year?: true
+    department?: true
+    capacity?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type SectionMaxAggregateInputType = {
     id?: true
-    sectionNumber?: true
-    requiredLabSize?: true
-    courseOfferingId?: true
+    name?: true
+    year?: true
+    department?: true
+    capacity?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type SectionCountAggregateInputType = {
     id?: true
-    sectionNumber?: true
-    requiredLabSize?: true
-    courseOfferingId?: true
+    name?: true
+    year?: true
+    department?: true
+    capacity?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -9519,9 +5494,13 @@ export namespace Prisma {
 
   export type SectionGroupByOutputType = {
     id: string
-    sectionNumber: string
-    requiredLabSize: number
-    courseOfferingId: string
+    name: string
+    year: number
+    department: string
+    capacity: number
+    isActive: boolean
+    createdAt: Date
+    updatedAt: Date
     _count: SectionCountAggregateOutputType | null
     _avg: SectionAvgAggregateOutputType | null
     _sum: SectionSumAggregateOutputType | null
@@ -9545,59 +5524,75 @@ export namespace Prisma {
 
   export type SectionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    sectionNumber?: boolean
-    requiredLabSize?: boolean
-    courseOfferingId?: boolean
-    courseOffering?: boolean | CourseOfferingDefaultArgs<ExtArgs>
-    assignment?: boolean | Section$assignmentArgs<ExtArgs>
+    name?: boolean
+    year?: boolean
+    department?: boolean
+    capacity?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    Groups?: boolean | Section$GroupsArgs<ExtArgs>
+    ScheduleAssignment?: boolean | Section$ScheduleAssignmentArgs<ExtArgs>
+    _count?: boolean | SectionCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["section"]>
 
   export type SectionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    sectionNumber?: boolean
-    requiredLabSize?: boolean
-    courseOfferingId?: boolean
-    courseOffering?: boolean | CourseOfferingDefaultArgs<ExtArgs>
+    name?: boolean
+    year?: boolean
+    department?: boolean
+    capacity?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }, ExtArgs["result"]["section"]>
 
   export type SectionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    sectionNumber?: boolean
-    requiredLabSize?: boolean
-    courseOfferingId?: boolean
-    courseOffering?: boolean | CourseOfferingDefaultArgs<ExtArgs>
+    name?: boolean
+    year?: boolean
+    department?: boolean
+    capacity?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }, ExtArgs["result"]["section"]>
 
   export type SectionSelectScalar = {
     id?: boolean
-    sectionNumber?: boolean
-    requiredLabSize?: boolean
-    courseOfferingId?: boolean
+    name?: boolean
+    year?: boolean
+    department?: boolean
+    capacity?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type SectionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "sectionNumber" | "requiredLabSize" | "courseOfferingId", ExtArgs["result"]["section"]>
+  export type SectionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "year" | "department" | "capacity" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["section"]>
   export type SectionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    courseOffering?: boolean | CourseOfferingDefaultArgs<ExtArgs>
-    assignment?: boolean | Section$assignmentArgs<ExtArgs>
+    Groups?: boolean | Section$GroupsArgs<ExtArgs>
+    ScheduleAssignment?: boolean | Section$ScheduleAssignmentArgs<ExtArgs>
+    _count?: boolean | SectionCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type SectionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    courseOffering?: boolean | CourseOfferingDefaultArgs<ExtArgs>
-  }
-  export type SectionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    courseOffering?: boolean | CourseOfferingDefaultArgs<ExtArgs>
-  }
+  export type SectionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type SectionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
   export type $SectionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Section"
     objects: {
-      courseOffering: Prisma.$CourseOfferingPayload<ExtArgs>
-      assignment: Prisma.$ScheduleAssignmentPayload<ExtArgs> | null
+      Groups: Prisma.$GroupPayload<ExtArgs>[]
+      ScheduleAssignment: Prisma.$ScheduleAssignmentPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      sectionNumber: string
-      requiredLabSize: number
-      courseOfferingId: string
+      name: string
+      year: number
+      department: string
+      capacity: number
+      isActive: boolean
+      createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["section"]>
     composites: {}
   }
@@ -9992,8 +5987,8 @@ export namespace Prisma {
    */
   export interface Prisma__SectionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    courseOffering<T extends CourseOfferingDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CourseOfferingDefaultArgs<ExtArgs>>): Prisma__CourseOfferingClient<$Result.GetResult<Prisma.$CourseOfferingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    assignment<T extends Section$assignmentArgs<ExtArgs> = {}>(args?: Subset<T, Section$assignmentArgs<ExtArgs>>): Prisma__ScheduleAssignmentClient<$Result.GetResult<Prisma.$ScheduleAssignmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    Groups<T extends Section$GroupsArgs<ExtArgs> = {}>(args?: Subset<T, Section$GroupsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GroupPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    ScheduleAssignment<T extends Section$ScheduleAssignmentArgs<ExtArgs> = {}>(args?: Subset<T, Section$ScheduleAssignmentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScheduleAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -10024,9 +6019,13 @@ export namespace Prisma {
    */
   interface SectionFieldRefs {
     readonly id: FieldRef<"Section", 'String'>
-    readonly sectionNumber: FieldRef<"Section", 'String'>
-    readonly requiredLabSize: FieldRef<"Section", 'Int'>
-    readonly courseOfferingId: FieldRef<"Section", 'String'>
+    readonly name: FieldRef<"Section", 'String'>
+    readonly year: FieldRef<"Section", 'Int'>
+    readonly department: FieldRef<"Section", 'String'>
+    readonly capacity: FieldRef<"Section", 'Int'>
+    readonly isActive: FieldRef<"Section", 'Boolean'>
+    readonly createdAt: FieldRef<"Section", 'DateTime'>
+    readonly updatedAt: FieldRef<"Section", 'DateTime'>
   }
     
 
@@ -10276,10 +6275,6 @@ export namespace Prisma {
      */
     data: SectionCreateManyInput | SectionCreateManyInput[]
     skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SectionIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -10350,10 +6345,6 @@ export namespace Prisma {
      * Limit how many Sections to update.
      */
     limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SectionIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -10423,9 +6414,33 @@ export namespace Prisma {
   }
 
   /**
-   * Section.assignment
+   * Section.Groups
    */
-  export type Section$assignmentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Section$GroupsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Group
+     */
+    select?: GroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Group
+     */
+    omit?: GroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GroupInclude<ExtArgs> | null
+    where?: GroupWhereInput
+    orderBy?: GroupOrderByWithRelationInput | GroupOrderByWithRelationInput[]
+    cursor?: GroupWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: GroupScalarFieldEnum | GroupScalarFieldEnum[]
+  }
+
+  /**
+   * Section.ScheduleAssignment
+   */
+  export type Section$ScheduleAssignmentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ScheduleAssignment
      */
@@ -10439,6 +6454,11 @@ export namespace Prisma {
      */
     include?: ScheduleAssignmentInclude<ExtArgs> | null
     where?: ScheduleAssignmentWhereInput
+    orderBy?: ScheduleAssignmentOrderByWithRelationInput | ScheduleAssignmentOrderByWithRelationInput[]
+    cursor?: ScheduleAssignmentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ScheduleAssignmentScalarFieldEnum | ScheduleAssignmentScalarFieldEnum[]
   }
 
   /**
@@ -10461,6 +6481,3398 @@ export namespace Prisma {
 
 
   /**
+   * Model Group
+   */
+
+  export type AggregateGroup = {
+    _count: GroupCountAggregateOutputType | null
+    _avg: GroupAvgAggregateOutputType | null
+    _sum: GroupSumAggregateOutputType | null
+    _min: GroupMinAggregateOutputType | null
+    _max: GroupMaxAggregateOutputType | null
+  }
+
+  export type GroupAvgAggregateOutputType = {
+    capacity: number | null
+  }
+
+  export type GroupSumAggregateOutputType = {
+    capacity: number | null
+  }
+
+  export type GroupMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    sectionId: string | null
+    capacity: number | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type GroupMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    sectionId: string | null
+    capacity: number | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type GroupCountAggregateOutputType = {
+    id: number
+    name: number
+    sectionId: number
+    capacity: number
+    isActive: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type GroupAvgAggregateInputType = {
+    capacity?: true
+  }
+
+  export type GroupSumAggregateInputType = {
+    capacity?: true
+  }
+
+  export type GroupMinAggregateInputType = {
+    id?: true
+    name?: true
+    sectionId?: true
+    capacity?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type GroupMaxAggregateInputType = {
+    id?: true
+    name?: true
+    sectionId?: true
+    capacity?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type GroupCountAggregateInputType = {
+    id?: true
+    name?: true
+    sectionId?: true
+    capacity?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type GroupAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Group to aggregate.
+     */
+    where?: GroupWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Groups to fetch.
+     */
+    orderBy?: GroupOrderByWithRelationInput | GroupOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: GroupWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Groups from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Groups.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Groups
+    **/
+    _count?: true | GroupCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: GroupAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: GroupSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: GroupMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: GroupMaxAggregateInputType
+  }
+
+  export type GetGroupAggregateType<T extends GroupAggregateArgs> = {
+        [P in keyof T & keyof AggregateGroup]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateGroup[P]>
+      : GetScalarType<T[P], AggregateGroup[P]>
+  }
+
+
+
+
+  export type GroupGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: GroupWhereInput
+    orderBy?: GroupOrderByWithAggregationInput | GroupOrderByWithAggregationInput[]
+    by: GroupScalarFieldEnum[] | GroupScalarFieldEnum
+    having?: GroupScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: GroupCountAggregateInputType | true
+    _avg?: GroupAvgAggregateInputType
+    _sum?: GroupSumAggregateInputType
+    _min?: GroupMinAggregateInputType
+    _max?: GroupMaxAggregateInputType
+  }
+
+  export type GroupGroupByOutputType = {
+    id: string
+    name: string
+    sectionId: string
+    capacity: number
+    isActive: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: GroupCountAggregateOutputType | null
+    _avg: GroupAvgAggregateOutputType | null
+    _sum: GroupSumAggregateOutputType | null
+    _min: GroupMinAggregateOutputType | null
+    _max: GroupMaxAggregateOutputType | null
+  }
+
+  type GetGroupGroupByPayload<T extends GroupGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<GroupGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof GroupGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], GroupGroupByOutputType[P]>
+            : GetScalarType<T[P], GroupGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type GroupSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    sectionId?: boolean
+    capacity?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    section?: boolean | SectionDefaultArgs<ExtArgs>
+    ScheduleAssignment?: boolean | Group$ScheduleAssignmentArgs<ExtArgs>
+    _count?: boolean | GroupCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["group"]>
+
+  export type GroupSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    sectionId?: boolean
+    capacity?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    section?: boolean | SectionDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["group"]>
+
+  export type GroupSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    sectionId?: boolean
+    capacity?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    section?: boolean | SectionDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["group"]>
+
+  export type GroupSelectScalar = {
+    id?: boolean
+    name?: boolean
+    sectionId?: boolean
+    capacity?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type GroupOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "sectionId" | "capacity" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["group"]>
+  export type GroupInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    section?: boolean | SectionDefaultArgs<ExtArgs>
+    ScheduleAssignment?: boolean | Group$ScheduleAssignmentArgs<ExtArgs>
+    _count?: boolean | GroupCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type GroupIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    section?: boolean | SectionDefaultArgs<ExtArgs>
+  }
+  export type GroupIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    section?: boolean | SectionDefaultArgs<ExtArgs>
+  }
+
+  export type $GroupPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Group"
+    objects: {
+      section: Prisma.$SectionPayload<ExtArgs>
+      ScheduleAssignment: Prisma.$ScheduleAssignmentPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      sectionId: string
+      capacity: number
+      isActive: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["group"]>
+    composites: {}
+  }
+
+  type GroupGetPayload<S extends boolean | null | undefined | GroupDefaultArgs> = $Result.GetResult<Prisma.$GroupPayload, S>
+
+  type GroupCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<GroupFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: GroupCountAggregateInputType | true
+    }
+
+  export interface GroupDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Group'], meta: { name: 'Group' } }
+    /**
+     * Find zero or one Group that matches the filter.
+     * @param {GroupFindUniqueArgs} args - Arguments to find a Group
+     * @example
+     * // Get one Group
+     * const group = await prisma.group.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends GroupFindUniqueArgs>(args: SelectSubset<T, GroupFindUniqueArgs<ExtArgs>>): Prisma__GroupClient<$Result.GetResult<Prisma.$GroupPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Group that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {GroupFindUniqueOrThrowArgs} args - Arguments to find a Group
+     * @example
+     * // Get one Group
+     * const group = await prisma.group.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends GroupFindUniqueOrThrowArgs>(args: SelectSubset<T, GroupFindUniqueOrThrowArgs<ExtArgs>>): Prisma__GroupClient<$Result.GetResult<Prisma.$GroupPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Group that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GroupFindFirstArgs} args - Arguments to find a Group
+     * @example
+     * // Get one Group
+     * const group = await prisma.group.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends GroupFindFirstArgs>(args?: SelectSubset<T, GroupFindFirstArgs<ExtArgs>>): Prisma__GroupClient<$Result.GetResult<Prisma.$GroupPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Group that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GroupFindFirstOrThrowArgs} args - Arguments to find a Group
+     * @example
+     * // Get one Group
+     * const group = await prisma.group.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends GroupFindFirstOrThrowArgs>(args?: SelectSubset<T, GroupFindFirstOrThrowArgs<ExtArgs>>): Prisma__GroupClient<$Result.GetResult<Prisma.$GroupPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Groups that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GroupFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Groups
+     * const groups = await prisma.group.findMany()
+     * 
+     * // Get first 10 Groups
+     * const groups = await prisma.group.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const groupWithIdOnly = await prisma.group.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends GroupFindManyArgs>(args?: SelectSubset<T, GroupFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GroupPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Group.
+     * @param {GroupCreateArgs} args - Arguments to create a Group.
+     * @example
+     * // Create one Group
+     * const Group = await prisma.group.create({
+     *   data: {
+     *     // ... data to create a Group
+     *   }
+     * })
+     * 
+     */
+    create<T extends GroupCreateArgs>(args: SelectSubset<T, GroupCreateArgs<ExtArgs>>): Prisma__GroupClient<$Result.GetResult<Prisma.$GroupPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Groups.
+     * @param {GroupCreateManyArgs} args - Arguments to create many Groups.
+     * @example
+     * // Create many Groups
+     * const group = await prisma.group.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends GroupCreateManyArgs>(args?: SelectSubset<T, GroupCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Groups and returns the data saved in the database.
+     * @param {GroupCreateManyAndReturnArgs} args - Arguments to create many Groups.
+     * @example
+     * // Create many Groups
+     * const group = await prisma.group.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Groups and only return the `id`
+     * const groupWithIdOnly = await prisma.group.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends GroupCreateManyAndReturnArgs>(args?: SelectSubset<T, GroupCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GroupPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Group.
+     * @param {GroupDeleteArgs} args - Arguments to delete one Group.
+     * @example
+     * // Delete one Group
+     * const Group = await prisma.group.delete({
+     *   where: {
+     *     // ... filter to delete one Group
+     *   }
+     * })
+     * 
+     */
+    delete<T extends GroupDeleteArgs>(args: SelectSubset<T, GroupDeleteArgs<ExtArgs>>): Prisma__GroupClient<$Result.GetResult<Prisma.$GroupPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Group.
+     * @param {GroupUpdateArgs} args - Arguments to update one Group.
+     * @example
+     * // Update one Group
+     * const group = await prisma.group.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends GroupUpdateArgs>(args: SelectSubset<T, GroupUpdateArgs<ExtArgs>>): Prisma__GroupClient<$Result.GetResult<Prisma.$GroupPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Groups.
+     * @param {GroupDeleteManyArgs} args - Arguments to filter Groups to delete.
+     * @example
+     * // Delete a few Groups
+     * const { count } = await prisma.group.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends GroupDeleteManyArgs>(args?: SelectSubset<T, GroupDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Groups.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GroupUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Groups
+     * const group = await prisma.group.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends GroupUpdateManyArgs>(args: SelectSubset<T, GroupUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Groups and returns the data updated in the database.
+     * @param {GroupUpdateManyAndReturnArgs} args - Arguments to update many Groups.
+     * @example
+     * // Update many Groups
+     * const group = await prisma.group.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Groups and only return the `id`
+     * const groupWithIdOnly = await prisma.group.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends GroupUpdateManyAndReturnArgs>(args: SelectSubset<T, GroupUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GroupPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Group.
+     * @param {GroupUpsertArgs} args - Arguments to update or create a Group.
+     * @example
+     * // Update or create a Group
+     * const group = await prisma.group.upsert({
+     *   create: {
+     *     // ... data to create a Group
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Group we want to update
+     *   }
+     * })
+     */
+    upsert<T extends GroupUpsertArgs>(args: SelectSubset<T, GroupUpsertArgs<ExtArgs>>): Prisma__GroupClient<$Result.GetResult<Prisma.$GroupPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Groups.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GroupCountArgs} args - Arguments to filter Groups to count.
+     * @example
+     * // Count the number of Groups
+     * const count = await prisma.group.count({
+     *   where: {
+     *     // ... the filter for the Groups we want to count
+     *   }
+     * })
+    **/
+    count<T extends GroupCountArgs>(
+      args?: Subset<T, GroupCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], GroupCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Group.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GroupAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends GroupAggregateArgs>(args: Subset<T, GroupAggregateArgs>): Prisma.PrismaPromise<GetGroupAggregateType<T>>
+
+    /**
+     * Group by Group.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GroupGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends GroupGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: GroupGroupByArgs['orderBy'] }
+        : { orderBy?: GroupGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, GroupGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetGroupGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Group model
+   */
+  readonly fields: GroupFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Group.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__GroupClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    section<T extends SectionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SectionDefaultArgs<ExtArgs>>): Prisma__SectionClient<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    ScheduleAssignment<T extends Group$ScheduleAssignmentArgs<ExtArgs> = {}>(args?: Subset<T, Group$ScheduleAssignmentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScheduleAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Group model
+   */
+  interface GroupFieldRefs {
+    readonly id: FieldRef<"Group", 'String'>
+    readonly name: FieldRef<"Group", 'String'>
+    readonly sectionId: FieldRef<"Group", 'String'>
+    readonly capacity: FieldRef<"Group", 'Int'>
+    readonly isActive: FieldRef<"Group", 'Boolean'>
+    readonly createdAt: FieldRef<"Group", 'DateTime'>
+    readonly updatedAt: FieldRef<"Group", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Group findUnique
+   */
+  export type GroupFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Group
+     */
+    select?: GroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Group
+     */
+    omit?: GroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GroupInclude<ExtArgs> | null
+    /**
+     * Filter, which Group to fetch.
+     */
+    where: GroupWhereUniqueInput
+  }
+
+  /**
+   * Group findUniqueOrThrow
+   */
+  export type GroupFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Group
+     */
+    select?: GroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Group
+     */
+    omit?: GroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GroupInclude<ExtArgs> | null
+    /**
+     * Filter, which Group to fetch.
+     */
+    where: GroupWhereUniqueInput
+  }
+
+  /**
+   * Group findFirst
+   */
+  export type GroupFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Group
+     */
+    select?: GroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Group
+     */
+    omit?: GroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GroupInclude<ExtArgs> | null
+    /**
+     * Filter, which Group to fetch.
+     */
+    where?: GroupWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Groups to fetch.
+     */
+    orderBy?: GroupOrderByWithRelationInput | GroupOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Groups.
+     */
+    cursor?: GroupWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Groups from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Groups.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Groups.
+     */
+    distinct?: GroupScalarFieldEnum | GroupScalarFieldEnum[]
+  }
+
+  /**
+   * Group findFirstOrThrow
+   */
+  export type GroupFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Group
+     */
+    select?: GroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Group
+     */
+    omit?: GroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GroupInclude<ExtArgs> | null
+    /**
+     * Filter, which Group to fetch.
+     */
+    where?: GroupWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Groups to fetch.
+     */
+    orderBy?: GroupOrderByWithRelationInput | GroupOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Groups.
+     */
+    cursor?: GroupWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Groups from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Groups.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Groups.
+     */
+    distinct?: GroupScalarFieldEnum | GroupScalarFieldEnum[]
+  }
+
+  /**
+   * Group findMany
+   */
+  export type GroupFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Group
+     */
+    select?: GroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Group
+     */
+    omit?: GroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GroupInclude<ExtArgs> | null
+    /**
+     * Filter, which Groups to fetch.
+     */
+    where?: GroupWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Groups to fetch.
+     */
+    orderBy?: GroupOrderByWithRelationInput | GroupOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Groups.
+     */
+    cursor?: GroupWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Groups from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Groups.
+     */
+    skip?: number
+    distinct?: GroupScalarFieldEnum | GroupScalarFieldEnum[]
+  }
+
+  /**
+   * Group create
+   */
+  export type GroupCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Group
+     */
+    select?: GroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Group
+     */
+    omit?: GroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GroupInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Group.
+     */
+    data: XOR<GroupCreateInput, GroupUncheckedCreateInput>
+  }
+
+  /**
+   * Group createMany
+   */
+  export type GroupCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Groups.
+     */
+    data: GroupCreateManyInput | GroupCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Group createManyAndReturn
+   */
+  export type GroupCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Group
+     */
+    select?: GroupSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Group
+     */
+    omit?: GroupOmit<ExtArgs> | null
+    /**
+     * The data used to create many Groups.
+     */
+    data: GroupCreateManyInput | GroupCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GroupIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Group update
+   */
+  export type GroupUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Group
+     */
+    select?: GroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Group
+     */
+    omit?: GroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GroupInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Group.
+     */
+    data: XOR<GroupUpdateInput, GroupUncheckedUpdateInput>
+    /**
+     * Choose, which Group to update.
+     */
+    where: GroupWhereUniqueInput
+  }
+
+  /**
+   * Group updateMany
+   */
+  export type GroupUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Groups.
+     */
+    data: XOR<GroupUpdateManyMutationInput, GroupUncheckedUpdateManyInput>
+    /**
+     * Filter which Groups to update
+     */
+    where?: GroupWhereInput
+    /**
+     * Limit how many Groups to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Group updateManyAndReturn
+   */
+  export type GroupUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Group
+     */
+    select?: GroupSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Group
+     */
+    omit?: GroupOmit<ExtArgs> | null
+    /**
+     * The data used to update Groups.
+     */
+    data: XOR<GroupUpdateManyMutationInput, GroupUncheckedUpdateManyInput>
+    /**
+     * Filter which Groups to update
+     */
+    where?: GroupWhereInput
+    /**
+     * Limit how many Groups to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GroupIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Group upsert
+   */
+  export type GroupUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Group
+     */
+    select?: GroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Group
+     */
+    omit?: GroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GroupInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Group to update in case it exists.
+     */
+    where: GroupWhereUniqueInput
+    /**
+     * In case the Group found by the `where` argument doesn't exist, create a new Group with this data.
+     */
+    create: XOR<GroupCreateInput, GroupUncheckedCreateInput>
+    /**
+     * In case the Group was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<GroupUpdateInput, GroupUncheckedUpdateInput>
+  }
+
+  /**
+   * Group delete
+   */
+  export type GroupDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Group
+     */
+    select?: GroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Group
+     */
+    omit?: GroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GroupInclude<ExtArgs> | null
+    /**
+     * Filter which Group to delete.
+     */
+    where: GroupWhereUniqueInput
+  }
+
+  /**
+   * Group deleteMany
+   */
+  export type GroupDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Groups to delete
+     */
+    where?: GroupWhereInput
+    /**
+     * Limit how many Groups to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Group.ScheduleAssignment
+   */
+  export type Group$ScheduleAssignmentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScheduleAssignment
+     */
+    select?: ScheduleAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScheduleAssignment
+     */
+    omit?: ScheduleAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduleAssignmentInclude<ExtArgs> | null
+    where?: ScheduleAssignmentWhereInput
+    orderBy?: ScheduleAssignmentOrderByWithRelationInput | ScheduleAssignmentOrderByWithRelationInput[]
+    cursor?: ScheduleAssignmentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ScheduleAssignmentScalarFieldEnum | ScheduleAssignmentScalarFieldEnum[]
+  }
+
+  /**
+   * Group without action
+   */
+  export type GroupDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Group
+     */
+    select?: GroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Group
+     */
+    omit?: GroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GroupInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model LabAssistant
+   */
+
+  export type AggregateLabAssistant = {
+    _count: LabAssistantCountAggregateOutputType | null
+    _min: LabAssistantMinAggregateOutputType | null
+    _max: LabAssistantMaxAggregateOutputType | null
+  }
+
+  export type LabAssistantMinAggregateOutputType = {
+    id: string | null
+    labAssistantId: string | null
+    username: string | null
+    firstName: string | null
+    lastName: string | null
+    email: string | null
+    password: string | null
+    department: string | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type LabAssistantMaxAggregateOutputType = {
+    id: string | null
+    labAssistantId: string | null
+    username: string | null
+    firstName: string | null
+    lastName: string | null
+    email: string | null
+    password: string | null
+    department: string | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type LabAssistantCountAggregateOutputType = {
+    id: number
+    labAssistantId: number
+    username: number
+    firstName: number
+    lastName: number
+    email: number
+    password: number
+    department: number
+    isActive: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type LabAssistantMinAggregateInputType = {
+    id?: true
+    labAssistantId?: true
+    username?: true
+    firstName?: true
+    lastName?: true
+    email?: true
+    password?: true
+    department?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type LabAssistantMaxAggregateInputType = {
+    id?: true
+    labAssistantId?: true
+    username?: true
+    firstName?: true
+    lastName?: true
+    email?: true
+    password?: true
+    department?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type LabAssistantCountAggregateInputType = {
+    id?: true
+    labAssistantId?: true
+    username?: true
+    firstName?: true
+    lastName?: true
+    email?: true
+    password?: true
+    department?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type LabAssistantAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LabAssistant to aggregate.
+     */
+    where?: LabAssistantWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LabAssistants to fetch.
+     */
+    orderBy?: LabAssistantOrderByWithRelationInput | LabAssistantOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: LabAssistantWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LabAssistants from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LabAssistants.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned LabAssistants
+    **/
+    _count?: true | LabAssistantCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: LabAssistantMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: LabAssistantMaxAggregateInputType
+  }
+
+  export type GetLabAssistantAggregateType<T extends LabAssistantAggregateArgs> = {
+        [P in keyof T & keyof AggregateLabAssistant]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateLabAssistant[P]>
+      : GetScalarType<T[P], AggregateLabAssistant[P]>
+  }
+
+
+
+
+  export type LabAssistantGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LabAssistantWhereInput
+    orderBy?: LabAssistantOrderByWithAggregationInput | LabAssistantOrderByWithAggregationInput[]
+    by: LabAssistantScalarFieldEnum[] | LabAssistantScalarFieldEnum
+    having?: LabAssistantScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: LabAssistantCountAggregateInputType | true
+    _min?: LabAssistantMinAggregateInputType
+    _max?: LabAssistantMaxAggregateInputType
+  }
+
+  export type LabAssistantGroupByOutputType = {
+    id: string
+    labAssistantId: string
+    username: string
+    firstName: string
+    lastName: string
+    email: string
+    password: string
+    department: string
+    isActive: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: LabAssistantCountAggregateOutputType | null
+    _min: LabAssistantMinAggregateOutputType | null
+    _max: LabAssistantMaxAggregateOutputType | null
+  }
+
+  type GetLabAssistantGroupByPayload<T extends LabAssistantGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<LabAssistantGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof LabAssistantGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], LabAssistantGroupByOutputType[P]>
+            : GetScalarType<T[P], LabAssistantGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type LabAssistantSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    labAssistantId?: boolean
+    username?: boolean
+    firstName?: boolean
+    lastName?: boolean
+    email?: boolean
+    password?: boolean
+    department?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    ScheduleAssignments?: boolean | LabAssistant$ScheduleAssignmentsArgs<ExtArgs>
+    _count?: boolean | LabAssistantCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["labAssistant"]>
+
+  export type LabAssistantSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    labAssistantId?: boolean
+    username?: boolean
+    firstName?: boolean
+    lastName?: boolean
+    email?: boolean
+    password?: boolean
+    department?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["labAssistant"]>
+
+  export type LabAssistantSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    labAssistantId?: boolean
+    username?: boolean
+    firstName?: boolean
+    lastName?: boolean
+    email?: boolean
+    password?: boolean
+    department?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["labAssistant"]>
+
+  export type LabAssistantSelectScalar = {
+    id?: boolean
+    labAssistantId?: boolean
+    username?: boolean
+    firstName?: boolean
+    lastName?: boolean
+    email?: boolean
+    password?: boolean
+    department?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type LabAssistantOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "labAssistantId" | "username" | "firstName" | "lastName" | "email" | "password" | "department" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["labAssistant"]>
+  export type LabAssistantInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    ScheduleAssignments?: boolean | LabAssistant$ScheduleAssignmentsArgs<ExtArgs>
+    _count?: boolean | LabAssistantCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type LabAssistantIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type LabAssistantIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $LabAssistantPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "LabAssistant"
+    objects: {
+      ScheduleAssignments: Prisma.$ScheduleAssignmentPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      labAssistantId: string
+      username: string
+      firstName: string
+      lastName: string
+      email: string
+      password: string
+      department: string
+      isActive: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["labAssistant"]>
+    composites: {}
+  }
+
+  type LabAssistantGetPayload<S extends boolean | null | undefined | LabAssistantDefaultArgs> = $Result.GetResult<Prisma.$LabAssistantPayload, S>
+
+  type LabAssistantCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<LabAssistantFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: LabAssistantCountAggregateInputType | true
+    }
+
+  export interface LabAssistantDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['LabAssistant'], meta: { name: 'LabAssistant' } }
+    /**
+     * Find zero or one LabAssistant that matches the filter.
+     * @param {LabAssistantFindUniqueArgs} args - Arguments to find a LabAssistant
+     * @example
+     * // Get one LabAssistant
+     * const labAssistant = await prisma.labAssistant.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends LabAssistantFindUniqueArgs>(args: SelectSubset<T, LabAssistantFindUniqueArgs<ExtArgs>>): Prisma__LabAssistantClient<$Result.GetResult<Prisma.$LabAssistantPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one LabAssistant that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {LabAssistantFindUniqueOrThrowArgs} args - Arguments to find a LabAssistant
+     * @example
+     * // Get one LabAssistant
+     * const labAssistant = await prisma.labAssistant.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends LabAssistantFindUniqueOrThrowArgs>(args: SelectSubset<T, LabAssistantFindUniqueOrThrowArgs<ExtArgs>>): Prisma__LabAssistantClient<$Result.GetResult<Prisma.$LabAssistantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LabAssistant that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LabAssistantFindFirstArgs} args - Arguments to find a LabAssistant
+     * @example
+     * // Get one LabAssistant
+     * const labAssistant = await prisma.labAssistant.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends LabAssistantFindFirstArgs>(args?: SelectSubset<T, LabAssistantFindFirstArgs<ExtArgs>>): Prisma__LabAssistantClient<$Result.GetResult<Prisma.$LabAssistantPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LabAssistant that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LabAssistantFindFirstOrThrowArgs} args - Arguments to find a LabAssistant
+     * @example
+     * // Get one LabAssistant
+     * const labAssistant = await prisma.labAssistant.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends LabAssistantFindFirstOrThrowArgs>(args?: SelectSubset<T, LabAssistantFindFirstOrThrowArgs<ExtArgs>>): Prisma__LabAssistantClient<$Result.GetResult<Prisma.$LabAssistantPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more LabAssistants that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LabAssistantFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all LabAssistants
+     * const labAssistants = await prisma.labAssistant.findMany()
+     * 
+     * // Get first 10 LabAssistants
+     * const labAssistants = await prisma.labAssistant.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const labAssistantWithIdOnly = await prisma.labAssistant.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends LabAssistantFindManyArgs>(args?: SelectSubset<T, LabAssistantFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LabAssistantPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a LabAssistant.
+     * @param {LabAssistantCreateArgs} args - Arguments to create a LabAssistant.
+     * @example
+     * // Create one LabAssistant
+     * const LabAssistant = await prisma.labAssistant.create({
+     *   data: {
+     *     // ... data to create a LabAssistant
+     *   }
+     * })
+     * 
+     */
+    create<T extends LabAssistantCreateArgs>(args: SelectSubset<T, LabAssistantCreateArgs<ExtArgs>>): Prisma__LabAssistantClient<$Result.GetResult<Prisma.$LabAssistantPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many LabAssistants.
+     * @param {LabAssistantCreateManyArgs} args - Arguments to create many LabAssistants.
+     * @example
+     * // Create many LabAssistants
+     * const labAssistant = await prisma.labAssistant.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends LabAssistantCreateManyArgs>(args?: SelectSubset<T, LabAssistantCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many LabAssistants and returns the data saved in the database.
+     * @param {LabAssistantCreateManyAndReturnArgs} args - Arguments to create many LabAssistants.
+     * @example
+     * // Create many LabAssistants
+     * const labAssistant = await prisma.labAssistant.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many LabAssistants and only return the `id`
+     * const labAssistantWithIdOnly = await prisma.labAssistant.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends LabAssistantCreateManyAndReturnArgs>(args?: SelectSubset<T, LabAssistantCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LabAssistantPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a LabAssistant.
+     * @param {LabAssistantDeleteArgs} args - Arguments to delete one LabAssistant.
+     * @example
+     * // Delete one LabAssistant
+     * const LabAssistant = await prisma.labAssistant.delete({
+     *   where: {
+     *     // ... filter to delete one LabAssistant
+     *   }
+     * })
+     * 
+     */
+    delete<T extends LabAssistantDeleteArgs>(args: SelectSubset<T, LabAssistantDeleteArgs<ExtArgs>>): Prisma__LabAssistantClient<$Result.GetResult<Prisma.$LabAssistantPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one LabAssistant.
+     * @param {LabAssistantUpdateArgs} args - Arguments to update one LabAssistant.
+     * @example
+     * // Update one LabAssistant
+     * const labAssistant = await prisma.labAssistant.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends LabAssistantUpdateArgs>(args: SelectSubset<T, LabAssistantUpdateArgs<ExtArgs>>): Prisma__LabAssistantClient<$Result.GetResult<Prisma.$LabAssistantPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more LabAssistants.
+     * @param {LabAssistantDeleteManyArgs} args - Arguments to filter LabAssistants to delete.
+     * @example
+     * // Delete a few LabAssistants
+     * const { count } = await prisma.labAssistant.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends LabAssistantDeleteManyArgs>(args?: SelectSubset<T, LabAssistantDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LabAssistants.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LabAssistantUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many LabAssistants
+     * const labAssistant = await prisma.labAssistant.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends LabAssistantUpdateManyArgs>(args: SelectSubset<T, LabAssistantUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LabAssistants and returns the data updated in the database.
+     * @param {LabAssistantUpdateManyAndReturnArgs} args - Arguments to update many LabAssistants.
+     * @example
+     * // Update many LabAssistants
+     * const labAssistant = await prisma.labAssistant.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more LabAssistants and only return the `id`
+     * const labAssistantWithIdOnly = await prisma.labAssistant.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends LabAssistantUpdateManyAndReturnArgs>(args: SelectSubset<T, LabAssistantUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LabAssistantPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one LabAssistant.
+     * @param {LabAssistantUpsertArgs} args - Arguments to update or create a LabAssistant.
+     * @example
+     * // Update or create a LabAssistant
+     * const labAssistant = await prisma.labAssistant.upsert({
+     *   create: {
+     *     // ... data to create a LabAssistant
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the LabAssistant we want to update
+     *   }
+     * })
+     */
+    upsert<T extends LabAssistantUpsertArgs>(args: SelectSubset<T, LabAssistantUpsertArgs<ExtArgs>>): Prisma__LabAssistantClient<$Result.GetResult<Prisma.$LabAssistantPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of LabAssistants.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LabAssistantCountArgs} args - Arguments to filter LabAssistants to count.
+     * @example
+     * // Count the number of LabAssistants
+     * const count = await prisma.labAssistant.count({
+     *   where: {
+     *     // ... the filter for the LabAssistants we want to count
+     *   }
+     * })
+    **/
+    count<T extends LabAssistantCountArgs>(
+      args?: Subset<T, LabAssistantCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], LabAssistantCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a LabAssistant.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LabAssistantAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends LabAssistantAggregateArgs>(args: Subset<T, LabAssistantAggregateArgs>): Prisma.PrismaPromise<GetLabAssistantAggregateType<T>>
+
+    /**
+     * Group by LabAssistant.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LabAssistantGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends LabAssistantGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: LabAssistantGroupByArgs['orderBy'] }
+        : { orderBy?: LabAssistantGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, LabAssistantGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLabAssistantGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the LabAssistant model
+   */
+  readonly fields: LabAssistantFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for LabAssistant.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__LabAssistantClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    ScheduleAssignments<T extends LabAssistant$ScheduleAssignmentsArgs<ExtArgs> = {}>(args?: Subset<T, LabAssistant$ScheduleAssignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScheduleAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the LabAssistant model
+   */
+  interface LabAssistantFieldRefs {
+    readonly id: FieldRef<"LabAssistant", 'String'>
+    readonly labAssistantId: FieldRef<"LabAssistant", 'String'>
+    readonly username: FieldRef<"LabAssistant", 'String'>
+    readonly firstName: FieldRef<"LabAssistant", 'String'>
+    readonly lastName: FieldRef<"LabAssistant", 'String'>
+    readonly email: FieldRef<"LabAssistant", 'String'>
+    readonly password: FieldRef<"LabAssistant", 'String'>
+    readonly department: FieldRef<"LabAssistant", 'String'>
+    readonly isActive: FieldRef<"LabAssistant", 'Boolean'>
+    readonly createdAt: FieldRef<"LabAssistant", 'DateTime'>
+    readonly updatedAt: FieldRef<"LabAssistant", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * LabAssistant findUnique
+   */
+  export type LabAssistantFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LabAssistant
+     */
+    select?: LabAssistantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LabAssistant
+     */
+    omit?: LabAssistantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LabAssistantInclude<ExtArgs> | null
+    /**
+     * Filter, which LabAssistant to fetch.
+     */
+    where: LabAssistantWhereUniqueInput
+  }
+
+  /**
+   * LabAssistant findUniqueOrThrow
+   */
+  export type LabAssistantFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LabAssistant
+     */
+    select?: LabAssistantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LabAssistant
+     */
+    omit?: LabAssistantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LabAssistantInclude<ExtArgs> | null
+    /**
+     * Filter, which LabAssistant to fetch.
+     */
+    where: LabAssistantWhereUniqueInput
+  }
+
+  /**
+   * LabAssistant findFirst
+   */
+  export type LabAssistantFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LabAssistant
+     */
+    select?: LabAssistantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LabAssistant
+     */
+    omit?: LabAssistantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LabAssistantInclude<ExtArgs> | null
+    /**
+     * Filter, which LabAssistant to fetch.
+     */
+    where?: LabAssistantWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LabAssistants to fetch.
+     */
+    orderBy?: LabAssistantOrderByWithRelationInput | LabAssistantOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LabAssistants.
+     */
+    cursor?: LabAssistantWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LabAssistants from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LabAssistants.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LabAssistants.
+     */
+    distinct?: LabAssistantScalarFieldEnum | LabAssistantScalarFieldEnum[]
+  }
+
+  /**
+   * LabAssistant findFirstOrThrow
+   */
+  export type LabAssistantFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LabAssistant
+     */
+    select?: LabAssistantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LabAssistant
+     */
+    omit?: LabAssistantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LabAssistantInclude<ExtArgs> | null
+    /**
+     * Filter, which LabAssistant to fetch.
+     */
+    where?: LabAssistantWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LabAssistants to fetch.
+     */
+    orderBy?: LabAssistantOrderByWithRelationInput | LabAssistantOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LabAssistants.
+     */
+    cursor?: LabAssistantWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LabAssistants from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LabAssistants.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LabAssistants.
+     */
+    distinct?: LabAssistantScalarFieldEnum | LabAssistantScalarFieldEnum[]
+  }
+
+  /**
+   * LabAssistant findMany
+   */
+  export type LabAssistantFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LabAssistant
+     */
+    select?: LabAssistantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LabAssistant
+     */
+    omit?: LabAssistantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LabAssistantInclude<ExtArgs> | null
+    /**
+     * Filter, which LabAssistants to fetch.
+     */
+    where?: LabAssistantWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LabAssistants to fetch.
+     */
+    orderBy?: LabAssistantOrderByWithRelationInput | LabAssistantOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing LabAssistants.
+     */
+    cursor?: LabAssistantWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LabAssistants from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LabAssistants.
+     */
+    skip?: number
+    distinct?: LabAssistantScalarFieldEnum | LabAssistantScalarFieldEnum[]
+  }
+
+  /**
+   * LabAssistant create
+   */
+  export type LabAssistantCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LabAssistant
+     */
+    select?: LabAssistantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LabAssistant
+     */
+    omit?: LabAssistantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LabAssistantInclude<ExtArgs> | null
+    /**
+     * The data needed to create a LabAssistant.
+     */
+    data: XOR<LabAssistantCreateInput, LabAssistantUncheckedCreateInput>
+  }
+
+  /**
+   * LabAssistant createMany
+   */
+  export type LabAssistantCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many LabAssistants.
+     */
+    data: LabAssistantCreateManyInput | LabAssistantCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * LabAssistant createManyAndReturn
+   */
+  export type LabAssistantCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LabAssistant
+     */
+    select?: LabAssistantSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LabAssistant
+     */
+    omit?: LabAssistantOmit<ExtArgs> | null
+    /**
+     * The data used to create many LabAssistants.
+     */
+    data: LabAssistantCreateManyInput | LabAssistantCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * LabAssistant update
+   */
+  export type LabAssistantUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LabAssistant
+     */
+    select?: LabAssistantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LabAssistant
+     */
+    omit?: LabAssistantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LabAssistantInclude<ExtArgs> | null
+    /**
+     * The data needed to update a LabAssistant.
+     */
+    data: XOR<LabAssistantUpdateInput, LabAssistantUncheckedUpdateInput>
+    /**
+     * Choose, which LabAssistant to update.
+     */
+    where: LabAssistantWhereUniqueInput
+  }
+
+  /**
+   * LabAssistant updateMany
+   */
+  export type LabAssistantUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update LabAssistants.
+     */
+    data: XOR<LabAssistantUpdateManyMutationInput, LabAssistantUncheckedUpdateManyInput>
+    /**
+     * Filter which LabAssistants to update
+     */
+    where?: LabAssistantWhereInput
+    /**
+     * Limit how many LabAssistants to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * LabAssistant updateManyAndReturn
+   */
+  export type LabAssistantUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LabAssistant
+     */
+    select?: LabAssistantSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LabAssistant
+     */
+    omit?: LabAssistantOmit<ExtArgs> | null
+    /**
+     * The data used to update LabAssistants.
+     */
+    data: XOR<LabAssistantUpdateManyMutationInput, LabAssistantUncheckedUpdateManyInput>
+    /**
+     * Filter which LabAssistants to update
+     */
+    where?: LabAssistantWhereInput
+    /**
+     * Limit how many LabAssistants to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * LabAssistant upsert
+   */
+  export type LabAssistantUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LabAssistant
+     */
+    select?: LabAssistantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LabAssistant
+     */
+    omit?: LabAssistantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LabAssistantInclude<ExtArgs> | null
+    /**
+     * The filter to search for the LabAssistant to update in case it exists.
+     */
+    where: LabAssistantWhereUniqueInput
+    /**
+     * In case the LabAssistant found by the `where` argument doesn't exist, create a new LabAssistant with this data.
+     */
+    create: XOR<LabAssistantCreateInput, LabAssistantUncheckedCreateInput>
+    /**
+     * In case the LabAssistant was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<LabAssistantUpdateInput, LabAssistantUncheckedUpdateInput>
+  }
+
+  /**
+   * LabAssistant delete
+   */
+  export type LabAssistantDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LabAssistant
+     */
+    select?: LabAssistantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LabAssistant
+     */
+    omit?: LabAssistantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LabAssistantInclude<ExtArgs> | null
+    /**
+     * Filter which LabAssistant to delete.
+     */
+    where: LabAssistantWhereUniqueInput
+  }
+
+  /**
+   * LabAssistant deleteMany
+   */
+  export type LabAssistantDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LabAssistants to delete
+     */
+    where?: LabAssistantWhereInput
+    /**
+     * Limit how many LabAssistants to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * LabAssistant.ScheduleAssignments
+   */
+  export type LabAssistant$ScheduleAssignmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScheduleAssignment
+     */
+    select?: ScheduleAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScheduleAssignment
+     */
+    omit?: ScheduleAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduleAssignmentInclude<ExtArgs> | null
+    where?: ScheduleAssignmentWhereInput
+    orderBy?: ScheduleAssignmentOrderByWithRelationInput | ScheduleAssignmentOrderByWithRelationInput[]
+    cursor?: ScheduleAssignmentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ScheduleAssignmentScalarFieldEnum | ScheduleAssignmentScalarFieldEnum[]
+  }
+
+  /**
+   * LabAssistant without action
+   */
+  export type LabAssistantDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LabAssistant
+     */
+    select?: LabAssistantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LabAssistant
+     */
+    omit?: LabAssistantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LabAssistantInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model TimeSlot
+   */
+
+  export type AggregateTimeSlot = {
+    _count: TimeSlotCountAggregateOutputType | null
+    _min: TimeSlotMinAggregateOutputType | null
+    _max: TimeSlotMaxAggregateOutputType | null
+  }
+
+  export type TimeSlotMinAggregateOutputType = {
+    id: string | null
+    dayOfWeek: string | null
+    startTime: string | null
+    endTime: string | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TimeSlotMaxAggregateOutputType = {
+    id: string | null
+    dayOfWeek: string | null
+    startTime: string | null
+    endTime: string | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TimeSlotCountAggregateOutputType = {
+    id: number
+    dayOfWeek: number
+    startTime: number
+    endTime: number
+    isActive: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type TimeSlotMinAggregateInputType = {
+    id?: true
+    dayOfWeek?: true
+    startTime?: true
+    endTime?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TimeSlotMaxAggregateInputType = {
+    id?: true
+    dayOfWeek?: true
+    startTime?: true
+    endTime?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TimeSlotCountAggregateInputType = {
+    id?: true
+    dayOfWeek?: true
+    startTime?: true
+    endTime?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type TimeSlotAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TimeSlot to aggregate.
+     */
+    where?: TimeSlotWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TimeSlots to fetch.
+     */
+    orderBy?: TimeSlotOrderByWithRelationInput | TimeSlotOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TimeSlotWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TimeSlots from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TimeSlots.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned TimeSlots
+    **/
+    _count?: true | TimeSlotCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TimeSlotMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TimeSlotMaxAggregateInputType
+  }
+
+  export type GetTimeSlotAggregateType<T extends TimeSlotAggregateArgs> = {
+        [P in keyof T & keyof AggregateTimeSlot]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTimeSlot[P]>
+      : GetScalarType<T[P], AggregateTimeSlot[P]>
+  }
+
+
+
+
+  export type TimeSlotGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TimeSlotWhereInput
+    orderBy?: TimeSlotOrderByWithAggregationInput | TimeSlotOrderByWithAggregationInput[]
+    by: TimeSlotScalarFieldEnum[] | TimeSlotScalarFieldEnum
+    having?: TimeSlotScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TimeSlotCountAggregateInputType | true
+    _min?: TimeSlotMinAggregateInputType
+    _max?: TimeSlotMaxAggregateInputType
+  }
+
+  export type TimeSlotGroupByOutputType = {
+    id: string
+    dayOfWeek: string
+    startTime: string
+    endTime: string
+    isActive: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: TimeSlotCountAggregateOutputType | null
+    _min: TimeSlotMinAggregateOutputType | null
+    _max: TimeSlotMaxAggregateOutputType | null
+  }
+
+  type GetTimeSlotGroupByPayload<T extends TimeSlotGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TimeSlotGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TimeSlotGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TimeSlotGroupByOutputType[P]>
+            : GetScalarType<T[P], TimeSlotGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TimeSlotSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    dayOfWeek?: boolean
+    startTime?: boolean
+    endTime?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    ScheduleAssignments?: boolean | TimeSlot$ScheduleAssignmentsArgs<ExtArgs>
+    _count?: boolean | TimeSlotCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["timeSlot"]>
+
+  export type TimeSlotSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    dayOfWeek?: boolean
+    startTime?: boolean
+    endTime?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["timeSlot"]>
+
+  export type TimeSlotSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    dayOfWeek?: boolean
+    startTime?: boolean
+    endTime?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["timeSlot"]>
+
+  export type TimeSlotSelectScalar = {
+    id?: boolean
+    dayOfWeek?: boolean
+    startTime?: boolean
+    endTime?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type TimeSlotOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "dayOfWeek" | "startTime" | "endTime" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["timeSlot"]>
+  export type TimeSlotInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    ScheduleAssignments?: boolean | TimeSlot$ScheduleAssignmentsArgs<ExtArgs>
+    _count?: boolean | TimeSlotCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type TimeSlotIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type TimeSlotIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $TimeSlotPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "TimeSlot"
+    objects: {
+      ScheduleAssignments: Prisma.$ScheduleAssignmentPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      dayOfWeek: string
+      startTime: string
+      endTime: string
+      isActive: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["timeSlot"]>
+    composites: {}
+  }
+
+  type TimeSlotGetPayload<S extends boolean | null | undefined | TimeSlotDefaultArgs> = $Result.GetResult<Prisma.$TimeSlotPayload, S>
+
+  type TimeSlotCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TimeSlotFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TimeSlotCountAggregateInputType | true
+    }
+
+  export interface TimeSlotDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['TimeSlot'], meta: { name: 'TimeSlot' } }
+    /**
+     * Find zero or one TimeSlot that matches the filter.
+     * @param {TimeSlotFindUniqueArgs} args - Arguments to find a TimeSlot
+     * @example
+     * // Get one TimeSlot
+     * const timeSlot = await prisma.timeSlot.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TimeSlotFindUniqueArgs>(args: SelectSubset<T, TimeSlotFindUniqueArgs<ExtArgs>>): Prisma__TimeSlotClient<$Result.GetResult<Prisma.$TimeSlotPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one TimeSlot that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TimeSlotFindUniqueOrThrowArgs} args - Arguments to find a TimeSlot
+     * @example
+     * // Get one TimeSlot
+     * const timeSlot = await prisma.timeSlot.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TimeSlotFindUniqueOrThrowArgs>(args: SelectSubset<T, TimeSlotFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TimeSlotClient<$Result.GetResult<Prisma.$TimeSlotPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TimeSlot that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TimeSlotFindFirstArgs} args - Arguments to find a TimeSlot
+     * @example
+     * // Get one TimeSlot
+     * const timeSlot = await prisma.timeSlot.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TimeSlotFindFirstArgs>(args?: SelectSubset<T, TimeSlotFindFirstArgs<ExtArgs>>): Prisma__TimeSlotClient<$Result.GetResult<Prisma.$TimeSlotPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TimeSlot that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TimeSlotFindFirstOrThrowArgs} args - Arguments to find a TimeSlot
+     * @example
+     * // Get one TimeSlot
+     * const timeSlot = await prisma.timeSlot.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TimeSlotFindFirstOrThrowArgs>(args?: SelectSubset<T, TimeSlotFindFirstOrThrowArgs<ExtArgs>>): Prisma__TimeSlotClient<$Result.GetResult<Prisma.$TimeSlotPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more TimeSlots that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TimeSlotFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all TimeSlots
+     * const timeSlots = await prisma.timeSlot.findMany()
+     * 
+     * // Get first 10 TimeSlots
+     * const timeSlots = await prisma.timeSlot.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const timeSlotWithIdOnly = await prisma.timeSlot.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TimeSlotFindManyArgs>(args?: SelectSubset<T, TimeSlotFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TimeSlotPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a TimeSlot.
+     * @param {TimeSlotCreateArgs} args - Arguments to create a TimeSlot.
+     * @example
+     * // Create one TimeSlot
+     * const TimeSlot = await prisma.timeSlot.create({
+     *   data: {
+     *     // ... data to create a TimeSlot
+     *   }
+     * })
+     * 
+     */
+    create<T extends TimeSlotCreateArgs>(args: SelectSubset<T, TimeSlotCreateArgs<ExtArgs>>): Prisma__TimeSlotClient<$Result.GetResult<Prisma.$TimeSlotPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many TimeSlots.
+     * @param {TimeSlotCreateManyArgs} args - Arguments to create many TimeSlots.
+     * @example
+     * // Create many TimeSlots
+     * const timeSlot = await prisma.timeSlot.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TimeSlotCreateManyArgs>(args?: SelectSubset<T, TimeSlotCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many TimeSlots and returns the data saved in the database.
+     * @param {TimeSlotCreateManyAndReturnArgs} args - Arguments to create many TimeSlots.
+     * @example
+     * // Create many TimeSlots
+     * const timeSlot = await prisma.timeSlot.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many TimeSlots and only return the `id`
+     * const timeSlotWithIdOnly = await prisma.timeSlot.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TimeSlotCreateManyAndReturnArgs>(args?: SelectSubset<T, TimeSlotCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TimeSlotPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a TimeSlot.
+     * @param {TimeSlotDeleteArgs} args - Arguments to delete one TimeSlot.
+     * @example
+     * // Delete one TimeSlot
+     * const TimeSlot = await prisma.timeSlot.delete({
+     *   where: {
+     *     // ... filter to delete one TimeSlot
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TimeSlotDeleteArgs>(args: SelectSubset<T, TimeSlotDeleteArgs<ExtArgs>>): Prisma__TimeSlotClient<$Result.GetResult<Prisma.$TimeSlotPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one TimeSlot.
+     * @param {TimeSlotUpdateArgs} args - Arguments to update one TimeSlot.
+     * @example
+     * // Update one TimeSlot
+     * const timeSlot = await prisma.timeSlot.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TimeSlotUpdateArgs>(args: SelectSubset<T, TimeSlotUpdateArgs<ExtArgs>>): Prisma__TimeSlotClient<$Result.GetResult<Prisma.$TimeSlotPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more TimeSlots.
+     * @param {TimeSlotDeleteManyArgs} args - Arguments to filter TimeSlots to delete.
+     * @example
+     * // Delete a few TimeSlots
+     * const { count } = await prisma.timeSlot.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TimeSlotDeleteManyArgs>(args?: SelectSubset<T, TimeSlotDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TimeSlots.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TimeSlotUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many TimeSlots
+     * const timeSlot = await prisma.timeSlot.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TimeSlotUpdateManyArgs>(args: SelectSubset<T, TimeSlotUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TimeSlots and returns the data updated in the database.
+     * @param {TimeSlotUpdateManyAndReturnArgs} args - Arguments to update many TimeSlots.
+     * @example
+     * // Update many TimeSlots
+     * const timeSlot = await prisma.timeSlot.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more TimeSlots and only return the `id`
+     * const timeSlotWithIdOnly = await prisma.timeSlot.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TimeSlotUpdateManyAndReturnArgs>(args: SelectSubset<T, TimeSlotUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TimeSlotPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one TimeSlot.
+     * @param {TimeSlotUpsertArgs} args - Arguments to update or create a TimeSlot.
+     * @example
+     * // Update or create a TimeSlot
+     * const timeSlot = await prisma.timeSlot.upsert({
+     *   create: {
+     *     // ... data to create a TimeSlot
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the TimeSlot we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TimeSlotUpsertArgs>(args: SelectSubset<T, TimeSlotUpsertArgs<ExtArgs>>): Prisma__TimeSlotClient<$Result.GetResult<Prisma.$TimeSlotPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of TimeSlots.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TimeSlotCountArgs} args - Arguments to filter TimeSlots to count.
+     * @example
+     * // Count the number of TimeSlots
+     * const count = await prisma.timeSlot.count({
+     *   where: {
+     *     // ... the filter for the TimeSlots we want to count
+     *   }
+     * })
+    **/
+    count<T extends TimeSlotCountArgs>(
+      args?: Subset<T, TimeSlotCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TimeSlotCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a TimeSlot.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TimeSlotAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TimeSlotAggregateArgs>(args: Subset<T, TimeSlotAggregateArgs>): Prisma.PrismaPromise<GetTimeSlotAggregateType<T>>
+
+    /**
+     * Group by TimeSlot.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TimeSlotGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TimeSlotGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TimeSlotGroupByArgs['orderBy'] }
+        : { orderBy?: TimeSlotGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TimeSlotGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTimeSlotGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the TimeSlot model
+   */
+  readonly fields: TimeSlotFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for TimeSlot.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TimeSlotClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    ScheduleAssignments<T extends TimeSlot$ScheduleAssignmentsArgs<ExtArgs> = {}>(args?: Subset<T, TimeSlot$ScheduleAssignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScheduleAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the TimeSlot model
+   */
+  interface TimeSlotFieldRefs {
+    readonly id: FieldRef<"TimeSlot", 'String'>
+    readonly dayOfWeek: FieldRef<"TimeSlot", 'String'>
+    readonly startTime: FieldRef<"TimeSlot", 'String'>
+    readonly endTime: FieldRef<"TimeSlot", 'String'>
+    readonly isActive: FieldRef<"TimeSlot", 'Boolean'>
+    readonly createdAt: FieldRef<"TimeSlot", 'DateTime'>
+    readonly updatedAt: FieldRef<"TimeSlot", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * TimeSlot findUnique
+   */
+  export type TimeSlotFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimeSlot
+     */
+    select?: TimeSlotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimeSlot
+     */
+    omit?: TimeSlotOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimeSlotInclude<ExtArgs> | null
+    /**
+     * Filter, which TimeSlot to fetch.
+     */
+    where: TimeSlotWhereUniqueInput
+  }
+
+  /**
+   * TimeSlot findUniqueOrThrow
+   */
+  export type TimeSlotFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimeSlot
+     */
+    select?: TimeSlotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimeSlot
+     */
+    omit?: TimeSlotOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimeSlotInclude<ExtArgs> | null
+    /**
+     * Filter, which TimeSlot to fetch.
+     */
+    where: TimeSlotWhereUniqueInput
+  }
+
+  /**
+   * TimeSlot findFirst
+   */
+  export type TimeSlotFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimeSlot
+     */
+    select?: TimeSlotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimeSlot
+     */
+    omit?: TimeSlotOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimeSlotInclude<ExtArgs> | null
+    /**
+     * Filter, which TimeSlot to fetch.
+     */
+    where?: TimeSlotWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TimeSlots to fetch.
+     */
+    orderBy?: TimeSlotOrderByWithRelationInput | TimeSlotOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TimeSlots.
+     */
+    cursor?: TimeSlotWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TimeSlots from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TimeSlots.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TimeSlots.
+     */
+    distinct?: TimeSlotScalarFieldEnum | TimeSlotScalarFieldEnum[]
+  }
+
+  /**
+   * TimeSlot findFirstOrThrow
+   */
+  export type TimeSlotFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimeSlot
+     */
+    select?: TimeSlotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimeSlot
+     */
+    omit?: TimeSlotOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimeSlotInclude<ExtArgs> | null
+    /**
+     * Filter, which TimeSlot to fetch.
+     */
+    where?: TimeSlotWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TimeSlots to fetch.
+     */
+    orderBy?: TimeSlotOrderByWithRelationInput | TimeSlotOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TimeSlots.
+     */
+    cursor?: TimeSlotWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TimeSlots from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TimeSlots.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TimeSlots.
+     */
+    distinct?: TimeSlotScalarFieldEnum | TimeSlotScalarFieldEnum[]
+  }
+
+  /**
+   * TimeSlot findMany
+   */
+  export type TimeSlotFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimeSlot
+     */
+    select?: TimeSlotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimeSlot
+     */
+    omit?: TimeSlotOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimeSlotInclude<ExtArgs> | null
+    /**
+     * Filter, which TimeSlots to fetch.
+     */
+    where?: TimeSlotWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TimeSlots to fetch.
+     */
+    orderBy?: TimeSlotOrderByWithRelationInput | TimeSlotOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing TimeSlots.
+     */
+    cursor?: TimeSlotWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TimeSlots from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TimeSlots.
+     */
+    skip?: number
+    distinct?: TimeSlotScalarFieldEnum | TimeSlotScalarFieldEnum[]
+  }
+
+  /**
+   * TimeSlot create
+   */
+  export type TimeSlotCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimeSlot
+     */
+    select?: TimeSlotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimeSlot
+     */
+    omit?: TimeSlotOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimeSlotInclude<ExtArgs> | null
+    /**
+     * The data needed to create a TimeSlot.
+     */
+    data: XOR<TimeSlotCreateInput, TimeSlotUncheckedCreateInput>
+  }
+
+  /**
+   * TimeSlot createMany
+   */
+  export type TimeSlotCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many TimeSlots.
+     */
+    data: TimeSlotCreateManyInput | TimeSlotCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * TimeSlot createManyAndReturn
+   */
+  export type TimeSlotCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimeSlot
+     */
+    select?: TimeSlotSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimeSlot
+     */
+    omit?: TimeSlotOmit<ExtArgs> | null
+    /**
+     * The data used to create many TimeSlots.
+     */
+    data: TimeSlotCreateManyInput | TimeSlotCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * TimeSlot update
+   */
+  export type TimeSlotUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimeSlot
+     */
+    select?: TimeSlotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimeSlot
+     */
+    omit?: TimeSlotOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimeSlotInclude<ExtArgs> | null
+    /**
+     * The data needed to update a TimeSlot.
+     */
+    data: XOR<TimeSlotUpdateInput, TimeSlotUncheckedUpdateInput>
+    /**
+     * Choose, which TimeSlot to update.
+     */
+    where: TimeSlotWhereUniqueInput
+  }
+
+  /**
+   * TimeSlot updateMany
+   */
+  export type TimeSlotUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update TimeSlots.
+     */
+    data: XOR<TimeSlotUpdateManyMutationInput, TimeSlotUncheckedUpdateManyInput>
+    /**
+     * Filter which TimeSlots to update
+     */
+    where?: TimeSlotWhereInput
+    /**
+     * Limit how many TimeSlots to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * TimeSlot updateManyAndReturn
+   */
+  export type TimeSlotUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimeSlot
+     */
+    select?: TimeSlotSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimeSlot
+     */
+    omit?: TimeSlotOmit<ExtArgs> | null
+    /**
+     * The data used to update TimeSlots.
+     */
+    data: XOR<TimeSlotUpdateManyMutationInput, TimeSlotUncheckedUpdateManyInput>
+    /**
+     * Filter which TimeSlots to update
+     */
+    where?: TimeSlotWhereInput
+    /**
+     * Limit how many TimeSlots to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * TimeSlot upsert
+   */
+  export type TimeSlotUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimeSlot
+     */
+    select?: TimeSlotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimeSlot
+     */
+    omit?: TimeSlotOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimeSlotInclude<ExtArgs> | null
+    /**
+     * The filter to search for the TimeSlot to update in case it exists.
+     */
+    where: TimeSlotWhereUniqueInput
+    /**
+     * In case the TimeSlot found by the `where` argument doesn't exist, create a new TimeSlot with this data.
+     */
+    create: XOR<TimeSlotCreateInput, TimeSlotUncheckedCreateInput>
+    /**
+     * In case the TimeSlot was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TimeSlotUpdateInput, TimeSlotUncheckedUpdateInput>
+  }
+
+  /**
+   * TimeSlot delete
+   */
+  export type TimeSlotDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimeSlot
+     */
+    select?: TimeSlotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimeSlot
+     */
+    omit?: TimeSlotOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimeSlotInclude<ExtArgs> | null
+    /**
+     * Filter which TimeSlot to delete.
+     */
+    where: TimeSlotWhereUniqueInput
+  }
+
+  /**
+   * TimeSlot deleteMany
+   */
+  export type TimeSlotDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TimeSlots to delete
+     */
+    where?: TimeSlotWhereInput
+    /**
+     * Limit how many TimeSlots to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * TimeSlot.ScheduleAssignments
+   */
+  export type TimeSlot$ScheduleAssignmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScheduleAssignment
+     */
+    select?: ScheduleAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScheduleAssignment
+     */
+    omit?: ScheduleAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduleAssignmentInclude<ExtArgs> | null
+    where?: ScheduleAssignmentWhereInput
+    orderBy?: ScheduleAssignmentOrderByWithRelationInput | ScheduleAssignmentOrderByWithRelationInput[]
+    cursor?: ScheduleAssignmentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ScheduleAssignmentScalarFieldEnum | ScheduleAssignmentScalarFieldEnum[]
+  }
+
+  /**
+   * TimeSlot without action
+   */
+  export type TimeSlotDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimeSlot
+     */
+    select?: TimeSlotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimeSlot
+     */
+    omit?: TimeSlotOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimeSlotInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model ScheduleAssignment
    */
 
@@ -10472,70 +9884,82 @@ export namespace Prisma {
 
   export type ScheduleAssignmentMinAggregateOutputType = {
     id: string | null
-    status: string | null
-    createdAt: Date | null
-    updatedAt: Date | null
+    courseId: string | null
     sectionId: string | null
+    groupId: string | null
     labRoomId: string | null
     labAssistantId: string | null
     timeSlotId: string | null
+    status: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type ScheduleAssignmentMaxAggregateOutputType = {
     id: string | null
-    status: string | null
-    createdAt: Date | null
-    updatedAt: Date | null
+    courseId: string | null
     sectionId: string | null
+    groupId: string | null
     labRoomId: string | null
     labAssistantId: string | null
     timeSlotId: string | null
+    status: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type ScheduleAssignmentCountAggregateOutputType = {
     id: number
-    status: number
-    createdAt: number
-    updatedAt: number
+    courseId: number
     sectionId: number
+    groupId: number
     labRoomId: number
     labAssistantId: number
     timeSlotId: number
+    status: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
 
   export type ScheduleAssignmentMinAggregateInputType = {
     id?: true
-    status?: true
-    createdAt?: true
-    updatedAt?: true
+    courseId?: true
     sectionId?: true
+    groupId?: true
     labRoomId?: true
     labAssistantId?: true
     timeSlotId?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type ScheduleAssignmentMaxAggregateInputType = {
     id?: true
-    status?: true
-    createdAt?: true
-    updatedAt?: true
+    courseId?: true
     sectionId?: true
+    groupId?: true
     labRoomId?: true
     labAssistantId?: true
     timeSlotId?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type ScheduleAssignmentCountAggregateInputType = {
     id?: true
-    status?: true
-    createdAt?: true
-    updatedAt?: true
+    courseId?: true
     sectionId?: true
+    groupId?: true
     labRoomId?: true
     labAssistantId?: true
     timeSlotId?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -10613,13 +10037,15 @@ export namespace Prisma {
 
   export type ScheduleAssignmentGroupByOutputType = {
     id: string
-    status: string
-    createdAt: Date
-    updatedAt: Date
+    courseId: string
     sectionId: string
+    groupId: string | null
     labRoomId: string
     labAssistantId: string
     timeSlotId: string
+    status: string
+    createdAt: Date
+    updatedAt: Date
     _count: ScheduleAssignmentCountAggregateOutputType | null
     _min: ScheduleAssignmentMinAggregateOutputType | null
     _max: ScheduleAssignmentMaxAggregateOutputType | null
@@ -10641,14 +10067,18 @@ export namespace Prisma {
 
   export type ScheduleAssignmentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    status?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
+    courseId?: boolean
     sectionId?: boolean
+    groupId?: boolean
     labRoomId?: boolean
     labAssistantId?: boolean
     timeSlotId?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    course?: boolean | CourseDefaultArgs<ExtArgs>
     section?: boolean | SectionDefaultArgs<ExtArgs>
+    group?: boolean | ScheduleAssignment$groupArgs<ExtArgs>
     labRoom?: boolean | LabRoomDefaultArgs<ExtArgs>
     labAssistant?: boolean | LabAssistantDefaultArgs<ExtArgs>
     timeSlot?: boolean | TimeSlotDefaultArgs<ExtArgs>
@@ -10656,14 +10086,18 @@ export namespace Prisma {
 
   export type ScheduleAssignmentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    status?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
+    courseId?: boolean
     sectionId?: boolean
+    groupId?: boolean
     labRoomId?: boolean
     labAssistantId?: boolean
     timeSlotId?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    course?: boolean | CourseDefaultArgs<ExtArgs>
     section?: boolean | SectionDefaultArgs<ExtArgs>
+    group?: boolean | ScheduleAssignment$groupArgs<ExtArgs>
     labRoom?: boolean | LabRoomDefaultArgs<ExtArgs>
     labAssistant?: boolean | LabAssistantDefaultArgs<ExtArgs>
     timeSlot?: boolean | TimeSlotDefaultArgs<ExtArgs>
@@ -10671,14 +10105,18 @@ export namespace Prisma {
 
   export type ScheduleAssignmentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    status?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
+    courseId?: boolean
     sectionId?: boolean
+    groupId?: boolean
     labRoomId?: boolean
     labAssistantId?: boolean
     timeSlotId?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    course?: boolean | CourseDefaultArgs<ExtArgs>
     section?: boolean | SectionDefaultArgs<ExtArgs>
+    group?: boolean | ScheduleAssignment$groupArgs<ExtArgs>
     labRoom?: boolean | LabRoomDefaultArgs<ExtArgs>
     labAssistant?: boolean | LabAssistantDefaultArgs<ExtArgs>
     timeSlot?: boolean | TimeSlotDefaultArgs<ExtArgs>
@@ -10686,30 +10124,38 @@ export namespace Prisma {
 
   export type ScheduleAssignmentSelectScalar = {
     id?: boolean
-    status?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
+    courseId?: boolean
     sectionId?: boolean
+    groupId?: boolean
     labRoomId?: boolean
     labAssistantId?: boolean
     timeSlotId?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type ScheduleAssignmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "status" | "createdAt" | "updatedAt" | "sectionId" | "labRoomId" | "labAssistantId" | "timeSlotId", ExtArgs["result"]["scheduleAssignment"]>
+  export type ScheduleAssignmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "courseId" | "sectionId" | "groupId" | "labRoomId" | "labAssistantId" | "timeSlotId" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["scheduleAssignment"]>
   export type ScheduleAssignmentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    course?: boolean | CourseDefaultArgs<ExtArgs>
     section?: boolean | SectionDefaultArgs<ExtArgs>
+    group?: boolean | ScheduleAssignment$groupArgs<ExtArgs>
     labRoom?: boolean | LabRoomDefaultArgs<ExtArgs>
     labAssistant?: boolean | LabAssistantDefaultArgs<ExtArgs>
     timeSlot?: boolean | TimeSlotDefaultArgs<ExtArgs>
   }
   export type ScheduleAssignmentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    course?: boolean | CourseDefaultArgs<ExtArgs>
     section?: boolean | SectionDefaultArgs<ExtArgs>
+    group?: boolean | ScheduleAssignment$groupArgs<ExtArgs>
     labRoom?: boolean | LabRoomDefaultArgs<ExtArgs>
     labAssistant?: boolean | LabAssistantDefaultArgs<ExtArgs>
     timeSlot?: boolean | TimeSlotDefaultArgs<ExtArgs>
   }
   export type ScheduleAssignmentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    course?: boolean | CourseDefaultArgs<ExtArgs>
     section?: boolean | SectionDefaultArgs<ExtArgs>
+    group?: boolean | ScheduleAssignment$groupArgs<ExtArgs>
     labRoom?: boolean | LabRoomDefaultArgs<ExtArgs>
     labAssistant?: boolean | LabAssistantDefaultArgs<ExtArgs>
     timeSlot?: boolean | TimeSlotDefaultArgs<ExtArgs>
@@ -10718,20 +10164,24 @@ export namespace Prisma {
   export type $ScheduleAssignmentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "ScheduleAssignment"
     objects: {
+      course: Prisma.$CoursePayload<ExtArgs>
       section: Prisma.$SectionPayload<ExtArgs>
+      group: Prisma.$GroupPayload<ExtArgs> | null
       labRoom: Prisma.$LabRoomPayload<ExtArgs>
       labAssistant: Prisma.$LabAssistantPayload<ExtArgs>
       timeSlot: Prisma.$TimeSlotPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      status: string
-      createdAt: Date
-      updatedAt: Date
+      courseId: string
       sectionId: string
+      groupId: string | null
       labRoomId: string
       labAssistantId: string
       timeSlotId: string
+      status: string
+      createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["scheduleAssignment"]>
     composites: {}
   }
@@ -11126,7 +10576,9 @@ export namespace Prisma {
    */
   export interface Prisma__ScheduleAssignmentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    course<T extends CourseDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CourseDefaultArgs<ExtArgs>>): Prisma__CourseClient<$Result.GetResult<Prisma.$CoursePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     section<T extends SectionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SectionDefaultArgs<ExtArgs>>): Prisma__SectionClient<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    group<T extends ScheduleAssignment$groupArgs<ExtArgs> = {}>(args?: Subset<T, ScheduleAssignment$groupArgs<ExtArgs>>): Prisma__GroupClient<$Result.GetResult<Prisma.$GroupPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     labRoom<T extends LabRoomDefaultArgs<ExtArgs> = {}>(args?: Subset<T, LabRoomDefaultArgs<ExtArgs>>): Prisma__LabRoomClient<$Result.GetResult<Prisma.$LabRoomPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     labAssistant<T extends LabAssistantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, LabAssistantDefaultArgs<ExtArgs>>): Prisma__LabAssistantClient<$Result.GetResult<Prisma.$LabAssistantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     timeSlot<T extends TimeSlotDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TimeSlotDefaultArgs<ExtArgs>>): Prisma__TimeSlotClient<$Result.GetResult<Prisma.$TimeSlotPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
@@ -11160,13 +10612,15 @@ export namespace Prisma {
    */
   interface ScheduleAssignmentFieldRefs {
     readonly id: FieldRef<"ScheduleAssignment", 'String'>
-    readonly status: FieldRef<"ScheduleAssignment", 'String'>
-    readonly createdAt: FieldRef<"ScheduleAssignment", 'DateTime'>
-    readonly updatedAt: FieldRef<"ScheduleAssignment", 'DateTime'>
+    readonly courseId: FieldRef<"ScheduleAssignment", 'String'>
     readonly sectionId: FieldRef<"ScheduleAssignment", 'String'>
+    readonly groupId: FieldRef<"ScheduleAssignment", 'String'>
     readonly labRoomId: FieldRef<"ScheduleAssignment", 'String'>
     readonly labAssistantId: FieldRef<"ScheduleAssignment", 'String'>
     readonly timeSlotId: FieldRef<"ScheduleAssignment", 'String'>
+    readonly status: FieldRef<"ScheduleAssignment", 'String'>
+    readonly createdAt: FieldRef<"ScheduleAssignment", 'DateTime'>
+    readonly updatedAt: FieldRef<"ScheduleAssignment", 'DateTime'>
   }
     
 
@@ -11563,6 +11017,25 @@ export namespace Prisma {
   }
 
   /**
+   * ScheduleAssignment.group
+   */
+  export type ScheduleAssignment$groupArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Group
+     */
+    select?: GroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Group
+     */
+    omit?: GroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GroupInclude<ExtArgs> | null
+    where?: GroupWhereInput
+  }
+
+  /**
    * ScheduleAssignment without action
    */
   export type ScheduleAssignmentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -11582,6 +11055,1027 @@ export namespace Prisma {
 
 
   /**
+   * Model User
+   */
+
+  export type AggregateUser = {
+    _count: UserCountAggregateOutputType | null
+    _min: UserMinAggregateOutputType | null
+    _max: UserMaxAggregateOutputType | null
+  }
+
+  export type UserMinAggregateOutputType = {
+    id: string | null
+    email: string | null
+    password: string | null
+    role: string | null
+    labAssistantId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type UserMaxAggregateOutputType = {
+    id: string | null
+    email: string | null
+    password: string | null
+    role: string | null
+    labAssistantId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type UserCountAggregateOutputType = {
+    id: number
+    email: number
+    password: number
+    role: number
+    labAssistantId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type UserMinAggregateInputType = {
+    id?: true
+    email?: true
+    password?: true
+    role?: true
+    labAssistantId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type UserMaxAggregateInputType = {
+    id?: true
+    email?: true
+    password?: true
+    role?: true
+    labAssistantId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type UserCountAggregateInputType = {
+    id?: true
+    email?: true
+    password?: true
+    role?: true
+    labAssistantId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type UserAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which User to aggregate.
+     */
+    where?: UserWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Users to fetch.
+     */
+    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UserWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Users from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Users.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Users
+    **/
+    _count?: true | UserCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UserMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UserMaxAggregateInputType
+  }
+
+  export type GetUserAggregateType<T extends UserAggregateArgs> = {
+        [P in keyof T & keyof AggregateUser]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUser[P]>
+      : GetScalarType<T[P], AggregateUser[P]>
+  }
+
+
+
+
+  export type UserGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserWhereInput
+    orderBy?: UserOrderByWithAggregationInput | UserOrderByWithAggregationInput[]
+    by: UserScalarFieldEnum[] | UserScalarFieldEnum
+    having?: UserScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UserCountAggregateInputType | true
+    _min?: UserMinAggregateInputType
+    _max?: UserMaxAggregateInputType
+  }
+
+  export type UserGroupByOutputType = {
+    id: string
+    email: string
+    password: string
+    role: string
+    labAssistantId: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: UserCountAggregateOutputType | null
+    _min: UserMinAggregateOutputType | null
+    _max: UserMaxAggregateOutputType | null
+  }
+
+  type GetUserGroupByPayload<T extends UserGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<UserGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UserGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UserGroupByOutputType[P]>
+            : GetScalarType<T[P], UserGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UserSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    email?: boolean
+    password?: boolean
+    role?: boolean
+    labAssistantId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["user"]>
+
+  export type UserSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    email?: boolean
+    password?: boolean
+    role?: boolean
+    labAssistantId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["user"]>
+
+  export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    email?: boolean
+    password?: boolean
+    role?: boolean
+    labAssistantId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["user"]>
+
+  export type UserSelectScalar = {
+    id?: boolean
+    email?: boolean
+    password?: boolean
+    role?: boolean
+    labAssistantId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "role" | "labAssistantId" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+
+  export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "User"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      email: string
+      password: string
+      role: string
+      labAssistantId: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["user"]>
+    composites: {}
+  }
+
+  type UserGetPayload<S extends boolean | null | undefined | UserDefaultArgs> = $Result.GetResult<Prisma.$UserPayload, S>
+
+  type UserCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<UserFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: UserCountAggregateInputType | true
+    }
+
+  export interface UserDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['User'], meta: { name: 'User' } }
+    /**
+     * Find zero or one User that matches the filter.
+     * @param {UserFindUniqueArgs} args - Arguments to find a User
+     * @example
+     * // Get one User
+     * const user = await prisma.user.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends UserFindUniqueArgs>(args: SelectSubset<T, UserFindUniqueArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one User that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {UserFindUniqueOrThrowArgs} args - Arguments to find a User
+     * @example
+     * // Get one User
+     * const user = await prisma.user.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends UserFindUniqueOrThrowArgs>(args: SelectSubset<T, UserFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first User that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserFindFirstArgs} args - Arguments to find a User
+     * @example
+     * // Get one User
+     * const user = await prisma.user.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends UserFindFirstArgs>(args?: SelectSubset<T, UserFindFirstArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first User that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserFindFirstOrThrowArgs} args - Arguments to find a User
+     * @example
+     * // Get one User
+     * const user = await prisma.user.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends UserFindFirstOrThrowArgs>(args?: SelectSubset<T, UserFindFirstOrThrowArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Users that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Users
+     * const users = await prisma.user.findMany()
+     * 
+     * // Get first 10 Users
+     * const users = await prisma.user.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const userWithIdOnly = await prisma.user.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends UserFindManyArgs>(args?: SelectSubset<T, UserFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a User.
+     * @param {UserCreateArgs} args - Arguments to create a User.
+     * @example
+     * // Create one User
+     * const User = await prisma.user.create({
+     *   data: {
+     *     // ... data to create a User
+     *   }
+     * })
+     * 
+     */
+    create<T extends UserCreateArgs>(args: SelectSubset<T, UserCreateArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Users.
+     * @param {UserCreateManyArgs} args - Arguments to create many Users.
+     * @example
+     * // Create many Users
+     * const user = await prisma.user.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends UserCreateManyArgs>(args?: SelectSubset<T, UserCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Users and returns the data saved in the database.
+     * @param {UserCreateManyAndReturnArgs} args - Arguments to create many Users.
+     * @example
+     * // Create many Users
+     * const user = await prisma.user.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Users and only return the `id`
+     * const userWithIdOnly = await prisma.user.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends UserCreateManyAndReturnArgs>(args?: SelectSubset<T, UserCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a User.
+     * @param {UserDeleteArgs} args - Arguments to delete one User.
+     * @example
+     * // Delete one User
+     * const User = await prisma.user.delete({
+     *   where: {
+     *     // ... filter to delete one User
+     *   }
+     * })
+     * 
+     */
+    delete<T extends UserDeleteArgs>(args: SelectSubset<T, UserDeleteArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one User.
+     * @param {UserUpdateArgs} args - Arguments to update one User.
+     * @example
+     * // Update one User
+     * const user = await prisma.user.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends UserUpdateArgs>(args: SelectSubset<T, UserUpdateArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Users.
+     * @param {UserDeleteManyArgs} args - Arguments to filter Users to delete.
+     * @example
+     * // Delete a few Users
+     * const { count } = await prisma.user.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends UserDeleteManyArgs>(args?: SelectSubset<T, UserDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Users.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Users
+     * const user = await prisma.user.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends UserUpdateManyArgs>(args: SelectSubset<T, UserUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Users and returns the data updated in the database.
+     * @param {UserUpdateManyAndReturnArgs} args - Arguments to update many Users.
+     * @example
+     * // Update many Users
+     * const user = await prisma.user.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Users and only return the `id`
+     * const userWithIdOnly = await prisma.user.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends UserUpdateManyAndReturnArgs>(args: SelectSubset<T, UserUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one User.
+     * @param {UserUpsertArgs} args - Arguments to update or create a User.
+     * @example
+     * // Update or create a User
+     * const user = await prisma.user.upsert({
+     *   create: {
+     *     // ... data to create a User
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the User we want to update
+     *   }
+     * })
+     */
+    upsert<T extends UserUpsertArgs>(args: SelectSubset<T, UserUpsertArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Users.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserCountArgs} args - Arguments to filter Users to count.
+     * @example
+     * // Count the number of Users
+     * const count = await prisma.user.count({
+     *   where: {
+     *     // ... the filter for the Users we want to count
+     *   }
+     * })
+    **/
+    count<T extends UserCountArgs>(
+      args?: Subset<T, UserCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UserCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a User.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UserAggregateArgs>(args: Subset<T, UserAggregateArgs>): Prisma.PrismaPromise<GetUserAggregateType<T>>
+
+    /**
+     * Group by User.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UserGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UserGroupByArgs['orderBy'] }
+        : { orderBy?: UserGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UserGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the User model
+   */
+  readonly fields: UserFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for User.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the User model
+   */
+  interface UserFieldRefs {
+    readonly id: FieldRef<"User", 'String'>
+    readonly email: FieldRef<"User", 'String'>
+    readonly password: FieldRef<"User", 'String'>
+    readonly role: FieldRef<"User", 'String'>
+    readonly labAssistantId: FieldRef<"User", 'String'>
+    readonly createdAt: FieldRef<"User", 'DateTime'>
+    readonly updatedAt: FieldRef<"User", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * User findUnique
+   */
+  export type UserFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Filter, which User to fetch.
+     */
+    where: UserWhereUniqueInput
+  }
+
+  /**
+   * User findUniqueOrThrow
+   */
+  export type UserFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Filter, which User to fetch.
+     */
+    where: UserWhereUniqueInput
+  }
+
+  /**
+   * User findFirst
+   */
+  export type UserFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Filter, which User to fetch.
+     */
+    where?: UserWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Users to fetch.
+     */
+    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Users.
+     */
+    cursor?: UserWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Users from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Users.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Users.
+     */
+    distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
+  }
+
+  /**
+   * User findFirstOrThrow
+   */
+  export type UserFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Filter, which User to fetch.
+     */
+    where?: UserWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Users to fetch.
+     */
+    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Users.
+     */
+    cursor?: UserWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Users from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Users.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Users.
+     */
+    distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
+  }
+
+  /**
+   * User findMany
+   */
+  export type UserFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Filter, which Users to fetch.
+     */
+    where?: UserWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Users to fetch.
+     */
+    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Users.
+     */
+    cursor?: UserWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Users from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Users.
+     */
+    skip?: number
+    distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
+  }
+
+  /**
+   * User create
+   */
+  export type UserCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * The data needed to create a User.
+     */
+    data: XOR<UserCreateInput, UserUncheckedCreateInput>
+  }
+
+  /**
+   * User createMany
+   */
+  export type UserCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Users.
+     */
+    data: UserCreateManyInput | UserCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * User createManyAndReturn
+   */
+  export type UserCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * The data used to create many Users.
+     */
+    data: UserCreateManyInput | UserCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * User update
+   */
+  export type UserUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * The data needed to update a User.
+     */
+    data: XOR<UserUpdateInput, UserUncheckedUpdateInput>
+    /**
+     * Choose, which User to update.
+     */
+    where: UserWhereUniqueInput
+  }
+
+  /**
+   * User updateMany
+   */
+  export type UserUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Users.
+     */
+    data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyInput>
+    /**
+     * Filter which Users to update
+     */
+    where?: UserWhereInput
+    /**
+     * Limit how many Users to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * User updateManyAndReturn
+   */
+  export type UserUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * The data used to update Users.
+     */
+    data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyInput>
+    /**
+     * Filter which Users to update
+     */
+    where?: UserWhereInput
+    /**
+     * Limit how many Users to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * User upsert
+   */
+  export type UserUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * The filter to search for the User to update in case it exists.
+     */
+    where: UserWhereUniqueInput
+    /**
+     * In case the User found by the `where` argument doesn't exist, create a new User with this data.
+     */
+    create: XOR<UserCreateInput, UserUncheckedCreateInput>
+    /**
+     * In case the User was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UserUpdateInput, UserUncheckedUpdateInput>
+  }
+
+  /**
+   * User delete
+   */
+  export type UserDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Filter which User to delete.
+     */
+    where: UserWhereUniqueInput
+  }
+
+  /**
+   * User deleteMany
+   */
+  export type UserDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Users to delete
+     */
+    where?: UserWhereInput
+    /**
+     * Limit how many Users to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * User without action
+   */
+  export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -11595,62 +12089,33 @@ export namespace Prisma {
   export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
-  export const UserScalarFieldEnum: {
-    id: 'id',
-    email: 'email',
-    password: 'password',
-    role: 'role',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
-  };
-
-  export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
-
-
-  export const DepartmentScalarFieldEnum: {
-    id: 'id',
-    name: 'name'
-  };
-
-  export type DepartmentScalarFieldEnum = (typeof DepartmentScalarFieldEnum)[keyof typeof DepartmentScalarFieldEnum]
-
-
-  export const LabAssistantScalarFieldEnum: {
-    id: 'id',
-    userId: 'userId',
-    firstName: 'firstName',
-    lastName: 'lastName',
-    departmentId: 'departmentId'
-  };
-
-  export type LabAssistantScalarFieldEnum = (typeof LabAssistantScalarFieldEnum)[keyof typeof LabAssistantScalarFieldEnum]
-
-
   export const LabRoomScalarFieldEnum: {
     id: 'id',
     name: 'name',
     capacity: 'capacity',
-    status: 'status'
+    location: 'location',
+    equipment: 'equipment',
+    isActive: 'isActive',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type LabRoomScalarFieldEnum = (typeof LabRoomScalarFieldEnum)[keyof typeof LabRoomScalarFieldEnum]
 
 
-  export const TimeSlotScalarFieldEnum: {
-    id: 'id',
-    dayOfWeek: 'dayOfWeek',
-    startTime: 'startTime',
-    endTime: 'endTime'
-  };
-
-  export type TimeSlotScalarFieldEnum = (typeof TimeSlotScalarFieldEnum)[keyof typeof TimeSlotScalarFieldEnum]
-
-
   export const CourseScalarFieldEnum: {
     id: 'id',
+    code: 'code',
     name: 'name',
-    courseCode: 'courseCode',
-    departmentId: 'departmentId'
+    department: 'department',
+    credits: 'credits',
+    year: 'year',
+    section: 'section',
+    batch: 'batch',
+    studentType: 'studentType',
+    isActive: 'isActive',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type CourseScalarFieldEnum = (typeof CourseScalarFieldEnum)[keyof typeof CourseScalarFieldEnum]
@@ -11660,7 +12125,12 @@ export namespace Prisma {
     id: 'id',
     courseId: 'courseId',
     semester: 'semester',
-    year: 'year'
+    year: 'year',
+    totalSections: 'totalSections',
+    requiredLabSize: 'requiredLabSize',
+    isActive: 'isActive',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type CourseOfferingScalarFieldEnum = (typeof CourseOfferingScalarFieldEnum)[keyof typeof CourseOfferingScalarFieldEnum]
@@ -11668,26 +12138,88 @@ export namespace Prisma {
 
   export const SectionScalarFieldEnum: {
     id: 'id',
-    sectionNumber: 'sectionNumber',
-    requiredLabSize: 'requiredLabSize',
-    courseOfferingId: 'courseOfferingId'
+    name: 'name',
+    year: 'year',
+    department: 'department',
+    capacity: 'capacity',
+    isActive: 'isActive',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type SectionScalarFieldEnum = (typeof SectionScalarFieldEnum)[keyof typeof SectionScalarFieldEnum]
 
 
+  export const GroupScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    sectionId: 'sectionId',
+    capacity: 'capacity',
+    isActive: 'isActive',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type GroupScalarFieldEnum = (typeof GroupScalarFieldEnum)[keyof typeof GroupScalarFieldEnum]
+
+
+  export const LabAssistantScalarFieldEnum: {
+    id: 'id',
+    labAssistantId: 'labAssistantId',
+    username: 'username',
+    firstName: 'firstName',
+    lastName: 'lastName',
+    email: 'email',
+    password: 'password',
+    department: 'department',
+    isActive: 'isActive',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type LabAssistantScalarFieldEnum = (typeof LabAssistantScalarFieldEnum)[keyof typeof LabAssistantScalarFieldEnum]
+
+
+  export const TimeSlotScalarFieldEnum: {
+    id: 'id',
+    dayOfWeek: 'dayOfWeek',
+    startTime: 'startTime',
+    endTime: 'endTime',
+    isActive: 'isActive',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type TimeSlotScalarFieldEnum = (typeof TimeSlotScalarFieldEnum)[keyof typeof TimeSlotScalarFieldEnum]
+
+
   export const ScheduleAssignmentScalarFieldEnum: {
     id: 'id',
-    status: 'status',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt',
+    courseId: 'courseId',
     sectionId: 'sectionId',
+    groupId: 'groupId',
     labRoomId: 'labRoomId',
     labAssistantId: 'labAssistantId',
-    timeSlotId: 'timeSlotId'
+    timeSlotId: 'timeSlotId',
+    status: 'status',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type ScheduleAssignmentScalarFieldEnum = (typeof ScheduleAssignmentScalarFieldEnum)[keyof typeof ScheduleAssignmentScalarFieldEnum]
+
+
+  export const UserScalarFieldEnum: {
+    id: 'id',
+    email: 'email',
+    password: 'password',
+    role: 'role',
+    labAssistantId: 'labAssistantId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -11704,6 +12236,14 @@ export namespace Prisma {
   };
 
   export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+  export const NullsOrder: {
+    first: 'first',
+    last: 'last'
+  };
+
+  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
   /**
@@ -11726,16 +12266,23 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Role'
+   * Reference to a field of type 'Int'
    */
-  export type EnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role'>
+  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
     
 
 
   /**
-   * Reference to a field of type 'Role[]'
+   * Reference to a field of type 'Int[]'
    */
-  export type ListEnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role[]'>
+  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -11750,20 +12297,6 @@ export namespace Prisma {
    * Reference to a field of type 'DateTime[]'
    */
   export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'Int'
-   */
-  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
-    
-
-
-  /**
-   * Reference to a field of type 'Int[]'
-   */
-  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
     
 
 
@@ -11784,170 +12317,6 @@ export namespace Prisma {
    */
 
 
-  export type UserWhereInput = {
-    AND?: UserWhereInput | UserWhereInput[]
-    OR?: UserWhereInput[]
-    NOT?: UserWhereInput | UserWhereInput[]
-    id?: StringFilter<"User"> | string
-    email?: StringFilter<"User"> | string
-    password?: StringFilter<"User"> | string
-    role?: EnumRoleFilter<"User"> | $Enums.Role
-    createdAt?: DateTimeFilter<"User"> | Date | string
-    updatedAt?: DateTimeFilter<"User"> | Date | string
-    labAssistant?: XOR<LabAssistantNullableScalarRelationFilter, LabAssistantWhereInput> | null
-  }
-
-  export type UserOrderByWithRelationInput = {
-    id?: SortOrder
-    email?: SortOrder
-    password?: SortOrder
-    role?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    labAssistant?: LabAssistantOrderByWithRelationInput
-  }
-
-  export type UserWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
-    email?: string
-    AND?: UserWhereInput | UserWhereInput[]
-    OR?: UserWhereInput[]
-    NOT?: UserWhereInput | UserWhereInput[]
-    password?: StringFilter<"User"> | string
-    role?: EnumRoleFilter<"User"> | $Enums.Role
-    createdAt?: DateTimeFilter<"User"> | Date | string
-    updatedAt?: DateTimeFilter<"User"> | Date | string
-    labAssistant?: XOR<LabAssistantNullableScalarRelationFilter, LabAssistantWhereInput> | null
-  }, "id" | "email">
-
-  export type UserOrderByWithAggregationInput = {
-    id?: SortOrder
-    email?: SortOrder
-    password?: SortOrder
-    role?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    _count?: UserCountOrderByAggregateInput
-    _max?: UserMaxOrderByAggregateInput
-    _min?: UserMinOrderByAggregateInput
-  }
-
-  export type UserScalarWhereWithAggregatesInput = {
-    AND?: UserScalarWhereWithAggregatesInput | UserScalarWhereWithAggregatesInput[]
-    OR?: UserScalarWhereWithAggregatesInput[]
-    NOT?: UserScalarWhereWithAggregatesInput | UserScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"User"> | string
-    email?: StringWithAggregatesFilter<"User"> | string
-    password?: StringWithAggregatesFilter<"User"> | string
-    role?: EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
-    createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
-  }
-
-  export type DepartmentWhereInput = {
-    AND?: DepartmentWhereInput | DepartmentWhereInput[]
-    OR?: DepartmentWhereInput[]
-    NOT?: DepartmentWhereInput | DepartmentWhereInput[]
-    id?: StringFilter<"Department"> | string
-    name?: StringFilter<"Department"> | string
-    courses?: CourseListRelationFilter
-    labAssistants?: LabAssistantListRelationFilter
-  }
-
-  export type DepartmentOrderByWithRelationInput = {
-    id?: SortOrder
-    name?: SortOrder
-    courses?: CourseOrderByRelationAggregateInput
-    labAssistants?: LabAssistantOrderByRelationAggregateInput
-  }
-
-  export type DepartmentWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
-    name?: string
-    AND?: DepartmentWhereInput | DepartmentWhereInput[]
-    OR?: DepartmentWhereInput[]
-    NOT?: DepartmentWhereInput | DepartmentWhereInput[]
-    courses?: CourseListRelationFilter
-    labAssistants?: LabAssistantListRelationFilter
-  }, "id" | "name">
-
-  export type DepartmentOrderByWithAggregationInput = {
-    id?: SortOrder
-    name?: SortOrder
-    _count?: DepartmentCountOrderByAggregateInput
-    _max?: DepartmentMaxOrderByAggregateInput
-    _min?: DepartmentMinOrderByAggregateInput
-  }
-
-  export type DepartmentScalarWhereWithAggregatesInput = {
-    AND?: DepartmentScalarWhereWithAggregatesInput | DepartmentScalarWhereWithAggregatesInput[]
-    OR?: DepartmentScalarWhereWithAggregatesInput[]
-    NOT?: DepartmentScalarWhereWithAggregatesInput | DepartmentScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"Department"> | string
-    name?: StringWithAggregatesFilter<"Department"> | string
-  }
-
-  export type LabAssistantWhereInput = {
-    AND?: LabAssistantWhereInput | LabAssistantWhereInput[]
-    OR?: LabAssistantWhereInput[]
-    NOT?: LabAssistantWhereInput | LabAssistantWhereInput[]
-    id?: StringFilter<"LabAssistant"> | string
-    userId?: StringFilter<"LabAssistant"> | string
-    firstName?: StringFilter<"LabAssistant"> | string
-    lastName?: StringFilter<"LabAssistant"> | string
-    departmentId?: StringFilter<"LabAssistant"> | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    department?: XOR<DepartmentScalarRelationFilter, DepartmentWhereInput>
-    assignments?: ScheduleAssignmentListRelationFilter
-  }
-
-  export type LabAssistantOrderByWithRelationInput = {
-    id?: SortOrder
-    userId?: SortOrder
-    firstName?: SortOrder
-    lastName?: SortOrder
-    departmentId?: SortOrder
-    user?: UserOrderByWithRelationInput
-    department?: DepartmentOrderByWithRelationInput
-    assignments?: ScheduleAssignmentOrderByRelationAggregateInput
-  }
-
-  export type LabAssistantWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
-    userId?: string
-    AND?: LabAssistantWhereInput | LabAssistantWhereInput[]
-    OR?: LabAssistantWhereInput[]
-    NOT?: LabAssistantWhereInput | LabAssistantWhereInput[]
-    firstName?: StringFilter<"LabAssistant"> | string
-    lastName?: StringFilter<"LabAssistant"> | string
-    departmentId?: StringFilter<"LabAssistant"> | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    department?: XOR<DepartmentScalarRelationFilter, DepartmentWhereInput>
-    assignments?: ScheduleAssignmentListRelationFilter
-  }, "id" | "userId">
-
-  export type LabAssistantOrderByWithAggregationInput = {
-    id?: SortOrder
-    userId?: SortOrder
-    firstName?: SortOrder
-    lastName?: SortOrder
-    departmentId?: SortOrder
-    _count?: LabAssistantCountOrderByAggregateInput
-    _max?: LabAssistantMaxOrderByAggregateInput
-    _min?: LabAssistantMinOrderByAggregateInput
-  }
-
-  export type LabAssistantScalarWhereWithAggregatesInput = {
-    AND?: LabAssistantScalarWhereWithAggregatesInput | LabAssistantScalarWhereWithAggregatesInput[]
-    OR?: LabAssistantScalarWhereWithAggregatesInput[]
-    NOT?: LabAssistantScalarWhereWithAggregatesInput | LabAssistantScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"LabAssistant"> | string
-    userId?: StringWithAggregatesFilter<"LabAssistant"> | string
-    firstName?: StringWithAggregatesFilter<"LabAssistant"> | string
-    lastName?: StringWithAggregatesFilter<"LabAssistant"> | string
-    departmentId?: StringWithAggregatesFilter<"LabAssistant"> | string
-  }
-
   export type LabRoomWhereInput = {
     AND?: LabRoomWhereInput | LabRoomWhereInput[]
     OR?: LabRoomWhereInput[]
@@ -11955,34 +12324,50 @@ export namespace Prisma {
     id?: StringFilter<"LabRoom"> | string
     name?: StringFilter<"LabRoom"> | string
     capacity?: IntFilter<"LabRoom"> | number
-    status?: StringFilter<"LabRoom"> | string
-    assignments?: ScheduleAssignmentListRelationFilter
+    location?: StringFilter<"LabRoom"> | string
+    equipment?: StringNullableListFilter<"LabRoom">
+    isActive?: BoolFilter<"LabRoom"> | boolean
+    createdAt?: DateTimeFilter<"LabRoom"> | Date | string
+    updatedAt?: DateTimeFilter<"LabRoom"> | Date | string
+    ScheduleAssignments?: ScheduleAssignmentListRelationFilter
   }
 
   export type LabRoomOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
     capacity?: SortOrder
-    status?: SortOrder
-    assignments?: ScheduleAssignmentOrderByRelationAggregateInput
+    location?: SortOrder
+    equipment?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    ScheduleAssignments?: ScheduleAssignmentOrderByRelationAggregateInput
   }
 
   export type LabRoomWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    name?: string
     AND?: LabRoomWhereInput | LabRoomWhereInput[]
     OR?: LabRoomWhereInput[]
     NOT?: LabRoomWhereInput | LabRoomWhereInput[]
+    name?: StringFilter<"LabRoom"> | string
     capacity?: IntFilter<"LabRoom"> | number
-    status?: StringFilter<"LabRoom"> | string
-    assignments?: ScheduleAssignmentListRelationFilter
-  }, "id" | "name">
+    location?: StringFilter<"LabRoom"> | string
+    equipment?: StringNullableListFilter<"LabRoom">
+    isActive?: BoolFilter<"LabRoom"> | boolean
+    createdAt?: DateTimeFilter<"LabRoom"> | Date | string
+    updatedAt?: DateTimeFilter<"LabRoom"> | Date | string
+    ScheduleAssignments?: ScheduleAssignmentListRelationFilter
+  }, "id">
 
   export type LabRoomOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
     capacity?: SortOrder
-    status?: SortOrder
+    location?: SortOrder
+    equipment?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: LabRoomCountOrderByAggregateInput
     _avg?: LabRoomAvgOrderByAggregateInput
     _max?: LabRoomMaxOrderByAggregateInput
@@ -11997,57 +12382,11 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"LabRoom"> | string
     name?: StringWithAggregatesFilter<"LabRoom"> | string
     capacity?: IntWithAggregatesFilter<"LabRoom"> | number
-    status?: StringWithAggregatesFilter<"LabRoom"> | string
-  }
-
-  export type TimeSlotWhereInput = {
-    AND?: TimeSlotWhereInput | TimeSlotWhereInput[]
-    OR?: TimeSlotWhereInput[]
-    NOT?: TimeSlotWhereInput | TimeSlotWhereInput[]
-    id?: StringFilter<"TimeSlot"> | string
-    dayOfWeek?: StringFilter<"TimeSlot"> | string
-    startTime?: StringFilter<"TimeSlot"> | string
-    endTime?: StringFilter<"TimeSlot"> | string
-    assignments?: ScheduleAssignmentListRelationFilter
-  }
-
-  export type TimeSlotOrderByWithRelationInput = {
-    id?: SortOrder
-    dayOfWeek?: SortOrder
-    startTime?: SortOrder
-    endTime?: SortOrder
-    assignments?: ScheduleAssignmentOrderByRelationAggregateInput
-  }
-
-  export type TimeSlotWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
-    AND?: TimeSlotWhereInput | TimeSlotWhereInput[]
-    OR?: TimeSlotWhereInput[]
-    NOT?: TimeSlotWhereInput | TimeSlotWhereInput[]
-    dayOfWeek?: StringFilter<"TimeSlot"> | string
-    startTime?: StringFilter<"TimeSlot"> | string
-    endTime?: StringFilter<"TimeSlot"> | string
-    assignments?: ScheduleAssignmentListRelationFilter
-  }, "id">
-
-  export type TimeSlotOrderByWithAggregationInput = {
-    id?: SortOrder
-    dayOfWeek?: SortOrder
-    startTime?: SortOrder
-    endTime?: SortOrder
-    _count?: TimeSlotCountOrderByAggregateInput
-    _max?: TimeSlotMaxOrderByAggregateInput
-    _min?: TimeSlotMinOrderByAggregateInput
-  }
-
-  export type TimeSlotScalarWhereWithAggregatesInput = {
-    AND?: TimeSlotScalarWhereWithAggregatesInput | TimeSlotScalarWhereWithAggregatesInput[]
-    OR?: TimeSlotScalarWhereWithAggregatesInput[]
-    NOT?: TimeSlotScalarWhereWithAggregatesInput | TimeSlotScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"TimeSlot"> | string
-    dayOfWeek?: StringWithAggregatesFilter<"TimeSlot"> | string
-    startTime?: StringWithAggregatesFilter<"TimeSlot"> | string
-    endTime?: StringWithAggregatesFilter<"TimeSlot"> | string
+    location?: StringWithAggregatesFilter<"LabRoom"> | string
+    equipment?: StringNullableListFilter<"LabRoom">
+    isActive?: BoolWithAggregatesFilter<"LabRoom"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"LabRoom"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"LabRoom"> | Date | string
   }
 
   export type CourseWhereInput = {
@@ -12055,42 +12394,76 @@ export namespace Prisma {
     OR?: CourseWhereInput[]
     NOT?: CourseWhereInput | CourseWhereInput[]
     id?: StringFilter<"Course"> | string
+    code?: StringFilter<"Course"> | string
     name?: StringFilter<"Course"> | string
-    courseCode?: StringFilter<"Course"> | string
-    departmentId?: StringFilter<"Course"> | string
-    department?: XOR<DepartmentScalarRelationFilter, DepartmentWhereInput>
-    courseOfferings?: CourseOfferingListRelationFilter
+    department?: StringFilter<"Course"> | string
+    credits?: IntFilter<"Course"> | number
+    year?: IntFilter<"Course"> | number
+    section?: StringFilter<"Course"> | string
+    batch?: StringFilter<"Course"> | string
+    studentType?: StringFilter<"Course"> | string
+    isActive?: BoolFilter<"Course"> | boolean
+    createdAt?: DateTimeFilter<"Course"> | Date | string
+    updatedAt?: DateTimeFilter<"Course"> | Date | string
+    CourseOfferings?: CourseOfferingListRelationFilter
+    ScheduleAssignment?: ScheduleAssignmentListRelationFilter
   }
 
   export type CourseOrderByWithRelationInput = {
     id?: SortOrder
+    code?: SortOrder
     name?: SortOrder
-    courseCode?: SortOrder
-    departmentId?: SortOrder
-    department?: DepartmentOrderByWithRelationInput
-    courseOfferings?: CourseOfferingOrderByRelationAggregateInput
+    department?: SortOrder
+    credits?: SortOrder
+    year?: SortOrder
+    section?: SortOrder
+    batch?: SortOrder
+    studentType?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    CourseOfferings?: CourseOfferingOrderByRelationAggregateInput
+    ScheduleAssignment?: ScheduleAssignmentOrderByRelationAggregateInput
   }
 
   export type CourseWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    courseCode?: string
     AND?: CourseWhereInput | CourseWhereInput[]
     OR?: CourseWhereInput[]
     NOT?: CourseWhereInput | CourseWhereInput[]
+    code?: StringFilter<"Course"> | string
     name?: StringFilter<"Course"> | string
-    departmentId?: StringFilter<"Course"> | string
-    department?: XOR<DepartmentScalarRelationFilter, DepartmentWhereInput>
-    courseOfferings?: CourseOfferingListRelationFilter
-  }, "id" | "courseCode">
+    department?: StringFilter<"Course"> | string
+    credits?: IntFilter<"Course"> | number
+    year?: IntFilter<"Course"> | number
+    section?: StringFilter<"Course"> | string
+    batch?: StringFilter<"Course"> | string
+    studentType?: StringFilter<"Course"> | string
+    isActive?: BoolFilter<"Course"> | boolean
+    createdAt?: DateTimeFilter<"Course"> | Date | string
+    updatedAt?: DateTimeFilter<"Course"> | Date | string
+    CourseOfferings?: CourseOfferingListRelationFilter
+    ScheduleAssignment?: ScheduleAssignmentListRelationFilter
+  }, "id">
 
   export type CourseOrderByWithAggregationInput = {
     id?: SortOrder
+    code?: SortOrder
     name?: SortOrder
-    courseCode?: SortOrder
-    departmentId?: SortOrder
+    department?: SortOrder
+    credits?: SortOrder
+    year?: SortOrder
+    section?: SortOrder
+    batch?: SortOrder
+    studentType?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: CourseCountOrderByAggregateInput
+    _avg?: CourseAvgOrderByAggregateInput
     _max?: CourseMaxOrderByAggregateInput
     _min?: CourseMinOrderByAggregateInput
+    _sum?: CourseSumOrderByAggregateInput
   }
 
   export type CourseScalarWhereWithAggregatesInput = {
@@ -12098,9 +12471,17 @@ export namespace Prisma {
     OR?: CourseScalarWhereWithAggregatesInput[]
     NOT?: CourseScalarWhereWithAggregatesInput | CourseScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Course"> | string
+    code?: StringWithAggregatesFilter<"Course"> | string
     name?: StringWithAggregatesFilter<"Course"> | string
-    courseCode?: StringWithAggregatesFilter<"Course"> | string
-    departmentId?: StringWithAggregatesFilter<"Course"> | string
+    department?: StringWithAggregatesFilter<"Course"> | string
+    credits?: IntWithAggregatesFilter<"Course"> | number
+    year?: IntWithAggregatesFilter<"Course"> | number
+    section?: StringWithAggregatesFilter<"Course"> | string
+    batch?: StringWithAggregatesFilter<"Course"> | string
+    studentType?: StringWithAggregatesFilter<"Course"> | string
+    isActive?: BoolWithAggregatesFilter<"Course"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"Course"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Course"> | Date | string
   }
 
   export type CourseOfferingWhereInput = {
@@ -12111,8 +12492,12 @@ export namespace Prisma {
     courseId?: StringFilter<"CourseOffering"> | string
     semester?: StringFilter<"CourseOffering"> | string
     year?: IntFilter<"CourseOffering"> | number
+    totalSections?: IntFilter<"CourseOffering"> | number
+    requiredLabSize?: IntFilter<"CourseOffering"> | number
+    isActive?: BoolFilter<"CourseOffering"> | boolean
+    createdAt?: DateTimeFilter<"CourseOffering"> | Date | string
+    updatedAt?: DateTimeFilter<"CourseOffering"> | Date | string
     course?: XOR<CourseScalarRelationFilter, CourseWhereInput>
-    sections?: SectionListRelationFilter
   }
 
   export type CourseOfferingOrderByWithRelationInput = {
@@ -12120,8 +12505,12 @@ export namespace Prisma {
     courseId?: SortOrder
     semester?: SortOrder
     year?: SortOrder
+    totalSections?: SortOrder
+    requiredLabSize?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     course?: CourseOrderByWithRelationInput
-    sections?: SectionOrderByRelationAggregateInput
   }
 
   export type CourseOfferingWhereUniqueInput = Prisma.AtLeast<{
@@ -12132,8 +12521,12 @@ export namespace Prisma {
     courseId?: StringFilter<"CourseOffering"> | string
     semester?: StringFilter<"CourseOffering"> | string
     year?: IntFilter<"CourseOffering"> | number
+    totalSections?: IntFilter<"CourseOffering"> | number
+    requiredLabSize?: IntFilter<"CourseOffering"> | number
+    isActive?: BoolFilter<"CourseOffering"> | boolean
+    createdAt?: DateTimeFilter<"CourseOffering"> | Date | string
+    updatedAt?: DateTimeFilter<"CourseOffering"> | Date | string
     course?: XOR<CourseScalarRelationFilter, CourseWhereInput>
-    sections?: SectionListRelationFilter
   }, "id">
 
   export type CourseOfferingOrderByWithAggregationInput = {
@@ -12141,6 +12534,11 @@ export namespace Prisma {
     courseId?: SortOrder
     semester?: SortOrder
     year?: SortOrder
+    totalSections?: SortOrder
+    requiredLabSize?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: CourseOfferingCountOrderByAggregateInput
     _avg?: CourseOfferingAvgOrderByAggregateInput
     _max?: CourseOfferingMaxOrderByAggregateInput
@@ -12156,6 +12554,11 @@ export namespace Prisma {
     courseId?: StringWithAggregatesFilter<"CourseOffering"> | string
     semester?: StringWithAggregatesFilter<"CourseOffering"> | string
     year?: IntWithAggregatesFilter<"CourseOffering"> | number
+    totalSections?: IntWithAggregatesFilter<"CourseOffering"> | number
+    requiredLabSize?: IntWithAggregatesFilter<"CourseOffering"> | number
+    isActive?: BoolWithAggregatesFilter<"CourseOffering"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"CourseOffering"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"CourseOffering"> | Date | string
   }
 
   export type SectionWhereInput = {
@@ -12163,20 +12566,28 @@ export namespace Prisma {
     OR?: SectionWhereInput[]
     NOT?: SectionWhereInput | SectionWhereInput[]
     id?: StringFilter<"Section"> | string
-    sectionNumber?: StringFilter<"Section"> | string
-    requiredLabSize?: IntFilter<"Section"> | number
-    courseOfferingId?: StringFilter<"Section"> | string
-    courseOffering?: XOR<CourseOfferingScalarRelationFilter, CourseOfferingWhereInput>
-    assignment?: XOR<ScheduleAssignmentNullableScalarRelationFilter, ScheduleAssignmentWhereInput> | null
+    name?: StringFilter<"Section"> | string
+    year?: IntFilter<"Section"> | number
+    department?: StringFilter<"Section"> | string
+    capacity?: IntFilter<"Section"> | number
+    isActive?: BoolFilter<"Section"> | boolean
+    createdAt?: DateTimeFilter<"Section"> | Date | string
+    updatedAt?: DateTimeFilter<"Section"> | Date | string
+    Groups?: GroupListRelationFilter
+    ScheduleAssignment?: ScheduleAssignmentListRelationFilter
   }
 
   export type SectionOrderByWithRelationInput = {
     id?: SortOrder
-    sectionNumber?: SortOrder
-    requiredLabSize?: SortOrder
-    courseOfferingId?: SortOrder
-    courseOffering?: CourseOfferingOrderByWithRelationInput
-    assignment?: ScheduleAssignmentOrderByWithRelationInput
+    name?: SortOrder
+    year?: SortOrder
+    department?: SortOrder
+    capacity?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    Groups?: GroupOrderByRelationAggregateInput
+    ScheduleAssignment?: ScheduleAssignmentOrderByRelationAggregateInput
   }
 
   export type SectionWhereUniqueInput = Prisma.AtLeast<{
@@ -12184,18 +12595,26 @@ export namespace Prisma {
     AND?: SectionWhereInput | SectionWhereInput[]
     OR?: SectionWhereInput[]
     NOT?: SectionWhereInput | SectionWhereInput[]
-    sectionNumber?: StringFilter<"Section"> | string
-    requiredLabSize?: IntFilter<"Section"> | number
-    courseOfferingId?: StringFilter<"Section"> | string
-    courseOffering?: XOR<CourseOfferingScalarRelationFilter, CourseOfferingWhereInput>
-    assignment?: XOR<ScheduleAssignmentNullableScalarRelationFilter, ScheduleAssignmentWhereInput> | null
+    name?: StringFilter<"Section"> | string
+    year?: IntFilter<"Section"> | number
+    department?: StringFilter<"Section"> | string
+    capacity?: IntFilter<"Section"> | number
+    isActive?: BoolFilter<"Section"> | boolean
+    createdAt?: DateTimeFilter<"Section"> | Date | string
+    updatedAt?: DateTimeFilter<"Section"> | Date | string
+    Groups?: GroupListRelationFilter
+    ScheduleAssignment?: ScheduleAssignmentListRelationFilter
   }, "id">
 
   export type SectionOrderByWithAggregationInput = {
     id?: SortOrder
-    sectionNumber?: SortOrder
-    requiredLabSize?: SortOrder
-    courseOfferingId?: SortOrder
+    name?: SortOrder
+    year?: SortOrder
+    department?: SortOrder
+    capacity?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: SectionCountOrderByAggregateInput
     _avg?: SectionAvgOrderByAggregateInput
     _max?: SectionMaxOrderByAggregateInput
@@ -12208,9 +12627,233 @@ export namespace Prisma {
     OR?: SectionScalarWhereWithAggregatesInput[]
     NOT?: SectionScalarWhereWithAggregatesInput | SectionScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Section"> | string
-    sectionNumber?: StringWithAggregatesFilter<"Section"> | string
-    requiredLabSize?: IntWithAggregatesFilter<"Section"> | number
-    courseOfferingId?: StringWithAggregatesFilter<"Section"> | string
+    name?: StringWithAggregatesFilter<"Section"> | string
+    year?: IntWithAggregatesFilter<"Section"> | number
+    department?: StringWithAggregatesFilter<"Section"> | string
+    capacity?: IntWithAggregatesFilter<"Section"> | number
+    isActive?: BoolWithAggregatesFilter<"Section"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"Section"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Section"> | Date | string
+  }
+
+  export type GroupWhereInput = {
+    AND?: GroupWhereInput | GroupWhereInput[]
+    OR?: GroupWhereInput[]
+    NOT?: GroupWhereInput | GroupWhereInput[]
+    id?: StringFilter<"Group"> | string
+    name?: StringFilter<"Group"> | string
+    sectionId?: StringFilter<"Group"> | string
+    capacity?: IntFilter<"Group"> | number
+    isActive?: BoolFilter<"Group"> | boolean
+    createdAt?: DateTimeFilter<"Group"> | Date | string
+    updatedAt?: DateTimeFilter<"Group"> | Date | string
+    section?: XOR<SectionScalarRelationFilter, SectionWhereInput>
+    ScheduleAssignment?: ScheduleAssignmentListRelationFilter
+  }
+
+  export type GroupOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    sectionId?: SortOrder
+    capacity?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    section?: SectionOrderByWithRelationInput
+    ScheduleAssignment?: ScheduleAssignmentOrderByRelationAggregateInput
+  }
+
+  export type GroupWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: GroupWhereInput | GroupWhereInput[]
+    OR?: GroupWhereInput[]
+    NOT?: GroupWhereInput | GroupWhereInput[]
+    name?: StringFilter<"Group"> | string
+    sectionId?: StringFilter<"Group"> | string
+    capacity?: IntFilter<"Group"> | number
+    isActive?: BoolFilter<"Group"> | boolean
+    createdAt?: DateTimeFilter<"Group"> | Date | string
+    updatedAt?: DateTimeFilter<"Group"> | Date | string
+    section?: XOR<SectionScalarRelationFilter, SectionWhereInput>
+    ScheduleAssignment?: ScheduleAssignmentListRelationFilter
+  }, "id">
+
+  export type GroupOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    sectionId?: SortOrder
+    capacity?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: GroupCountOrderByAggregateInput
+    _avg?: GroupAvgOrderByAggregateInput
+    _max?: GroupMaxOrderByAggregateInput
+    _min?: GroupMinOrderByAggregateInput
+    _sum?: GroupSumOrderByAggregateInput
+  }
+
+  export type GroupScalarWhereWithAggregatesInput = {
+    AND?: GroupScalarWhereWithAggregatesInput | GroupScalarWhereWithAggregatesInput[]
+    OR?: GroupScalarWhereWithAggregatesInput[]
+    NOT?: GroupScalarWhereWithAggregatesInput | GroupScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Group"> | string
+    name?: StringWithAggregatesFilter<"Group"> | string
+    sectionId?: StringWithAggregatesFilter<"Group"> | string
+    capacity?: IntWithAggregatesFilter<"Group"> | number
+    isActive?: BoolWithAggregatesFilter<"Group"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"Group"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Group"> | Date | string
+  }
+
+  export type LabAssistantWhereInput = {
+    AND?: LabAssistantWhereInput | LabAssistantWhereInput[]
+    OR?: LabAssistantWhereInput[]
+    NOT?: LabAssistantWhereInput | LabAssistantWhereInput[]
+    id?: StringFilter<"LabAssistant"> | string
+    labAssistantId?: StringFilter<"LabAssistant"> | string
+    username?: StringFilter<"LabAssistant"> | string
+    firstName?: StringFilter<"LabAssistant"> | string
+    lastName?: StringFilter<"LabAssistant"> | string
+    email?: StringFilter<"LabAssistant"> | string
+    password?: StringFilter<"LabAssistant"> | string
+    department?: StringFilter<"LabAssistant"> | string
+    isActive?: BoolFilter<"LabAssistant"> | boolean
+    createdAt?: DateTimeFilter<"LabAssistant"> | Date | string
+    updatedAt?: DateTimeFilter<"LabAssistant"> | Date | string
+    ScheduleAssignments?: ScheduleAssignmentListRelationFilter
+  }
+
+  export type LabAssistantOrderByWithRelationInput = {
+    id?: SortOrder
+    labAssistantId?: SortOrder
+    username?: SortOrder
+    firstName?: SortOrder
+    lastName?: SortOrder
+    email?: SortOrder
+    password?: SortOrder
+    department?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    ScheduleAssignments?: ScheduleAssignmentOrderByRelationAggregateInput
+  }
+
+  export type LabAssistantWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: LabAssistantWhereInput | LabAssistantWhereInput[]
+    OR?: LabAssistantWhereInput[]
+    NOT?: LabAssistantWhereInput | LabAssistantWhereInput[]
+    labAssistantId?: StringFilter<"LabAssistant"> | string
+    username?: StringFilter<"LabAssistant"> | string
+    firstName?: StringFilter<"LabAssistant"> | string
+    lastName?: StringFilter<"LabAssistant"> | string
+    email?: StringFilter<"LabAssistant"> | string
+    password?: StringFilter<"LabAssistant"> | string
+    department?: StringFilter<"LabAssistant"> | string
+    isActive?: BoolFilter<"LabAssistant"> | boolean
+    createdAt?: DateTimeFilter<"LabAssistant"> | Date | string
+    updatedAt?: DateTimeFilter<"LabAssistant"> | Date | string
+    ScheduleAssignments?: ScheduleAssignmentListRelationFilter
+  }, "id">
+
+  export type LabAssistantOrderByWithAggregationInput = {
+    id?: SortOrder
+    labAssistantId?: SortOrder
+    username?: SortOrder
+    firstName?: SortOrder
+    lastName?: SortOrder
+    email?: SortOrder
+    password?: SortOrder
+    department?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: LabAssistantCountOrderByAggregateInput
+    _max?: LabAssistantMaxOrderByAggregateInput
+    _min?: LabAssistantMinOrderByAggregateInput
+  }
+
+  export type LabAssistantScalarWhereWithAggregatesInput = {
+    AND?: LabAssistantScalarWhereWithAggregatesInput | LabAssistantScalarWhereWithAggregatesInput[]
+    OR?: LabAssistantScalarWhereWithAggregatesInput[]
+    NOT?: LabAssistantScalarWhereWithAggregatesInput | LabAssistantScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"LabAssistant"> | string
+    labAssistantId?: StringWithAggregatesFilter<"LabAssistant"> | string
+    username?: StringWithAggregatesFilter<"LabAssistant"> | string
+    firstName?: StringWithAggregatesFilter<"LabAssistant"> | string
+    lastName?: StringWithAggregatesFilter<"LabAssistant"> | string
+    email?: StringWithAggregatesFilter<"LabAssistant"> | string
+    password?: StringWithAggregatesFilter<"LabAssistant"> | string
+    department?: StringWithAggregatesFilter<"LabAssistant"> | string
+    isActive?: BoolWithAggregatesFilter<"LabAssistant"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"LabAssistant"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"LabAssistant"> | Date | string
+  }
+
+  export type TimeSlotWhereInput = {
+    AND?: TimeSlotWhereInput | TimeSlotWhereInput[]
+    OR?: TimeSlotWhereInput[]
+    NOT?: TimeSlotWhereInput | TimeSlotWhereInput[]
+    id?: StringFilter<"TimeSlot"> | string
+    dayOfWeek?: StringFilter<"TimeSlot"> | string
+    startTime?: StringFilter<"TimeSlot"> | string
+    endTime?: StringFilter<"TimeSlot"> | string
+    isActive?: BoolFilter<"TimeSlot"> | boolean
+    createdAt?: DateTimeFilter<"TimeSlot"> | Date | string
+    updatedAt?: DateTimeFilter<"TimeSlot"> | Date | string
+    ScheduleAssignments?: ScheduleAssignmentListRelationFilter
+  }
+
+  export type TimeSlotOrderByWithRelationInput = {
+    id?: SortOrder
+    dayOfWeek?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    ScheduleAssignments?: ScheduleAssignmentOrderByRelationAggregateInput
+  }
+
+  export type TimeSlotWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: TimeSlotWhereInput | TimeSlotWhereInput[]
+    OR?: TimeSlotWhereInput[]
+    NOT?: TimeSlotWhereInput | TimeSlotWhereInput[]
+    dayOfWeek?: StringFilter<"TimeSlot"> | string
+    startTime?: StringFilter<"TimeSlot"> | string
+    endTime?: StringFilter<"TimeSlot"> | string
+    isActive?: BoolFilter<"TimeSlot"> | boolean
+    createdAt?: DateTimeFilter<"TimeSlot"> | Date | string
+    updatedAt?: DateTimeFilter<"TimeSlot"> | Date | string
+    ScheduleAssignments?: ScheduleAssignmentListRelationFilter
+  }, "id">
+
+  export type TimeSlotOrderByWithAggregationInput = {
+    id?: SortOrder
+    dayOfWeek?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: TimeSlotCountOrderByAggregateInput
+    _max?: TimeSlotMaxOrderByAggregateInput
+    _min?: TimeSlotMinOrderByAggregateInput
+  }
+
+  export type TimeSlotScalarWhereWithAggregatesInput = {
+    AND?: TimeSlotScalarWhereWithAggregatesInput | TimeSlotScalarWhereWithAggregatesInput[]
+    OR?: TimeSlotScalarWhereWithAggregatesInput[]
+    NOT?: TimeSlotScalarWhereWithAggregatesInput | TimeSlotScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"TimeSlot"> | string
+    dayOfWeek?: StringWithAggregatesFilter<"TimeSlot"> | string
+    startTime?: StringWithAggregatesFilter<"TimeSlot"> | string
+    endTime?: StringWithAggregatesFilter<"TimeSlot"> | string
+    isActive?: BoolWithAggregatesFilter<"TimeSlot"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"TimeSlot"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"TimeSlot"> | Date | string
   }
 
   export type ScheduleAssignmentWhereInput = {
@@ -12218,14 +12861,18 @@ export namespace Prisma {
     OR?: ScheduleAssignmentWhereInput[]
     NOT?: ScheduleAssignmentWhereInput | ScheduleAssignmentWhereInput[]
     id?: StringFilter<"ScheduleAssignment"> | string
-    status?: StringFilter<"ScheduleAssignment"> | string
-    createdAt?: DateTimeFilter<"ScheduleAssignment"> | Date | string
-    updatedAt?: DateTimeFilter<"ScheduleAssignment"> | Date | string
+    courseId?: StringFilter<"ScheduleAssignment"> | string
     sectionId?: StringFilter<"ScheduleAssignment"> | string
+    groupId?: StringNullableFilter<"ScheduleAssignment"> | string | null
     labRoomId?: StringFilter<"ScheduleAssignment"> | string
     labAssistantId?: StringFilter<"ScheduleAssignment"> | string
     timeSlotId?: StringFilter<"ScheduleAssignment"> | string
+    status?: StringFilter<"ScheduleAssignment"> | string
+    createdAt?: DateTimeFilter<"ScheduleAssignment"> | Date | string
+    updatedAt?: DateTimeFilter<"ScheduleAssignment"> | Date | string
+    course?: XOR<CourseScalarRelationFilter, CourseWhereInput>
     section?: XOR<SectionScalarRelationFilter, SectionWhereInput>
+    group?: XOR<GroupNullableScalarRelationFilter, GroupWhereInput> | null
     labRoom?: XOR<LabRoomScalarRelationFilter, LabRoomWhereInput>
     labAssistant?: XOR<LabAssistantScalarRelationFilter, LabAssistantWhereInput>
     timeSlot?: XOR<TimeSlotScalarRelationFilter, TimeSlotWhereInput>
@@ -12233,14 +12880,18 @@ export namespace Prisma {
 
   export type ScheduleAssignmentOrderByWithRelationInput = {
     id?: SortOrder
-    status?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
+    courseId?: SortOrder
     sectionId?: SortOrder
+    groupId?: SortOrderInput | SortOrder
     labRoomId?: SortOrder
     labAssistantId?: SortOrder
     timeSlotId?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    course?: CourseOrderByWithRelationInput
     section?: SectionOrderByWithRelationInput
+    group?: GroupOrderByWithRelationInput
     labRoom?: LabRoomOrderByWithRelationInput
     labAssistant?: LabAssistantOrderByWithRelationInput
     timeSlot?: TimeSlotOrderByWithRelationInput
@@ -12248,31 +12899,37 @@ export namespace Prisma {
 
   export type ScheduleAssignmentWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    sectionId?: string
     AND?: ScheduleAssignmentWhereInput | ScheduleAssignmentWhereInput[]
     OR?: ScheduleAssignmentWhereInput[]
     NOT?: ScheduleAssignmentWhereInput | ScheduleAssignmentWhereInput[]
-    status?: StringFilter<"ScheduleAssignment"> | string
-    createdAt?: DateTimeFilter<"ScheduleAssignment"> | Date | string
-    updatedAt?: DateTimeFilter<"ScheduleAssignment"> | Date | string
+    courseId?: StringFilter<"ScheduleAssignment"> | string
+    sectionId?: StringFilter<"ScheduleAssignment"> | string
+    groupId?: StringNullableFilter<"ScheduleAssignment"> | string | null
     labRoomId?: StringFilter<"ScheduleAssignment"> | string
     labAssistantId?: StringFilter<"ScheduleAssignment"> | string
     timeSlotId?: StringFilter<"ScheduleAssignment"> | string
+    status?: StringFilter<"ScheduleAssignment"> | string
+    createdAt?: DateTimeFilter<"ScheduleAssignment"> | Date | string
+    updatedAt?: DateTimeFilter<"ScheduleAssignment"> | Date | string
+    course?: XOR<CourseScalarRelationFilter, CourseWhereInput>
     section?: XOR<SectionScalarRelationFilter, SectionWhereInput>
+    group?: XOR<GroupNullableScalarRelationFilter, GroupWhereInput> | null
     labRoom?: XOR<LabRoomScalarRelationFilter, LabRoomWhereInput>
     labAssistant?: XOR<LabAssistantScalarRelationFilter, LabAssistantWhereInput>
     timeSlot?: XOR<TimeSlotScalarRelationFilter, TimeSlotWhereInput>
-  }, "id" | "sectionId">
+  }, "id">
 
   export type ScheduleAssignmentOrderByWithAggregationInput = {
     id?: SortOrder
-    status?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
+    courseId?: SortOrder
     sectionId?: SortOrder
+    groupId?: SortOrderInput | SortOrder
     labRoomId?: SortOrder
     labAssistantId?: SortOrder
     timeSlotId?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: ScheduleAssignmentCountOrderByAggregateInput
     _max?: ScheduleAssignmentMaxOrderByAggregateInput
     _min?: ScheduleAssignmentMinOrderByAggregateInput
@@ -12283,347 +12940,283 @@ export namespace Prisma {
     OR?: ScheduleAssignmentScalarWhereWithAggregatesInput[]
     NOT?: ScheduleAssignmentScalarWhereWithAggregatesInput | ScheduleAssignmentScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"ScheduleAssignment"> | string
-    status?: StringWithAggregatesFilter<"ScheduleAssignment"> | string
-    createdAt?: DateTimeWithAggregatesFilter<"ScheduleAssignment"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"ScheduleAssignment"> | Date | string
+    courseId?: StringWithAggregatesFilter<"ScheduleAssignment"> | string
     sectionId?: StringWithAggregatesFilter<"ScheduleAssignment"> | string
+    groupId?: StringNullableWithAggregatesFilter<"ScheduleAssignment"> | string | null
     labRoomId?: StringWithAggregatesFilter<"ScheduleAssignment"> | string
     labAssistantId?: StringWithAggregatesFilter<"ScheduleAssignment"> | string
     timeSlotId?: StringWithAggregatesFilter<"ScheduleAssignment"> | string
+    status?: StringWithAggregatesFilter<"ScheduleAssignment"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"ScheduleAssignment"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ScheduleAssignment"> | Date | string
   }
 
-  export type UserCreateInput = {
+  export type UserWhereInput = {
+    AND?: UserWhereInput | UserWhereInput[]
+    OR?: UserWhereInput[]
+    NOT?: UserWhereInput | UserWhereInput[]
+    id?: StringFilter<"User"> | string
+    email?: StringFilter<"User"> | string
+    password?: StringFilter<"User"> | string
+    role?: StringFilter<"User"> | string
+    labAssistantId?: StringNullableFilter<"User"> | string | null
+    createdAt?: DateTimeFilter<"User"> | Date | string
+    updatedAt?: DateTimeFilter<"User"> | Date | string
+  }
+
+  export type UserOrderByWithRelationInput = {
+    id?: SortOrder
+    email?: SortOrder
+    password?: SortOrder
+    role?: SortOrder
+    labAssistantId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type UserWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    email: string
-    password: string
-    role?: $Enums.Role
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    labAssistant?: LabAssistantCreateNestedOneWithoutUserInput
+    email?: string
+    AND?: UserWhereInput | UserWhereInput[]
+    OR?: UserWhereInput[]
+    NOT?: UserWhereInput | UserWhereInput[]
+    password?: StringFilter<"User"> | string
+    role?: StringFilter<"User"> | string
+    labAssistantId?: StringNullableFilter<"User"> | string | null
+    createdAt?: DateTimeFilter<"User"> | Date | string
+    updatedAt?: DateTimeFilter<"User"> | Date | string
+  }, "id" | "email">
+
+  export type UserOrderByWithAggregationInput = {
+    id?: SortOrder
+    email?: SortOrder
+    password?: SortOrder
+    role?: SortOrder
+    labAssistantId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: UserCountOrderByAggregateInput
+    _max?: UserMaxOrderByAggregateInput
+    _min?: UserMinOrderByAggregateInput
   }
 
-  export type UserUncheckedCreateInput = {
-    id?: string
-    email: string
-    password: string
-    role?: $Enums.Role
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    labAssistant?: LabAssistantUncheckedCreateNestedOneWithoutUserInput
-  }
-
-  export type UserUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    labAssistant?: LabAssistantUpdateOneWithoutUserNestedInput
-  }
-
-  export type UserUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    labAssistant?: LabAssistantUncheckedUpdateOneWithoutUserNestedInput
-  }
-
-  export type UserCreateManyInput = {
-    id?: string
-    email: string
-    password: string
-    role?: $Enums.Role
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type UserUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type UserUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type DepartmentCreateInput = {
-    id?: string
-    name: string
-    courses?: CourseCreateNestedManyWithoutDepartmentInput
-    labAssistants?: LabAssistantCreateNestedManyWithoutDepartmentInput
-  }
-
-  export type DepartmentUncheckedCreateInput = {
-    id?: string
-    name: string
-    courses?: CourseUncheckedCreateNestedManyWithoutDepartmentInput
-    labAssistants?: LabAssistantUncheckedCreateNestedManyWithoutDepartmentInput
-  }
-
-  export type DepartmentUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    courses?: CourseUpdateManyWithoutDepartmentNestedInput
-    labAssistants?: LabAssistantUpdateManyWithoutDepartmentNestedInput
-  }
-
-  export type DepartmentUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    courses?: CourseUncheckedUpdateManyWithoutDepartmentNestedInput
-    labAssistants?: LabAssistantUncheckedUpdateManyWithoutDepartmentNestedInput
-  }
-
-  export type DepartmentCreateManyInput = {
-    id?: string
-    name: string
-  }
-
-  export type DepartmentUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type DepartmentUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type LabAssistantCreateInput = {
-    id?: string
-    firstName: string
-    lastName: string
-    user: UserCreateNestedOneWithoutLabAssistantInput
-    department: DepartmentCreateNestedOneWithoutLabAssistantsInput
-    assignments?: ScheduleAssignmentCreateNestedManyWithoutLabAssistantInput
-  }
-
-  export type LabAssistantUncheckedCreateInput = {
-    id?: string
-    userId: string
-    firstName: string
-    lastName: string
-    departmentId: string
-    assignments?: ScheduleAssignmentUncheckedCreateNestedManyWithoutLabAssistantInput
-  }
-
-  export type LabAssistantUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    firstName?: StringFieldUpdateOperationsInput | string
-    lastName?: StringFieldUpdateOperationsInput | string
-    user?: UserUpdateOneRequiredWithoutLabAssistantNestedInput
-    department?: DepartmentUpdateOneRequiredWithoutLabAssistantsNestedInput
-    assignments?: ScheduleAssignmentUpdateManyWithoutLabAssistantNestedInput
-  }
-
-  export type LabAssistantUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    firstName?: StringFieldUpdateOperationsInput | string
-    lastName?: StringFieldUpdateOperationsInput | string
-    departmentId?: StringFieldUpdateOperationsInput | string
-    assignments?: ScheduleAssignmentUncheckedUpdateManyWithoutLabAssistantNestedInput
-  }
-
-  export type LabAssistantCreateManyInput = {
-    id?: string
-    userId: string
-    firstName: string
-    lastName: string
-    departmentId: string
-  }
-
-  export type LabAssistantUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    firstName?: StringFieldUpdateOperationsInput | string
-    lastName?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type LabAssistantUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    firstName?: StringFieldUpdateOperationsInput | string
-    lastName?: StringFieldUpdateOperationsInput | string
-    departmentId?: StringFieldUpdateOperationsInput | string
+  export type UserScalarWhereWithAggregatesInput = {
+    AND?: UserScalarWhereWithAggregatesInput | UserScalarWhereWithAggregatesInput[]
+    OR?: UserScalarWhereWithAggregatesInput[]
+    NOT?: UserScalarWhereWithAggregatesInput | UserScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"User"> | string
+    email?: StringWithAggregatesFilter<"User"> | string
+    password?: StringWithAggregatesFilter<"User"> | string
+    role?: StringWithAggregatesFilter<"User"> | string
+    labAssistantId?: StringNullableWithAggregatesFilter<"User"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
   }
 
   export type LabRoomCreateInput = {
     id?: string
     name: string
     capacity: number
-    status?: string
-    assignments?: ScheduleAssignmentCreateNestedManyWithoutLabRoomInput
+    location: string
+    equipment?: LabRoomCreateequipmentInput | string[]
+    isActive: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    ScheduleAssignments?: ScheduleAssignmentCreateNestedManyWithoutLabRoomInput
   }
 
   export type LabRoomUncheckedCreateInput = {
     id?: string
     name: string
     capacity: number
-    status?: string
-    assignments?: ScheduleAssignmentUncheckedCreateNestedManyWithoutLabRoomInput
+    location: string
+    equipment?: LabRoomCreateequipmentInput | string[]
+    isActive: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    ScheduleAssignments?: ScheduleAssignmentUncheckedCreateNestedManyWithoutLabRoomInput
   }
 
   export type LabRoomUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     capacity?: IntFieldUpdateOperationsInput | number
-    status?: StringFieldUpdateOperationsInput | string
-    assignments?: ScheduleAssignmentUpdateManyWithoutLabRoomNestedInput
+    location?: StringFieldUpdateOperationsInput | string
+    equipment?: LabRoomUpdateequipmentInput | string[]
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ScheduleAssignments?: ScheduleAssignmentUpdateManyWithoutLabRoomNestedInput
   }
 
   export type LabRoomUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     capacity?: IntFieldUpdateOperationsInput | number
-    status?: StringFieldUpdateOperationsInput | string
-    assignments?: ScheduleAssignmentUncheckedUpdateManyWithoutLabRoomNestedInput
+    location?: StringFieldUpdateOperationsInput | string
+    equipment?: LabRoomUpdateequipmentInput | string[]
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ScheduleAssignments?: ScheduleAssignmentUncheckedUpdateManyWithoutLabRoomNestedInput
   }
 
   export type LabRoomCreateManyInput = {
     id?: string
     name: string
     capacity: number
-    status?: string
+    location: string
+    equipment?: LabRoomCreateequipmentInput | string[]
+    isActive: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type LabRoomUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     capacity?: IntFieldUpdateOperationsInput | number
-    status?: StringFieldUpdateOperationsInput | string
+    location?: StringFieldUpdateOperationsInput | string
+    equipment?: LabRoomUpdateequipmentInput | string[]
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LabRoomUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     capacity?: IntFieldUpdateOperationsInput | number
-    status?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type TimeSlotCreateInput = {
-    id?: string
-    dayOfWeek: string
-    startTime: string
-    endTime: string
-    assignments?: ScheduleAssignmentCreateNestedManyWithoutTimeSlotInput
-  }
-
-  export type TimeSlotUncheckedCreateInput = {
-    id?: string
-    dayOfWeek: string
-    startTime: string
-    endTime: string
-    assignments?: ScheduleAssignmentUncheckedCreateNestedManyWithoutTimeSlotInput
-  }
-
-  export type TimeSlotUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    dayOfWeek?: StringFieldUpdateOperationsInput | string
-    startTime?: StringFieldUpdateOperationsInput | string
-    endTime?: StringFieldUpdateOperationsInput | string
-    assignments?: ScheduleAssignmentUpdateManyWithoutTimeSlotNestedInput
-  }
-
-  export type TimeSlotUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    dayOfWeek?: StringFieldUpdateOperationsInput | string
-    startTime?: StringFieldUpdateOperationsInput | string
-    endTime?: StringFieldUpdateOperationsInput | string
-    assignments?: ScheduleAssignmentUncheckedUpdateManyWithoutTimeSlotNestedInput
-  }
-
-  export type TimeSlotCreateManyInput = {
-    id?: string
-    dayOfWeek: string
-    startTime: string
-    endTime: string
-  }
-
-  export type TimeSlotUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    dayOfWeek?: StringFieldUpdateOperationsInput | string
-    startTime?: StringFieldUpdateOperationsInput | string
-    endTime?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type TimeSlotUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    dayOfWeek?: StringFieldUpdateOperationsInput | string
-    startTime?: StringFieldUpdateOperationsInput | string
-    endTime?: StringFieldUpdateOperationsInput | string
+    location?: StringFieldUpdateOperationsInput | string
+    equipment?: LabRoomUpdateequipmentInput | string[]
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CourseCreateInput = {
     id?: string
+    code: string
     name: string
-    courseCode: string
-    department: DepartmentCreateNestedOneWithoutCoursesInput
-    courseOfferings?: CourseOfferingCreateNestedManyWithoutCourseInput
+    department: string
+    credits: number
+    year: number
+    section: string
+    batch: string
+    studentType: string
+    isActive: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    CourseOfferings?: CourseOfferingCreateNestedManyWithoutCourseInput
+    ScheduleAssignment?: ScheduleAssignmentCreateNestedManyWithoutCourseInput
   }
 
   export type CourseUncheckedCreateInput = {
     id?: string
+    code: string
     name: string
-    courseCode: string
-    departmentId: string
-    courseOfferings?: CourseOfferingUncheckedCreateNestedManyWithoutCourseInput
+    department: string
+    credits: number
+    year: number
+    section: string
+    batch: string
+    studentType: string
+    isActive: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    CourseOfferings?: CourseOfferingUncheckedCreateNestedManyWithoutCourseInput
+    ScheduleAssignment?: ScheduleAssignmentUncheckedCreateNestedManyWithoutCourseInput
   }
 
   export type CourseUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    courseCode?: StringFieldUpdateOperationsInput | string
-    department?: DepartmentUpdateOneRequiredWithoutCoursesNestedInput
-    courseOfferings?: CourseOfferingUpdateManyWithoutCourseNestedInput
+    department?: StringFieldUpdateOperationsInput | string
+    credits?: IntFieldUpdateOperationsInput | number
+    year?: IntFieldUpdateOperationsInput | number
+    section?: StringFieldUpdateOperationsInput | string
+    batch?: StringFieldUpdateOperationsInput | string
+    studentType?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    CourseOfferings?: CourseOfferingUpdateManyWithoutCourseNestedInput
+    ScheduleAssignment?: ScheduleAssignmentUpdateManyWithoutCourseNestedInput
   }
 
   export type CourseUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    courseCode?: StringFieldUpdateOperationsInput | string
-    departmentId?: StringFieldUpdateOperationsInput | string
-    courseOfferings?: CourseOfferingUncheckedUpdateManyWithoutCourseNestedInput
+    department?: StringFieldUpdateOperationsInput | string
+    credits?: IntFieldUpdateOperationsInput | number
+    year?: IntFieldUpdateOperationsInput | number
+    section?: StringFieldUpdateOperationsInput | string
+    batch?: StringFieldUpdateOperationsInput | string
+    studentType?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    CourseOfferings?: CourseOfferingUncheckedUpdateManyWithoutCourseNestedInput
+    ScheduleAssignment?: ScheduleAssignmentUncheckedUpdateManyWithoutCourseNestedInput
   }
 
   export type CourseCreateManyInput = {
     id?: string
+    code: string
     name: string
-    courseCode: string
-    departmentId: string
+    department: string
+    credits: number
+    year: number
+    section: string
+    batch: string
+    studentType: string
+    isActive: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type CourseUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    courseCode?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    credits?: IntFieldUpdateOperationsInput | number
+    year?: IntFieldUpdateOperationsInput | number
+    section?: StringFieldUpdateOperationsInput | string
+    batch?: StringFieldUpdateOperationsInput | string
+    studentType?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CourseUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    courseCode?: StringFieldUpdateOperationsInput | string
-    departmentId?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    credits?: IntFieldUpdateOperationsInput | number
+    year?: IntFieldUpdateOperationsInput | number
+    section?: StringFieldUpdateOperationsInput | string
+    batch?: StringFieldUpdateOperationsInput | string
+    studentType?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CourseOfferingCreateInput = {
     id?: string
     semester: string
     year: number
+    totalSections: number
+    requiredLabSize: number
+    isActive: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
     course: CourseCreateNestedOneWithoutCourseOfferingsInput
-    sections?: SectionCreateNestedManyWithoutCourseOfferingInput
   }
 
   export type CourseOfferingUncheckedCreateInput = {
@@ -12631,15 +13224,23 @@ export namespace Prisma {
     courseId: string
     semester: string
     year: number
-    sections?: SectionUncheckedCreateNestedManyWithoutCourseOfferingInput
+    totalSections: number
+    requiredLabSize: number
+    isActive: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type CourseOfferingUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     semester?: StringFieldUpdateOperationsInput | string
     year?: IntFieldUpdateOperationsInput | number
+    totalSections?: IntFieldUpdateOperationsInput | number
+    requiredLabSize?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     course?: CourseUpdateOneRequiredWithoutCourseOfferingsNestedInput
-    sections?: SectionUpdateManyWithoutCourseOfferingNestedInput
   }
 
   export type CourseOfferingUncheckedUpdateInput = {
@@ -12647,7 +13248,11 @@ export namespace Prisma {
     courseId?: StringFieldUpdateOperationsInput | string
     semester?: StringFieldUpdateOperationsInput | string
     year?: IntFieldUpdateOperationsInput | number
-    sections?: SectionUncheckedUpdateManyWithoutCourseOfferingNestedInput
+    totalSections?: IntFieldUpdateOperationsInput | number
+    requiredLabSize?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CourseOfferingCreateManyInput = {
@@ -12655,12 +13260,22 @@ export namespace Prisma {
     courseId: string
     semester: string
     year: number
+    totalSections: number
+    requiredLabSize: number
+    isActive: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type CourseOfferingUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     semester?: StringFieldUpdateOperationsInput | string
     year?: IntFieldUpdateOperationsInput | number
+    totalSections?: IntFieldUpdateOperationsInput | number
+    requiredLabSize?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CourseOfferingUncheckedUpdateManyInput = {
@@ -12668,80 +13283,371 @@ export namespace Prisma {
     courseId?: StringFieldUpdateOperationsInput | string
     semester?: StringFieldUpdateOperationsInput | string
     year?: IntFieldUpdateOperationsInput | number
+    totalSections?: IntFieldUpdateOperationsInput | number
+    requiredLabSize?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type SectionCreateInput = {
     id?: string
-    sectionNumber: string
-    requiredLabSize: number
-    courseOffering: CourseOfferingCreateNestedOneWithoutSectionsInput
-    assignment?: ScheduleAssignmentCreateNestedOneWithoutSectionInput
+    name: string
+    year: number
+    department: string
+    capacity: number
+    isActive: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    Groups?: GroupCreateNestedManyWithoutSectionInput
+    ScheduleAssignment?: ScheduleAssignmentCreateNestedManyWithoutSectionInput
   }
 
   export type SectionUncheckedCreateInput = {
     id?: string
-    sectionNumber: string
-    requiredLabSize: number
-    courseOfferingId: string
-    assignment?: ScheduleAssignmentUncheckedCreateNestedOneWithoutSectionInput
+    name: string
+    year: number
+    department: string
+    capacity: number
+    isActive: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    Groups?: GroupUncheckedCreateNestedManyWithoutSectionInput
+    ScheduleAssignment?: ScheduleAssignmentUncheckedCreateNestedManyWithoutSectionInput
   }
 
   export type SectionUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    sectionNumber?: StringFieldUpdateOperationsInput | string
-    requiredLabSize?: IntFieldUpdateOperationsInput | number
-    courseOffering?: CourseOfferingUpdateOneRequiredWithoutSectionsNestedInput
-    assignment?: ScheduleAssignmentUpdateOneWithoutSectionNestedInput
+    name?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    department?: StringFieldUpdateOperationsInput | string
+    capacity?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    Groups?: GroupUpdateManyWithoutSectionNestedInput
+    ScheduleAssignment?: ScheduleAssignmentUpdateManyWithoutSectionNestedInput
   }
 
   export type SectionUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    sectionNumber?: StringFieldUpdateOperationsInput | string
-    requiredLabSize?: IntFieldUpdateOperationsInput | number
-    courseOfferingId?: StringFieldUpdateOperationsInput | string
-    assignment?: ScheduleAssignmentUncheckedUpdateOneWithoutSectionNestedInput
+    name?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    department?: StringFieldUpdateOperationsInput | string
+    capacity?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    Groups?: GroupUncheckedUpdateManyWithoutSectionNestedInput
+    ScheduleAssignment?: ScheduleAssignmentUncheckedUpdateManyWithoutSectionNestedInput
   }
 
   export type SectionCreateManyInput = {
     id?: string
-    sectionNumber: string
-    requiredLabSize: number
-    courseOfferingId: string
+    name: string
+    year: number
+    department: string
+    capacity: number
+    isActive: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type SectionUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    sectionNumber?: StringFieldUpdateOperationsInput | string
-    requiredLabSize?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    department?: StringFieldUpdateOperationsInput | string
+    capacity?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type SectionUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    sectionNumber?: StringFieldUpdateOperationsInput | string
-    requiredLabSize?: IntFieldUpdateOperationsInput | number
-    courseOfferingId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    department?: StringFieldUpdateOperationsInput | string
+    capacity?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GroupCreateInput = {
+    id?: string
+    name: string
+    capacity: number
+    isActive: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    section: SectionCreateNestedOneWithoutGroupsInput
+    ScheduleAssignment?: ScheduleAssignmentCreateNestedManyWithoutGroupInput
+  }
+
+  export type GroupUncheckedCreateInput = {
+    id?: string
+    name: string
+    sectionId: string
+    capacity: number
+    isActive: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    ScheduleAssignment?: ScheduleAssignmentUncheckedCreateNestedManyWithoutGroupInput
+  }
+
+  export type GroupUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    capacity?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    section?: SectionUpdateOneRequiredWithoutGroupsNestedInput
+    ScheduleAssignment?: ScheduleAssignmentUpdateManyWithoutGroupNestedInput
+  }
+
+  export type GroupUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    sectionId?: StringFieldUpdateOperationsInput | string
+    capacity?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ScheduleAssignment?: ScheduleAssignmentUncheckedUpdateManyWithoutGroupNestedInput
+  }
+
+  export type GroupCreateManyInput = {
+    id?: string
+    name: string
+    sectionId: string
+    capacity: number
+    isActive: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type GroupUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    capacity?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GroupUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    sectionId?: StringFieldUpdateOperationsInput | string
+    capacity?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LabAssistantCreateInput = {
+    id?: string
+    labAssistantId: string
+    username: string
+    firstName: string
+    lastName: string
+    email: string
+    password: string
+    department: string
+    isActive: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    ScheduleAssignments?: ScheduleAssignmentCreateNestedManyWithoutLabAssistantInput
+  }
+
+  export type LabAssistantUncheckedCreateInput = {
+    id?: string
+    labAssistantId: string
+    username: string
+    firstName: string
+    lastName: string
+    email: string
+    password: string
+    department: string
+    isActive: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    ScheduleAssignments?: ScheduleAssignmentUncheckedCreateNestedManyWithoutLabAssistantInput
+  }
+
+  export type LabAssistantUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    labAssistantId?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ScheduleAssignments?: ScheduleAssignmentUpdateManyWithoutLabAssistantNestedInput
+  }
+
+  export type LabAssistantUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    labAssistantId?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ScheduleAssignments?: ScheduleAssignmentUncheckedUpdateManyWithoutLabAssistantNestedInput
+  }
+
+  export type LabAssistantCreateManyInput = {
+    id?: string
+    labAssistantId: string
+    username: string
+    firstName: string
+    lastName: string
+    email: string
+    password: string
+    department: string
+    isActive: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LabAssistantUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    labAssistantId?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LabAssistantUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    labAssistantId?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TimeSlotCreateInput = {
+    id?: string
+    dayOfWeek: string
+    startTime: string
+    endTime: string
+    isActive: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    ScheduleAssignments?: ScheduleAssignmentCreateNestedManyWithoutTimeSlotInput
+  }
+
+  export type TimeSlotUncheckedCreateInput = {
+    id?: string
+    dayOfWeek: string
+    startTime: string
+    endTime: string
+    isActive: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    ScheduleAssignments?: ScheduleAssignmentUncheckedCreateNestedManyWithoutTimeSlotInput
+  }
+
+  export type TimeSlotUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dayOfWeek?: StringFieldUpdateOperationsInput | string
+    startTime?: StringFieldUpdateOperationsInput | string
+    endTime?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ScheduleAssignments?: ScheduleAssignmentUpdateManyWithoutTimeSlotNestedInput
+  }
+
+  export type TimeSlotUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dayOfWeek?: StringFieldUpdateOperationsInput | string
+    startTime?: StringFieldUpdateOperationsInput | string
+    endTime?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ScheduleAssignments?: ScheduleAssignmentUncheckedUpdateManyWithoutTimeSlotNestedInput
+  }
+
+  export type TimeSlotCreateManyInput = {
+    id?: string
+    dayOfWeek: string
+    startTime: string
+    endTime: string
+    isActive: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TimeSlotUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dayOfWeek?: StringFieldUpdateOperationsInput | string
+    startTime?: StringFieldUpdateOperationsInput | string
+    endTime?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TimeSlotUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dayOfWeek?: StringFieldUpdateOperationsInput | string
+    startTime?: StringFieldUpdateOperationsInput | string
+    endTime?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ScheduleAssignmentCreateInput = {
     id?: string
-    status?: string
+    status: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    section: SectionCreateNestedOneWithoutAssignmentInput
-    labRoom: LabRoomCreateNestedOneWithoutAssignmentsInput
-    labAssistant: LabAssistantCreateNestedOneWithoutAssignmentsInput
-    timeSlot: TimeSlotCreateNestedOneWithoutAssignmentsInput
+    course: CourseCreateNestedOneWithoutScheduleAssignmentInput
+    section: SectionCreateNestedOneWithoutScheduleAssignmentInput
+    group?: GroupCreateNestedOneWithoutScheduleAssignmentInput
+    labRoom: LabRoomCreateNestedOneWithoutScheduleAssignmentsInput
+    labAssistant: LabAssistantCreateNestedOneWithoutScheduleAssignmentsInput
+    timeSlot: TimeSlotCreateNestedOneWithoutScheduleAssignmentsInput
   }
 
   export type ScheduleAssignmentUncheckedCreateInput = {
     id?: string
-    status?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    courseId: string
     sectionId: string
+    groupId?: string | null
     labRoomId: string
     labAssistantId: string
     timeSlotId: string
+    status: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type ScheduleAssignmentUpdateInput = {
@@ -12749,32 +13655,38 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    section?: SectionUpdateOneRequiredWithoutAssignmentNestedInput
-    labRoom?: LabRoomUpdateOneRequiredWithoutAssignmentsNestedInput
-    labAssistant?: LabAssistantUpdateOneRequiredWithoutAssignmentsNestedInput
-    timeSlot?: TimeSlotUpdateOneRequiredWithoutAssignmentsNestedInput
+    course?: CourseUpdateOneRequiredWithoutScheduleAssignmentNestedInput
+    section?: SectionUpdateOneRequiredWithoutScheduleAssignmentNestedInput
+    group?: GroupUpdateOneWithoutScheduleAssignmentNestedInput
+    labRoom?: LabRoomUpdateOneRequiredWithoutScheduleAssignmentsNestedInput
+    labAssistant?: LabAssistantUpdateOneRequiredWithoutScheduleAssignmentsNestedInput
+    timeSlot?: TimeSlotUpdateOneRequiredWithoutScheduleAssignmentsNestedInput
   }
 
   export type ScheduleAssignmentUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    courseId?: StringFieldUpdateOperationsInput | string
     sectionId?: StringFieldUpdateOperationsInput | string
+    groupId?: NullableStringFieldUpdateOperationsInput | string | null
     labRoomId?: StringFieldUpdateOperationsInput | string
     labAssistantId?: StringFieldUpdateOperationsInput | string
     timeSlotId?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ScheduleAssignmentCreateManyInput = {
     id?: string
-    status?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    courseId: string
     sectionId: string
+    groupId?: string | null
     labRoomId: string
     labAssistantId: string
     timeSlotId: string
+    status: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type ScheduleAssignmentUpdateManyMutationInput = {
@@ -12786,13 +13698,85 @@ export namespace Prisma {
 
   export type ScheduleAssignmentUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    courseId?: StringFieldUpdateOperationsInput | string
     sectionId?: StringFieldUpdateOperationsInput | string
+    groupId?: NullableStringFieldUpdateOperationsInput | string | null
     labRoomId?: StringFieldUpdateOperationsInput | string
     labAssistantId?: StringFieldUpdateOperationsInput | string
     timeSlotId?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserCreateInput = {
+    id?: string
+    email: string
+    password: string
+    role: string
+    labAssistantId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserUncheckedCreateInput = {
+    id?: string
+    email: string
+    password: string
+    role: string
+    labAssistantId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    labAssistantId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    labAssistantId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserCreateManyInput = {
+    id?: string
+    email: string
+    password: string
+    role: string
+    labAssistantId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    labAssistantId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    labAssistantId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -12810,11 +13794,28 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
-  export type EnumRoleFilter<$PrismaModel = never> = {
-    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
-    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type StringNullableListFilter<$PrismaModel = never> = {
+    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    has?: string | StringFieldRefInput<$PrismaModel> | null
+    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
+    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
+  }
+
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type DateTimeFilter<$PrismaModel = never> = {
@@ -12828,36 +13829,53 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
-  export type LabAssistantNullableScalarRelationFilter = {
-    is?: LabAssistantWhereInput | null
-    isNot?: LabAssistantWhereInput | null
+  export type ScheduleAssignmentListRelationFilter = {
+    every?: ScheduleAssignmentWhereInput
+    some?: ScheduleAssignmentWhereInput
+    none?: ScheduleAssignmentWhereInput
   }
 
-  export type UserCountOrderByAggregateInput = {
+  export type ScheduleAssignmentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type LabRoomCountOrderByAggregateInput = {
     id?: SortOrder
-    email?: SortOrder
-    password?: SortOrder
-    role?: SortOrder
+    name?: SortOrder
+    capacity?: SortOrder
+    location?: SortOrder
+    equipment?: SortOrder
+    isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
-  export type UserMaxOrderByAggregateInput = {
+  export type LabRoomAvgOrderByAggregateInput = {
+    capacity?: SortOrder
+  }
+
+  export type LabRoomMaxOrderByAggregateInput = {
     id?: SortOrder
-    email?: SortOrder
-    password?: SortOrder
-    role?: SortOrder
+    name?: SortOrder
+    capacity?: SortOrder
+    location?: SortOrder
+    isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
-  export type UserMinOrderByAggregateInput = {
+  export type LabRoomMinOrderByAggregateInput = {
     id?: SortOrder
-    email?: SortOrder
-    password?: SortOrder
-    role?: SortOrder
+    name?: SortOrder
+    capacity?: SortOrder
+    location?: SortOrder
+    isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type LabRoomSumOrderByAggregateInput = {
+    capacity?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -12878,149 +13896,6 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
-  export type EnumRoleWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
-    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    not?: NestedEnumRoleWithAggregatesFilter<$PrismaModel> | $Enums.Role
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumRoleFilter<$PrismaModel>
-    _max?: NestedEnumRoleFilter<$PrismaModel>
-  }
-
-  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedDateTimeFilter<$PrismaModel>
-    _max?: NestedDateTimeFilter<$PrismaModel>
-  }
-
-  export type CourseListRelationFilter = {
-    every?: CourseWhereInput
-    some?: CourseWhereInput
-    none?: CourseWhereInput
-  }
-
-  export type LabAssistantListRelationFilter = {
-    every?: LabAssistantWhereInput
-    some?: LabAssistantWhereInput
-    none?: LabAssistantWhereInput
-  }
-
-  export type CourseOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type LabAssistantOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type DepartmentCountOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-  }
-
-  export type DepartmentMaxOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-  }
-
-  export type DepartmentMinOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-  }
-
-  export type UserScalarRelationFilter = {
-    is?: UserWhereInput
-    isNot?: UserWhereInput
-  }
-
-  export type DepartmentScalarRelationFilter = {
-    is?: DepartmentWhereInput
-    isNot?: DepartmentWhereInput
-  }
-
-  export type ScheduleAssignmentListRelationFilter = {
-    every?: ScheduleAssignmentWhereInput
-    some?: ScheduleAssignmentWhereInput
-    none?: ScheduleAssignmentWhereInput
-  }
-
-  export type ScheduleAssignmentOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type LabAssistantCountOrderByAggregateInput = {
-    id?: SortOrder
-    userId?: SortOrder
-    firstName?: SortOrder
-    lastName?: SortOrder
-    departmentId?: SortOrder
-  }
-
-  export type LabAssistantMaxOrderByAggregateInput = {
-    id?: SortOrder
-    userId?: SortOrder
-    firstName?: SortOrder
-    lastName?: SortOrder
-    departmentId?: SortOrder
-  }
-
-  export type LabAssistantMinOrderByAggregateInput = {
-    id?: SortOrder
-    userId?: SortOrder
-    firstName?: SortOrder
-    lastName?: SortOrder
-    departmentId?: SortOrder
-  }
-
-  export type IntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
-  }
-
-  export type LabRoomCountOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    capacity?: SortOrder
-    status?: SortOrder
-  }
-
-  export type LabRoomAvgOrderByAggregateInput = {
-    capacity?: SortOrder
-  }
-
-  export type LabRoomMaxOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    capacity?: SortOrder
-    status?: SortOrder
-  }
-
-  export type LabRoomMinOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    capacity?: SortOrder
-    status?: SortOrder
-  }
-
-  export type LabRoomSumOrderByAggregateInput = {
-    capacity?: SortOrder
-  }
-
   export type IntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -13037,25 +13912,26 @@ export namespace Prisma {
     _max?: NestedIntFilter<$PrismaModel>
   }
 
-  export type TimeSlotCountOrderByAggregateInput = {
-    id?: SortOrder
-    dayOfWeek?: SortOrder
-    startTime?: SortOrder
-    endTime?: SortOrder
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
-  export type TimeSlotMaxOrderByAggregateInput = {
-    id?: SortOrder
-    dayOfWeek?: SortOrder
-    startTime?: SortOrder
-    endTime?: SortOrder
-  }
-
-  export type TimeSlotMinOrderByAggregateInput = {
-    id?: SortOrder
-    dayOfWeek?: SortOrder
-    startTime?: SortOrder
-    endTime?: SortOrder
+  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
   export type CourseOfferingListRelationFilter = {
@@ -13070,23 +13946,57 @@ export namespace Prisma {
 
   export type CourseCountOrderByAggregateInput = {
     id?: SortOrder
+    code?: SortOrder
     name?: SortOrder
-    courseCode?: SortOrder
-    departmentId?: SortOrder
+    department?: SortOrder
+    credits?: SortOrder
+    year?: SortOrder
+    section?: SortOrder
+    batch?: SortOrder
+    studentType?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CourseAvgOrderByAggregateInput = {
+    credits?: SortOrder
+    year?: SortOrder
   }
 
   export type CourseMaxOrderByAggregateInput = {
     id?: SortOrder
+    code?: SortOrder
     name?: SortOrder
-    courseCode?: SortOrder
-    departmentId?: SortOrder
+    department?: SortOrder
+    credits?: SortOrder
+    year?: SortOrder
+    section?: SortOrder
+    batch?: SortOrder
+    studentType?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type CourseMinOrderByAggregateInput = {
     id?: SortOrder
+    code?: SortOrder
     name?: SortOrder
-    courseCode?: SortOrder
-    departmentId?: SortOrder
+    department?: SortOrder
+    credits?: SortOrder
+    year?: SortOrder
+    section?: SortOrder
+    batch?: SortOrder
+    studentType?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CourseSumOrderByAggregateInput = {
+    credits?: SortOrder
+    year?: SortOrder
   }
 
   export type CourseScalarRelationFilter = {
@@ -13094,25 +14004,22 @@ export namespace Prisma {
     isNot?: CourseWhereInput
   }
 
-  export type SectionListRelationFilter = {
-    every?: SectionWhereInput
-    some?: SectionWhereInput
-    none?: SectionWhereInput
-  }
-
-  export type SectionOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
   export type CourseOfferingCountOrderByAggregateInput = {
     id?: SortOrder
     courseId?: SortOrder
     semester?: SortOrder
     year?: SortOrder
+    totalSections?: SortOrder
+    requiredLabSize?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type CourseOfferingAvgOrderByAggregateInput = {
     year?: SortOrder
+    totalSections?: SortOrder
+    requiredLabSize?: SortOrder
   }
 
   export type CourseOfferingMaxOrderByAggregateInput = {
@@ -13120,6 +14027,11 @@ export namespace Prisma {
     courseId?: SortOrder
     semester?: SortOrder
     year?: SortOrder
+    totalSections?: SortOrder
+    requiredLabSize?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type CourseOfferingMinOrderByAggregateInput = {
@@ -13127,54 +14039,205 @@ export namespace Prisma {
     courseId?: SortOrder
     semester?: SortOrder
     year?: SortOrder
+    totalSections?: SortOrder
+    requiredLabSize?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type CourseOfferingSumOrderByAggregateInput = {
     year?: SortOrder
+    totalSections?: SortOrder
+    requiredLabSize?: SortOrder
   }
 
-  export type CourseOfferingScalarRelationFilter = {
-    is?: CourseOfferingWhereInput
-    isNot?: CourseOfferingWhereInput
+  export type GroupListRelationFilter = {
+    every?: GroupWhereInput
+    some?: GroupWhereInput
+    none?: GroupWhereInput
   }
 
-  export type ScheduleAssignmentNullableScalarRelationFilter = {
-    is?: ScheduleAssignmentWhereInput | null
-    isNot?: ScheduleAssignmentWhereInput | null
+  export type GroupOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type SectionCountOrderByAggregateInput = {
     id?: SortOrder
-    sectionNumber?: SortOrder
-    requiredLabSize?: SortOrder
-    courseOfferingId?: SortOrder
+    name?: SortOrder
+    year?: SortOrder
+    department?: SortOrder
+    capacity?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type SectionAvgOrderByAggregateInput = {
-    requiredLabSize?: SortOrder
+    year?: SortOrder
+    capacity?: SortOrder
   }
 
   export type SectionMaxOrderByAggregateInput = {
     id?: SortOrder
-    sectionNumber?: SortOrder
-    requiredLabSize?: SortOrder
-    courseOfferingId?: SortOrder
+    name?: SortOrder
+    year?: SortOrder
+    department?: SortOrder
+    capacity?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type SectionMinOrderByAggregateInput = {
     id?: SortOrder
-    sectionNumber?: SortOrder
-    requiredLabSize?: SortOrder
-    courseOfferingId?: SortOrder
+    name?: SortOrder
+    year?: SortOrder
+    department?: SortOrder
+    capacity?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type SectionSumOrderByAggregateInput = {
-    requiredLabSize?: SortOrder
+    year?: SortOrder
+    capacity?: SortOrder
   }
 
   export type SectionScalarRelationFilter = {
     is?: SectionWhereInput
     isNot?: SectionWhereInput
+  }
+
+  export type GroupCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    sectionId?: SortOrder
+    capacity?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type GroupAvgOrderByAggregateInput = {
+    capacity?: SortOrder
+  }
+
+  export type GroupMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    sectionId?: SortOrder
+    capacity?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type GroupMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    sectionId?: SortOrder
+    capacity?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type GroupSumOrderByAggregateInput = {
+    capacity?: SortOrder
+  }
+
+  export type LabAssistantCountOrderByAggregateInput = {
+    id?: SortOrder
+    labAssistantId?: SortOrder
+    username?: SortOrder
+    firstName?: SortOrder
+    lastName?: SortOrder
+    email?: SortOrder
+    password?: SortOrder
+    department?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LabAssistantMaxOrderByAggregateInput = {
+    id?: SortOrder
+    labAssistantId?: SortOrder
+    username?: SortOrder
+    firstName?: SortOrder
+    lastName?: SortOrder
+    email?: SortOrder
+    password?: SortOrder
+    department?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LabAssistantMinOrderByAggregateInput = {
+    id?: SortOrder
+    labAssistantId?: SortOrder
+    username?: SortOrder
+    firstName?: SortOrder
+    lastName?: SortOrder
+    email?: SortOrder
+    password?: SortOrder
+    department?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TimeSlotCountOrderByAggregateInput = {
+    id?: SortOrder
+    dayOfWeek?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TimeSlotMaxOrderByAggregateInput = {
+    id?: SortOrder
+    dayOfWeek?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TimeSlotMinOrderByAggregateInput = {
+    id?: SortOrder
+    dayOfWeek?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type GroupNullableScalarRelationFilter = {
+    is?: GroupWhereInput | null
+    isNot?: GroupWhereInput | null
   }
 
   export type LabRoomScalarRelationFilter = {
@@ -13192,235 +14255,100 @@ export namespace Prisma {
     isNot?: TimeSlotWhereInput
   }
 
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
+  }
+
   export type ScheduleAssignmentCountOrderByAggregateInput = {
     id?: SortOrder
-    status?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
+    courseId?: SortOrder
     sectionId?: SortOrder
+    groupId?: SortOrder
     labRoomId?: SortOrder
     labAssistantId?: SortOrder
     timeSlotId?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type ScheduleAssignmentMaxOrderByAggregateInput = {
     id?: SortOrder
-    status?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
+    courseId?: SortOrder
     sectionId?: SortOrder
+    groupId?: SortOrder
     labRoomId?: SortOrder
     labAssistantId?: SortOrder
     timeSlotId?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type ScheduleAssignmentMinOrderByAggregateInput = {
     id?: SortOrder
-    status?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
+    courseId?: SortOrder
     sectionId?: SortOrder
+    groupId?: SortOrder
     labRoomId?: SortOrder
     labAssistantId?: SortOrder
     timeSlotId?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
-  export type LabAssistantCreateNestedOneWithoutUserInput = {
-    create?: XOR<LabAssistantCreateWithoutUserInput, LabAssistantUncheckedCreateWithoutUserInput>
-    connectOrCreate?: LabAssistantCreateOrConnectWithoutUserInput
-    connect?: LabAssistantWhereUniqueInput
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
-  export type LabAssistantUncheckedCreateNestedOneWithoutUserInput = {
-    create?: XOR<LabAssistantCreateWithoutUserInput, LabAssistantUncheckedCreateWithoutUserInput>
-    connectOrCreate?: LabAssistantCreateOrConnectWithoutUserInput
-    connect?: LabAssistantWhereUniqueInput
+  export type UserCountOrderByAggregateInput = {
+    id?: SortOrder
+    email?: SortOrder
+    password?: SortOrder
+    role?: SortOrder
+    labAssistantId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
-  export type StringFieldUpdateOperationsInput = {
-    set?: string
+  export type UserMaxOrderByAggregateInput = {
+    id?: SortOrder
+    email?: SortOrder
+    password?: SortOrder
+    role?: SortOrder
+    labAssistantId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
-  export type EnumRoleFieldUpdateOperationsInput = {
-    set?: $Enums.Role
+  export type UserMinOrderByAggregateInput = {
+    id?: SortOrder
+    email?: SortOrder
+    password?: SortOrder
+    role?: SortOrder
+    labAssistantId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
-  export type DateTimeFieldUpdateOperationsInput = {
-    set?: Date | string
-  }
-
-  export type LabAssistantUpdateOneWithoutUserNestedInput = {
-    create?: XOR<LabAssistantCreateWithoutUserInput, LabAssistantUncheckedCreateWithoutUserInput>
-    connectOrCreate?: LabAssistantCreateOrConnectWithoutUserInput
-    upsert?: LabAssistantUpsertWithoutUserInput
-    disconnect?: LabAssistantWhereInput | boolean
-    delete?: LabAssistantWhereInput | boolean
-    connect?: LabAssistantWhereUniqueInput
-    update?: XOR<XOR<LabAssistantUpdateToOneWithWhereWithoutUserInput, LabAssistantUpdateWithoutUserInput>, LabAssistantUncheckedUpdateWithoutUserInput>
-  }
-
-  export type LabAssistantUncheckedUpdateOneWithoutUserNestedInput = {
-    create?: XOR<LabAssistantCreateWithoutUserInput, LabAssistantUncheckedCreateWithoutUserInput>
-    connectOrCreate?: LabAssistantCreateOrConnectWithoutUserInput
-    upsert?: LabAssistantUpsertWithoutUserInput
-    disconnect?: LabAssistantWhereInput | boolean
-    delete?: LabAssistantWhereInput | boolean
-    connect?: LabAssistantWhereUniqueInput
-    update?: XOR<XOR<LabAssistantUpdateToOneWithWhereWithoutUserInput, LabAssistantUpdateWithoutUserInput>, LabAssistantUncheckedUpdateWithoutUserInput>
-  }
-
-  export type CourseCreateNestedManyWithoutDepartmentInput = {
-    create?: XOR<CourseCreateWithoutDepartmentInput, CourseUncheckedCreateWithoutDepartmentInput> | CourseCreateWithoutDepartmentInput[] | CourseUncheckedCreateWithoutDepartmentInput[]
-    connectOrCreate?: CourseCreateOrConnectWithoutDepartmentInput | CourseCreateOrConnectWithoutDepartmentInput[]
-    createMany?: CourseCreateManyDepartmentInputEnvelope
-    connect?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
-  }
-
-  export type LabAssistantCreateNestedManyWithoutDepartmentInput = {
-    create?: XOR<LabAssistantCreateWithoutDepartmentInput, LabAssistantUncheckedCreateWithoutDepartmentInput> | LabAssistantCreateWithoutDepartmentInput[] | LabAssistantUncheckedCreateWithoutDepartmentInput[]
-    connectOrCreate?: LabAssistantCreateOrConnectWithoutDepartmentInput | LabAssistantCreateOrConnectWithoutDepartmentInput[]
-    createMany?: LabAssistantCreateManyDepartmentInputEnvelope
-    connect?: LabAssistantWhereUniqueInput | LabAssistantWhereUniqueInput[]
-  }
-
-  export type CourseUncheckedCreateNestedManyWithoutDepartmentInput = {
-    create?: XOR<CourseCreateWithoutDepartmentInput, CourseUncheckedCreateWithoutDepartmentInput> | CourseCreateWithoutDepartmentInput[] | CourseUncheckedCreateWithoutDepartmentInput[]
-    connectOrCreate?: CourseCreateOrConnectWithoutDepartmentInput | CourseCreateOrConnectWithoutDepartmentInput[]
-    createMany?: CourseCreateManyDepartmentInputEnvelope
-    connect?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
-  }
-
-  export type LabAssistantUncheckedCreateNestedManyWithoutDepartmentInput = {
-    create?: XOR<LabAssistantCreateWithoutDepartmentInput, LabAssistantUncheckedCreateWithoutDepartmentInput> | LabAssistantCreateWithoutDepartmentInput[] | LabAssistantUncheckedCreateWithoutDepartmentInput[]
-    connectOrCreate?: LabAssistantCreateOrConnectWithoutDepartmentInput | LabAssistantCreateOrConnectWithoutDepartmentInput[]
-    createMany?: LabAssistantCreateManyDepartmentInputEnvelope
-    connect?: LabAssistantWhereUniqueInput | LabAssistantWhereUniqueInput[]
-  }
-
-  export type CourseUpdateManyWithoutDepartmentNestedInput = {
-    create?: XOR<CourseCreateWithoutDepartmentInput, CourseUncheckedCreateWithoutDepartmentInput> | CourseCreateWithoutDepartmentInput[] | CourseUncheckedCreateWithoutDepartmentInput[]
-    connectOrCreate?: CourseCreateOrConnectWithoutDepartmentInput | CourseCreateOrConnectWithoutDepartmentInput[]
-    upsert?: CourseUpsertWithWhereUniqueWithoutDepartmentInput | CourseUpsertWithWhereUniqueWithoutDepartmentInput[]
-    createMany?: CourseCreateManyDepartmentInputEnvelope
-    set?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
-    disconnect?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
-    delete?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
-    connect?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
-    update?: CourseUpdateWithWhereUniqueWithoutDepartmentInput | CourseUpdateWithWhereUniqueWithoutDepartmentInput[]
-    updateMany?: CourseUpdateManyWithWhereWithoutDepartmentInput | CourseUpdateManyWithWhereWithoutDepartmentInput[]
-    deleteMany?: CourseScalarWhereInput | CourseScalarWhereInput[]
-  }
-
-  export type LabAssistantUpdateManyWithoutDepartmentNestedInput = {
-    create?: XOR<LabAssistantCreateWithoutDepartmentInput, LabAssistantUncheckedCreateWithoutDepartmentInput> | LabAssistantCreateWithoutDepartmentInput[] | LabAssistantUncheckedCreateWithoutDepartmentInput[]
-    connectOrCreate?: LabAssistantCreateOrConnectWithoutDepartmentInput | LabAssistantCreateOrConnectWithoutDepartmentInput[]
-    upsert?: LabAssistantUpsertWithWhereUniqueWithoutDepartmentInput | LabAssistantUpsertWithWhereUniqueWithoutDepartmentInput[]
-    createMany?: LabAssistantCreateManyDepartmentInputEnvelope
-    set?: LabAssistantWhereUniqueInput | LabAssistantWhereUniqueInput[]
-    disconnect?: LabAssistantWhereUniqueInput | LabAssistantWhereUniqueInput[]
-    delete?: LabAssistantWhereUniqueInput | LabAssistantWhereUniqueInput[]
-    connect?: LabAssistantWhereUniqueInput | LabAssistantWhereUniqueInput[]
-    update?: LabAssistantUpdateWithWhereUniqueWithoutDepartmentInput | LabAssistantUpdateWithWhereUniqueWithoutDepartmentInput[]
-    updateMany?: LabAssistantUpdateManyWithWhereWithoutDepartmentInput | LabAssistantUpdateManyWithWhereWithoutDepartmentInput[]
-    deleteMany?: LabAssistantScalarWhereInput | LabAssistantScalarWhereInput[]
-  }
-
-  export type CourseUncheckedUpdateManyWithoutDepartmentNestedInput = {
-    create?: XOR<CourseCreateWithoutDepartmentInput, CourseUncheckedCreateWithoutDepartmentInput> | CourseCreateWithoutDepartmentInput[] | CourseUncheckedCreateWithoutDepartmentInput[]
-    connectOrCreate?: CourseCreateOrConnectWithoutDepartmentInput | CourseCreateOrConnectWithoutDepartmentInput[]
-    upsert?: CourseUpsertWithWhereUniqueWithoutDepartmentInput | CourseUpsertWithWhereUniqueWithoutDepartmentInput[]
-    createMany?: CourseCreateManyDepartmentInputEnvelope
-    set?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
-    disconnect?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
-    delete?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
-    connect?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
-    update?: CourseUpdateWithWhereUniqueWithoutDepartmentInput | CourseUpdateWithWhereUniqueWithoutDepartmentInput[]
-    updateMany?: CourseUpdateManyWithWhereWithoutDepartmentInput | CourseUpdateManyWithWhereWithoutDepartmentInput[]
-    deleteMany?: CourseScalarWhereInput | CourseScalarWhereInput[]
-  }
-
-  export type LabAssistantUncheckedUpdateManyWithoutDepartmentNestedInput = {
-    create?: XOR<LabAssistantCreateWithoutDepartmentInput, LabAssistantUncheckedCreateWithoutDepartmentInput> | LabAssistantCreateWithoutDepartmentInput[] | LabAssistantUncheckedCreateWithoutDepartmentInput[]
-    connectOrCreate?: LabAssistantCreateOrConnectWithoutDepartmentInput | LabAssistantCreateOrConnectWithoutDepartmentInput[]
-    upsert?: LabAssistantUpsertWithWhereUniqueWithoutDepartmentInput | LabAssistantUpsertWithWhereUniqueWithoutDepartmentInput[]
-    createMany?: LabAssistantCreateManyDepartmentInputEnvelope
-    set?: LabAssistantWhereUniqueInput | LabAssistantWhereUniqueInput[]
-    disconnect?: LabAssistantWhereUniqueInput | LabAssistantWhereUniqueInput[]
-    delete?: LabAssistantWhereUniqueInput | LabAssistantWhereUniqueInput[]
-    connect?: LabAssistantWhereUniqueInput | LabAssistantWhereUniqueInput[]
-    update?: LabAssistantUpdateWithWhereUniqueWithoutDepartmentInput | LabAssistantUpdateWithWhereUniqueWithoutDepartmentInput[]
-    updateMany?: LabAssistantUpdateManyWithWhereWithoutDepartmentInput | LabAssistantUpdateManyWithWhereWithoutDepartmentInput[]
-    deleteMany?: LabAssistantScalarWhereInput | LabAssistantScalarWhereInput[]
-  }
-
-  export type UserCreateNestedOneWithoutLabAssistantInput = {
-    create?: XOR<UserCreateWithoutLabAssistantInput, UserUncheckedCreateWithoutLabAssistantInput>
-    connectOrCreate?: UserCreateOrConnectWithoutLabAssistantInput
-    connect?: UserWhereUniqueInput
-  }
-
-  export type DepartmentCreateNestedOneWithoutLabAssistantsInput = {
-    create?: XOR<DepartmentCreateWithoutLabAssistantsInput, DepartmentUncheckedCreateWithoutLabAssistantsInput>
-    connectOrCreate?: DepartmentCreateOrConnectWithoutLabAssistantsInput
-    connect?: DepartmentWhereUniqueInput
-  }
-
-  export type ScheduleAssignmentCreateNestedManyWithoutLabAssistantInput = {
-    create?: XOR<ScheduleAssignmentCreateWithoutLabAssistantInput, ScheduleAssignmentUncheckedCreateWithoutLabAssistantInput> | ScheduleAssignmentCreateWithoutLabAssistantInput[] | ScheduleAssignmentUncheckedCreateWithoutLabAssistantInput[]
-    connectOrCreate?: ScheduleAssignmentCreateOrConnectWithoutLabAssistantInput | ScheduleAssignmentCreateOrConnectWithoutLabAssistantInput[]
-    createMany?: ScheduleAssignmentCreateManyLabAssistantInputEnvelope
-    connect?: ScheduleAssignmentWhereUniqueInput | ScheduleAssignmentWhereUniqueInput[]
-  }
-
-  export type ScheduleAssignmentUncheckedCreateNestedManyWithoutLabAssistantInput = {
-    create?: XOR<ScheduleAssignmentCreateWithoutLabAssistantInput, ScheduleAssignmentUncheckedCreateWithoutLabAssistantInput> | ScheduleAssignmentCreateWithoutLabAssistantInput[] | ScheduleAssignmentUncheckedCreateWithoutLabAssistantInput[]
-    connectOrCreate?: ScheduleAssignmentCreateOrConnectWithoutLabAssistantInput | ScheduleAssignmentCreateOrConnectWithoutLabAssistantInput[]
-    createMany?: ScheduleAssignmentCreateManyLabAssistantInputEnvelope
-    connect?: ScheduleAssignmentWhereUniqueInput | ScheduleAssignmentWhereUniqueInput[]
-  }
-
-  export type UserUpdateOneRequiredWithoutLabAssistantNestedInput = {
-    create?: XOR<UserCreateWithoutLabAssistantInput, UserUncheckedCreateWithoutLabAssistantInput>
-    connectOrCreate?: UserCreateOrConnectWithoutLabAssistantInput
-    upsert?: UserUpsertWithoutLabAssistantInput
-    connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutLabAssistantInput, UserUpdateWithoutLabAssistantInput>, UserUncheckedUpdateWithoutLabAssistantInput>
-  }
-
-  export type DepartmentUpdateOneRequiredWithoutLabAssistantsNestedInput = {
-    create?: XOR<DepartmentCreateWithoutLabAssistantsInput, DepartmentUncheckedCreateWithoutLabAssistantsInput>
-    connectOrCreate?: DepartmentCreateOrConnectWithoutLabAssistantsInput
-    upsert?: DepartmentUpsertWithoutLabAssistantsInput
-    connect?: DepartmentWhereUniqueInput
-    update?: XOR<XOR<DepartmentUpdateToOneWithWhereWithoutLabAssistantsInput, DepartmentUpdateWithoutLabAssistantsInput>, DepartmentUncheckedUpdateWithoutLabAssistantsInput>
-  }
-
-  export type ScheduleAssignmentUpdateManyWithoutLabAssistantNestedInput = {
-    create?: XOR<ScheduleAssignmentCreateWithoutLabAssistantInput, ScheduleAssignmentUncheckedCreateWithoutLabAssistantInput> | ScheduleAssignmentCreateWithoutLabAssistantInput[] | ScheduleAssignmentUncheckedCreateWithoutLabAssistantInput[]
-    connectOrCreate?: ScheduleAssignmentCreateOrConnectWithoutLabAssistantInput | ScheduleAssignmentCreateOrConnectWithoutLabAssistantInput[]
-    upsert?: ScheduleAssignmentUpsertWithWhereUniqueWithoutLabAssistantInput | ScheduleAssignmentUpsertWithWhereUniqueWithoutLabAssistantInput[]
-    createMany?: ScheduleAssignmentCreateManyLabAssistantInputEnvelope
-    set?: ScheduleAssignmentWhereUniqueInput | ScheduleAssignmentWhereUniqueInput[]
-    disconnect?: ScheduleAssignmentWhereUniqueInput | ScheduleAssignmentWhereUniqueInput[]
-    delete?: ScheduleAssignmentWhereUniqueInput | ScheduleAssignmentWhereUniqueInput[]
-    connect?: ScheduleAssignmentWhereUniqueInput | ScheduleAssignmentWhereUniqueInput[]
-    update?: ScheduleAssignmentUpdateWithWhereUniqueWithoutLabAssistantInput | ScheduleAssignmentUpdateWithWhereUniqueWithoutLabAssistantInput[]
-    updateMany?: ScheduleAssignmentUpdateManyWithWhereWithoutLabAssistantInput | ScheduleAssignmentUpdateManyWithWhereWithoutLabAssistantInput[]
-    deleteMany?: ScheduleAssignmentScalarWhereInput | ScheduleAssignmentScalarWhereInput[]
-  }
-
-  export type ScheduleAssignmentUncheckedUpdateManyWithoutLabAssistantNestedInput = {
-    create?: XOR<ScheduleAssignmentCreateWithoutLabAssistantInput, ScheduleAssignmentUncheckedCreateWithoutLabAssistantInput> | ScheduleAssignmentCreateWithoutLabAssistantInput[] | ScheduleAssignmentUncheckedCreateWithoutLabAssistantInput[]
-    connectOrCreate?: ScheduleAssignmentCreateOrConnectWithoutLabAssistantInput | ScheduleAssignmentCreateOrConnectWithoutLabAssistantInput[]
-    upsert?: ScheduleAssignmentUpsertWithWhereUniqueWithoutLabAssistantInput | ScheduleAssignmentUpsertWithWhereUniqueWithoutLabAssistantInput[]
-    createMany?: ScheduleAssignmentCreateManyLabAssistantInputEnvelope
-    set?: ScheduleAssignmentWhereUniqueInput | ScheduleAssignmentWhereUniqueInput[]
-    disconnect?: ScheduleAssignmentWhereUniqueInput | ScheduleAssignmentWhereUniqueInput[]
-    delete?: ScheduleAssignmentWhereUniqueInput | ScheduleAssignmentWhereUniqueInput[]
-    connect?: ScheduleAssignmentWhereUniqueInput | ScheduleAssignmentWhereUniqueInput[]
-    update?: ScheduleAssignmentUpdateWithWhereUniqueWithoutLabAssistantInput | ScheduleAssignmentUpdateWithWhereUniqueWithoutLabAssistantInput[]
-    updateMany?: ScheduleAssignmentUpdateManyWithWhereWithoutLabAssistantInput | ScheduleAssignmentUpdateManyWithWhereWithoutLabAssistantInput[]
-    deleteMany?: ScheduleAssignmentScalarWhereInput | ScheduleAssignmentScalarWhereInput[]
+  export type LabRoomCreateequipmentInput = {
+    set: string[]
   }
 
   export type ScheduleAssignmentCreateNestedManyWithoutLabRoomInput = {
@@ -13437,12 +14365,29 @@ export namespace Prisma {
     connect?: ScheduleAssignmentWhereUniqueInput | ScheduleAssignmentWhereUniqueInput[]
   }
 
+  export type StringFieldUpdateOperationsInput = {
+    set?: string
+  }
+
   export type IntFieldUpdateOperationsInput = {
     set?: number
     increment?: number
     decrement?: number
     multiply?: number
     divide?: number
+  }
+
+  export type LabRoomUpdateequipmentInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
+  export type DateTimeFieldUpdateOperationsInput = {
+    set?: Date | string
   }
 
   export type ScheduleAssignmentUpdateManyWithoutLabRoomNestedInput = {
@@ -13470,6 +14415,286 @@ export namespace Prisma {
     connect?: ScheduleAssignmentWhereUniqueInput | ScheduleAssignmentWhereUniqueInput[]
     update?: ScheduleAssignmentUpdateWithWhereUniqueWithoutLabRoomInput | ScheduleAssignmentUpdateWithWhereUniqueWithoutLabRoomInput[]
     updateMany?: ScheduleAssignmentUpdateManyWithWhereWithoutLabRoomInput | ScheduleAssignmentUpdateManyWithWhereWithoutLabRoomInput[]
+    deleteMany?: ScheduleAssignmentScalarWhereInput | ScheduleAssignmentScalarWhereInput[]
+  }
+
+  export type CourseOfferingCreateNestedManyWithoutCourseInput = {
+    create?: XOR<CourseOfferingCreateWithoutCourseInput, CourseOfferingUncheckedCreateWithoutCourseInput> | CourseOfferingCreateWithoutCourseInput[] | CourseOfferingUncheckedCreateWithoutCourseInput[]
+    connectOrCreate?: CourseOfferingCreateOrConnectWithoutCourseInput | CourseOfferingCreateOrConnectWithoutCourseInput[]
+    createMany?: CourseOfferingCreateManyCourseInputEnvelope
+    connect?: CourseOfferingWhereUniqueInput | CourseOfferingWhereUniqueInput[]
+  }
+
+  export type ScheduleAssignmentCreateNestedManyWithoutCourseInput = {
+    create?: XOR<ScheduleAssignmentCreateWithoutCourseInput, ScheduleAssignmentUncheckedCreateWithoutCourseInput> | ScheduleAssignmentCreateWithoutCourseInput[] | ScheduleAssignmentUncheckedCreateWithoutCourseInput[]
+    connectOrCreate?: ScheduleAssignmentCreateOrConnectWithoutCourseInput | ScheduleAssignmentCreateOrConnectWithoutCourseInput[]
+    createMany?: ScheduleAssignmentCreateManyCourseInputEnvelope
+    connect?: ScheduleAssignmentWhereUniqueInput | ScheduleAssignmentWhereUniqueInput[]
+  }
+
+  export type CourseOfferingUncheckedCreateNestedManyWithoutCourseInput = {
+    create?: XOR<CourseOfferingCreateWithoutCourseInput, CourseOfferingUncheckedCreateWithoutCourseInput> | CourseOfferingCreateWithoutCourseInput[] | CourseOfferingUncheckedCreateWithoutCourseInput[]
+    connectOrCreate?: CourseOfferingCreateOrConnectWithoutCourseInput | CourseOfferingCreateOrConnectWithoutCourseInput[]
+    createMany?: CourseOfferingCreateManyCourseInputEnvelope
+    connect?: CourseOfferingWhereUniqueInput | CourseOfferingWhereUniqueInput[]
+  }
+
+  export type ScheduleAssignmentUncheckedCreateNestedManyWithoutCourseInput = {
+    create?: XOR<ScheduleAssignmentCreateWithoutCourseInput, ScheduleAssignmentUncheckedCreateWithoutCourseInput> | ScheduleAssignmentCreateWithoutCourseInput[] | ScheduleAssignmentUncheckedCreateWithoutCourseInput[]
+    connectOrCreate?: ScheduleAssignmentCreateOrConnectWithoutCourseInput | ScheduleAssignmentCreateOrConnectWithoutCourseInput[]
+    createMany?: ScheduleAssignmentCreateManyCourseInputEnvelope
+    connect?: ScheduleAssignmentWhereUniqueInput | ScheduleAssignmentWhereUniqueInput[]
+  }
+
+  export type CourseOfferingUpdateManyWithoutCourseNestedInput = {
+    create?: XOR<CourseOfferingCreateWithoutCourseInput, CourseOfferingUncheckedCreateWithoutCourseInput> | CourseOfferingCreateWithoutCourseInput[] | CourseOfferingUncheckedCreateWithoutCourseInput[]
+    connectOrCreate?: CourseOfferingCreateOrConnectWithoutCourseInput | CourseOfferingCreateOrConnectWithoutCourseInput[]
+    upsert?: CourseOfferingUpsertWithWhereUniqueWithoutCourseInput | CourseOfferingUpsertWithWhereUniqueWithoutCourseInput[]
+    createMany?: CourseOfferingCreateManyCourseInputEnvelope
+    set?: CourseOfferingWhereUniqueInput | CourseOfferingWhereUniqueInput[]
+    disconnect?: CourseOfferingWhereUniqueInput | CourseOfferingWhereUniqueInput[]
+    delete?: CourseOfferingWhereUniqueInput | CourseOfferingWhereUniqueInput[]
+    connect?: CourseOfferingWhereUniqueInput | CourseOfferingWhereUniqueInput[]
+    update?: CourseOfferingUpdateWithWhereUniqueWithoutCourseInput | CourseOfferingUpdateWithWhereUniqueWithoutCourseInput[]
+    updateMany?: CourseOfferingUpdateManyWithWhereWithoutCourseInput | CourseOfferingUpdateManyWithWhereWithoutCourseInput[]
+    deleteMany?: CourseOfferingScalarWhereInput | CourseOfferingScalarWhereInput[]
+  }
+
+  export type ScheduleAssignmentUpdateManyWithoutCourseNestedInput = {
+    create?: XOR<ScheduleAssignmentCreateWithoutCourseInput, ScheduleAssignmentUncheckedCreateWithoutCourseInput> | ScheduleAssignmentCreateWithoutCourseInput[] | ScheduleAssignmentUncheckedCreateWithoutCourseInput[]
+    connectOrCreate?: ScheduleAssignmentCreateOrConnectWithoutCourseInput | ScheduleAssignmentCreateOrConnectWithoutCourseInput[]
+    upsert?: ScheduleAssignmentUpsertWithWhereUniqueWithoutCourseInput | ScheduleAssignmentUpsertWithWhereUniqueWithoutCourseInput[]
+    createMany?: ScheduleAssignmentCreateManyCourseInputEnvelope
+    set?: ScheduleAssignmentWhereUniqueInput | ScheduleAssignmentWhereUniqueInput[]
+    disconnect?: ScheduleAssignmentWhereUniqueInput | ScheduleAssignmentWhereUniqueInput[]
+    delete?: ScheduleAssignmentWhereUniqueInput | ScheduleAssignmentWhereUniqueInput[]
+    connect?: ScheduleAssignmentWhereUniqueInput | ScheduleAssignmentWhereUniqueInput[]
+    update?: ScheduleAssignmentUpdateWithWhereUniqueWithoutCourseInput | ScheduleAssignmentUpdateWithWhereUniqueWithoutCourseInput[]
+    updateMany?: ScheduleAssignmentUpdateManyWithWhereWithoutCourseInput | ScheduleAssignmentUpdateManyWithWhereWithoutCourseInput[]
+    deleteMany?: ScheduleAssignmentScalarWhereInput | ScheduleAssignmentScalarWhereInput[]
+  }
+
+  export type CourseOfferingUncheckedUpdateManyWithoutCourseNestedInput = {
+    create?: XOR<CourseOfferingCreateWithoutCourseInput, CourseOfferingUncheckedCreateWithoutCourseInput> | CourseOfferingCreateWithoutCourseInput[] | CourseOfferingUncheckedCreateWithoutCourseInput[]
+    connectOrCreate?: CourseOfferingCreateOrConnectWithoutCourseInput | CourseOfferingCreateOrConnectWithoutCourseInput[]
+    upsert?: CourseOfferingUpsertWithWhereUniqueWithoutCourseInput | CourseOfferingUpsertWithWhereUniqueWithoutCourseInput[]
+    createMany?: CourseOfferingCreateManyCourseInputEnvelope
+    set?: CourseOfferingWhereUniqueInput | CourseOfferingWhereUniqueInput[]
+    disconnect?: CourseOfferingWhereUniqueInput | CourseOfferingWhereUniqueInput[]
+    delete?: CourseOfferingWhereUniqueInput | CourseOfferingWhereUniqueInput[]
+    connect?: CourseOfferingWhereUniqueInput | CourseOfferingWhereUniqueInput[]
+    update?: CourseOfferingUpdateWithWhereUniqueWithoutCourseInput | CourseOfferingUpdateWithWhereUniqueWithoutCourseInput[]
+    updateMany?: CourseOfferingUpdateManyWithWhereWithoutCourseInput | CourseOfferingUpdateManyWithWhereWithoutCourseInput[]
+    deleteMany?: CourseOfferingScalarWhereInput | CourseOfferingScalarWhereInput[]
+  }
+
+  export type ScheduleAssignmentUncheckedUpdateManyWithoutCourseNestedInput = {
+    create?: XOR<ScheduleAssignmentCreateWithoutCourseInput, ScheduleAssignmentUncheckedCreateWithoutCourseInput> | ScheduleAssignmentCreateWithoutCourseInput[] | ScheduleAssignmentUncheckedCreateWithoutCourseInput[]
+    connectOrCreate?: ScheduleAssignmentCreateOrConnectWithoutCourseInput | ScheduleAssignmentCreateOrConnectWithoutCourseInput[]
+    upsert?: ScheduleAssignmentUpsertWithWhereUniqueWithoutCourseInput | ScheduleAssignmentUpsertWithWhereUniqueWithoutCourseInput[]
+    createMany?: ScheduleAssignmentCreateManyCourseInputEnvelope
+    set?: ScheduleAssignmentWhereUniqueInput | ScheduleAssignmentWhereUniqueInput[]
+    disconnect?: ScheduleAssignmentWhereUniqueInput | ScheduleAssignmentWhereUniqueInput[]
+    delete?: ScheduleAssignmentWhereUniqueInput | ScheduleAssignmentWhereUniqueInput[]
+    connect?: ScheduleAssignmentWhereUniqueInput | ScheduleAssignmentWhereUniqueInput[]
+    update?: ScheduleAssignmentUpdateWithWhereUniqueWithoutCourseInput | ScheduleAssignmentUpdateWithWhereUniqueWithoutCourseInput[]
+    updateMany?: ScheduleAssignmentUpdateManyWithWhereWithoutCourseInput | ScheduleAssignmentUpdateManyWithWhereWithoutCourseInput[]
+    deleteMany?: ScheduleAssignmentScalarWhereInput | ScheduleAssignmentScalarWhereInput[]
+  }
+
+  export type CourseCreateNestedOneWithoutCourseOfferingsInput = {
+    create?: XOR<CourseCreateWithoutCourseOfferingsInput, CourseUncheckedCreateWithoutCourseOfferingsInput>
+    connectOrCreate?: CourseCreateOrConnectWithoutCourseOfferingsInput
+    connect?: CourseWhereUniqueInput
+  }
+
+  export type CourseUpdateOneRequiredWithoutCourseOfferingsNestedInput = {
+    create?: XOR<CourseCreateWithoutCourseOfferingsInput, CourseUncheckedCreateWithoutCourseOfferingsInput>
+    connectOrCreate?: CourseCreateOrConnectWithoutCourseOfferingsInput
+    upsert?: CourseUpsertWithoutCourseOfferingsInput
+    connect?: CourseWhereUniqueInput
+    update?: XOR<XOR<CourseUpdateToOneWithWhereWithoutCourseOfferingsInput, CourseUpdateWithoutCourseOfferingsInput>, CourseUncheckedUpdateWithoutCourseOfferingsInput>
+  }
+
+  export type GroupCreateNestedManyWithoutSectionInput = {
+    create?: XOR<GroupCreateWithoutSectionInput, GroupUncheckedCreateWithoutSectionInput> | GroupCreateWithoutSectionInput[] | GroupUncheckedCreateWithoutSectionInput[]
+    connectOrCreate?: GroupCreateOrConnectWithoutSectionInput | GroupCreateOrConnectWithoutSectionInput[]
+    createMany?: GroupCreateManySectionInputEnvelope
+    connect?: GroupWhereUniqueInput | GroupWhereUniqueInput[]
+  }
+
+  export type ScheduleAssignmentCreateNestedManyWithoutSectionInput = {
+    create?: XOR<ScheduleAssignmentCreateWithoutSectionInput, ScheduleAssignmentUncheckedCreateWithoutSectionInput> | ScheduleAssignmentCreateWithoutSectionInput[] | ScheduleAssignmentUncheckedCreateWithoutSectionInput[]
+    connectOrCreate?: ScheduleAssignmentCreateOrConnectWithoutSectionInput | ScheduleAssignmentCreateOrConnectWithoutSectionInput[]
+    createMany?: ScheduleAssignmentCreateManySectionInputEnvelope
+    connect?: ScheduleAssignmentWhereUniqueInput | ScheduleAssignmentWhereUniqueInput[]
+  }
+
+  export type GroupUncheckedCreateNestedManyWithoutSectionInput = {
+    create?: XOR<GroupCreateWithoutSectionInput, GroupUncheckedCreateWithoutSectionInput> | GroupCreateWithoutSectionInput[] | GroupUncheckedCreateWithoutSectionInput[]
+    connectOrCreate?: GroupCreateOrConnectWithoutSectionInput | GroupCreateOrConnectWithoutSectionInput[]
+    createMany?: GroupCreateManySectionInputEnvelope
+    connect?: GroupWhereUniqueInput | GroupWhereUniqueInput[]
+  }
+
+  export type ScheduleAssignmentUncheckedCreateNestedManyWithoutSectionInput = {
+    create?: XOR<ScheduleAssignmentCreateWithoutSectionInput, ScheduleAssignmentUncheckedCreateWithoutSectionInput> | ScheduleAssignmentCreateWithoutSectionInput[] | ScheduleAssignmentUncheckedCreateWithoutSectionInput[]
+    connectOrCreate?: ScheduleAssignmentCreateOrConnectWithoutSectionInput | ScheduleAssignmentCreateOrConnectWithoutSectionInput[]
+    createMany?: ScheduleAssignmentCreateManySectionInputEnvelope
+    connect?: ScheduleAssignmentWhereUniqueInput | ScheduleAssignmentWhereUniqueInput[]
+  }
+
+  export type GroupUpdateManyWithoutSectionNestedInput = {
+    create?: XOR<GroupCreateWithoutSectionInput, GroupUncheckedCreateWithoutSectionInput> | GroupCreateWithoutSectionInput[] | GroupUncheckedCreateWithoutSectionInput[]
+    connectOrCreate?: GroupCreateOrConnectWithoutSectionInput | GroupCreateOrConnectWithoutSectionInput[]
+    upsert?: GroupUpsertWithWhereUniqueWithoutSectionInput | GroupUpsertWithWhereUniqueWithoutSectionInput[]
+    createMany?: GroupCreateManySectionInputEnvelope
+    set?: GroupWhereUniqueInput | GroupWhereUniqueInput[]
+    disconnect?: GroupWhereUniqueInput | GroupWhereUniqueInput[]
+    delete?: GroupWhereUniqueInput | GroupWhereUniqueInput[]
+    connect?: GroupWhereUniqueInput | GroupWhereUniqueInput[]
+    update?: GroupUpdateWithWhereUniqueWithoutSectionInput | GroupUpdateWithWhereUniqueWithoutSectionInput[]
+    updateMany?: GroupUpdateManyWithWhereWithoutSectionInput | GroupUpdateManyWithWhereWithoutSectionInput[]
+    deleteMany?: GroupScalarWhereInput | GroupScalarWhereInput[]
+  }
+
+  export type ScheduleAssignmentUpdateManyWithoutSectionNestedInput = {
+    create?: XOR<ScheduleAssignmentCreateWithoutSectionInput, ScheduleAssignmentUncheckedCreateWithoutSectionInput> | ScheduleAssignmentCreateWithoutSectionInput[] | ScheduleAssignmentUncheckedCreateWithoutSectionInput[]
+    connectOrCreate?: ScheduleAssignmentCreateOrConnectWithoutSectionInput | ScheduleAssignmentCreateOrConnectWithoutSectionInput[]
+    upsert?: ScheduleAssignmentUpsertWithWhereUniqueWithoutSectionInput | ScheduleAssignmentUpsertWithWhereUniqueWithoutSectionInput[]
+    createMany?: ScheduleAssignmentCreateManySectionInputEnvelope
+    set?: ScheduleAssignmentWhereUniqueInput | ScheduleAssignmentWhereUniqueInput[]
+    disconnect?: ScheduleAssignmentWhereUniqueInput | ScheduleAssignmentWhereUniqueInput[]
+    delete?: ScheduleAssignmentWhereUniqueInput | ScheduleAssignmentWhereUniqueInput[]
+    connect?: ScheduleAssignmentWhereUniqueInput | ScheduleAssignmentWhereUniqueInput[]
+    update?: ScheduleAssignmentUpdateWithWhereUniqueWithoutSectionInput | ScheduleAssignmentUpdateWithWhereUniqueWithoutSectionInput[]
+    updateMany?: ScheduleAssignmentUpdateManyWithWhereWithoutSectionInput | ScheduleAssignmentUpdateManyWithWhereWithoutSectionInput[]
+    deleteMany?: ScheduleAssignmentScalarWhereInput | ScheduleAssignmentScalarWhereInput[]
+  }
+
+  export type GroupUncheckedUpdateManyWithoutSectionNestedInput = {
+    create?: XOR<GroupCreateWithoutSectionInput, GroupUncheckedCreateWithoutSectionInput> | GroupCreateWithoutSectionInput[] | GroupUncheckedCreateWithoutSectionInput[]
+    connectOrCreate?: GroupCreateOrConnectWithoutSectionInput | GroupCreateOrConnectWithoutSectionInput[]
+    upsert?: GroupUpsertWithWhereUniqueWithoutSectionInput | GroupUpsertWithWhereUniqueWithoutSectionInput[]
+    createMany?: GroupCreateManySectionInputEnvelope
+    set?: GroupWhereUniqueInput | GroupWhereUniqueInput[]
+    disconnect?: GroupWhereUniqueInput | GroupWhereUniqueInput[]
+    delete?: GroupWhereUniqueInput | GroupWhereUniqueInput[]
+    connect?: GroupWhereUniqueInput | GroupWhereUniqueInput[]
+    update?: GroupUpdateWithWhereUniqueWithoutSectionInput | GroupUpdateWithWhereUniqueWithoutSectionInput[]
+    updateMany?: GroupUpdateManyWithWhereWithoutSectionInput | GroupUpdateManyWithWhereWithoutSectionInput[]
+    deleteMany?: GroupScalarWhereInput | GroupScalarWhereInput[]
+  }
+
+  export type ScheduleAssignmentUncheckedUpdateManyWithoutSectionNestedInput = {
+    create?: XOR<ScheduleAssignmentCreateWithoutSectionInput, ScheduleAssignmentUncheckedCreateWithoutSectionInput> | ScheduleAssignmentCreateWithoutSectionInput[] | ScheduleAssignmentUncheckedCreateWithoutSectionInput[]
+    connectOrCreate?: ScheduleAssignmentCreateOrConnectWithoutSectionInput | ScheduleAssignmentCreateOrConnectWithoutSectionInput[]
+    upsert?: ScheduleAssignmentUpsertWithWhereUniqueWithoutSectionInput | ScheduleAssignmentUpsertWithWhereUniqueWithoutSectionInput[]
+    createMany?: ScheduleAssignmentCreateManySectionInputEnvelope
+    set?: ScheduleAssignmentWhereUniqueInput | ScheduleAssignmentWhereUniqueInput[]
+    disconnect?: ScheduleAssignmentWhereUniqueInput | ScheduleAssignmentWhereUniqueInput[]
+    delete?: ScheduleAssignmentWhereUniqueInput | ScheduleAssignmentWhereUniqueInput[]
+    connect?: ScheduleAssignmentWhereUniqueInput | ScheduleAssignmentWhereUniqueInput[]
+    update?: ScheduleAssignmentUpdateWithWhereUniqueWithoutSectionInput | ScheduleAssignmentUpdateWithWhereUniqueWithoutSectionInput[]
+    updateMany?: ScheduleAssignmentUpdateManyWithWhereWithoutSectionInput | ScheduleAssignmentUpdateManyWithWhereWithoutSectionInput[]
+    deleteMany?: ScheduleAssignmentScalarWhereInput | ScheduleAssignmentScalarWhereInput[]
+  }
+
+  export type SectionCreateNestedOneWithoutGroupsInput = {
+    create?: XOR<SectionCreateWithoutGroupsInput, SectionUncheckedCreateWithoutGroupsInput>
+    connectOrCreate?: SectionCreateOrConnectWithoutGroupsInput
+    connect?: SectionWhereUniqueInput
+  }
+
+  export type ScheduleAssignmentCreateNestedManyWithoutGroupInput = {
+    create?: XOR<ScheduleAssignmentCreateWithoutGroupInput, ScheduleAssignmentUncheckedCreateWithoutGroupInput> | ScheduleAssignmentCreateWithoutGroupInput[] | ScheduleAssignmentUncheckedCreateWithoutGroupInput[]
+    connectOrCreate?: ScheduleAssignmentCreateOrConnectWithoutGroupInput | ScheduleAssignmentCreateOrConnectWithoutGroupInput[]
+    createMany?: ScheduleAssignmentCreateManyGroupInputEnvelope
+    connect?: ScheduleAssignmentWhereUniqueInput | ScheduleAssignmentWhereUniqueInput[]
+  }
+
+  export type ScheduleAssignmentUncheckedCreateNestedManyWithoutGroupInput = {
+    create?: XOR<ScheduleAssignmentCreateWithoutGroupInput, ScheduleAssignmentUncheckedCreateWithoutGroupInput> | ScheduleAssignmentCreateWithoutGroupInput[] | ScheduleAssignmentUncheckedCreateWithoutGroupInput[]
+    connectOrCreate?: ScheduleAssignmentCreateOrConnectWithoutGroupInput | ScheduleAssignmentCreateOrConnectWithoutGroupInput[]
+    createMany?: ScheduleAssignmentCreateManyGroupInputEnvelope
+    connect?: ScheduleAssignmentWhereUniqueInput | ScheduleAssignmentWhereUniqueInput[]
+  }
+
+  export type SectionUpdateOneRequiredWithoutGroupsNestedInput = {
+    create?: XOR<SectionCreateWithoutGroupsInput, SectionUncheckedCreateWithoutGroupsInput>
+    connectOrCreate?: SectionCreateOrConnectWithoutGroupsInput
+    upsert?: SectionUpsertWithoutGroupsInput
+    connect?: SectionWhereUniqueInput
+    update?: XOR<XOR<SectionUpdateToOneWithWhereWithoutGroupsInput, SectionUpdateWithoutGroupsInput>, SectionUncheckedUpdateWithoutGroupsInput>
+  }
+
+  export type ScheduleAssignmentUpdateManyWithoutGroupNestedInput = {
+    create?: XOR<ScheduleAssignmentCreateWithoutGroupInput, ScheduleAssignmentUncheckedCreateWithoutGroupInput> | ScheduleAssignmentCreateWithoutGroupInput[] | ScheduleAssignmentUncheckedCreateWithoutGroupInput[]
+    connectOrCreate?: ScheduleAssignmentCreateOrConnectWithoutGroupInput | ScheduleAssignmentCreateOrConnectWithoutGroupInput[]
+    upsert?: ScheduleAssignmentUpsertWithWhereUniqueWithoutGroupInput | ScheduleAssignmentUpsertWithWhereUniqueWithoutGroupInput[]
+    createMany?: ScheduleAssignmentCreateManyGroupInputEnvelope
+    set?: ScheduleAssignmentWhereUniqueInput | ScheduleAssignmentWhereUniqueInput[]
+    disconnect?: ScheduleAssignmentWhereUniqueInput | ScheduleAssignmentWhereUniqueInput[]
+    delete?: ScheduleAssignmentWhereUniqueInput | ScheduleAssignmentWhereUniqueInput[]
+    connect?: ScheduleAssignmentWhereUniqueInput | ScheduleAssignmentWhereUniqueInput[]
+    update?: ScheduleAssignmentUpdateWithWhereUniqueWithoutGroupInput | ScheduleAssignmentUpdateWithWhereUniqueWithoutGroupInput[]
+    updateMany?: ScheduleAssignmentUpdateManyWithWhereWithoutGroupInput | ScheduleAssignmentUpdateManyWithWhereWithoutGroupInput[]
+    deleteMany?: ScheduleAssignmentScalarWhereInput | ScheduleAssignmentScalarWhereInput[]
+  }
+
+  export type ScheduleAssignmentUncheckedUpdateManyWithoutGroupNestedInput = {
+    create?: XOR<ScheduleAssignmentCreateWithoutGroupInput, ScheduleAssignmentUncheckedCreateWithoutGroupInput> | ScheduleAssignmentCreateWithoutGroupInput[] | ScheduleAssignmentUncheckedCreateWithoutGroupInput[]
+    connectOrCreate?: ScheduleAssignmentCreateOrConnectWithoutGroupInput | ScheduleAssignmentCreateOrConnectWithoutGroupInput[]
+    upsert?: ScheduleAssignmentUpsertWithWhereUniqueWithoutGroupInput | ScheduleAssignmentUpsertWithWhereUniqueWithoutGroupInput[]
+    createMany?: ScheduleAssignmentCreateManyGroupInputEnvelope
+    set?: ScheduleAssignmentWhereUniqueInput | ScheduleAssignmentWhereUniqueInput[]
+    disconnect?: ScheduleAssignmentWhereUniqueInput | ScheduleAssignmentWhereUniqueInput[]
+    delete?: ScheduleAssignmentWhereUniqueInput | ScheduleAssignmentWhereUniqueInput[]
+    connect?: ScheduleAssignmentWhereUniqueInput | ScheduleAssignmentWhereUniqueInput[]
+    update?: ScheduleAssignmentUpdateWithWhereUniqueWithoutGroupInput | ScheduleAssignmentUpdateWithWhereUniqueWithoutGroupInput[]
+    updateMany?: ScheduleAssignmentUpdateManyWithWhereWithoutGroupInput | ScheduleAssignmentUpdateManyWithWhereWithoutGroupInput[]
+    deleteMany?: ScheduleAssignmentScalarWhereInput | ScheduleAssignmentScalarWhereInput[]
+  }
+
+  export type ScheduleAssignmentCreateNestedManyWithoutLabAssistantInput = {
+    create?: XOR<ScheduleAssignmentCreateWithoutLabAssistantInput, ScheduleAssignmentUncheckedCreateWithoutLabAssistantInput> | ScheduleAssignmentCreateWithoutLabAssistantInput[] | ScheduleAssignmentUncheckedCreateWithoutLabAssistantInput[]
+    connectOrCreate?: ScheduleAssignmentCreateOrConnectWithoutLabAssistantInput | ScheduleAssignmentCreateOrConnectWithoutLabAssistantInput[]
+    createMany?: ScheduleAssignmentCreateManyLabAssistantInputEnvelope
+    connect?: ScheduleAssignmentWhereUniqueInput | ScheduleAssignmentWhereUniqueInput[]
+  }
+
+  export type ScheduleAssignmentUncheckedCreateNestedManyWithoutLabAssistantInput = {
+    create?: XOR<ScheduleAssignmentCreateWithoutLabAssistantInput, ScheduleAssignmentUncheckedCreateWithoutLabAssistantInput> | ScheduleAssignmentCreateWithoutLabAssistantInput[] | ScheduleAssignmentUncheckedCreateWithoutLabAssistantInput[]
+    connectOrCreate?: ScheduleAssignmentCreateOrConnectWithoutLabAssistantInput | ScheduleAssignmentCreateOrConnectWithoutLabAssistantInput[]
+    createMany?: ScheduleAssignmentCreateManyLabAssistantInputEnvelope
+    connect?: ScheduleAssignmentWhereUniqueInput | ScheduleAssignmentWhereUniqueInput[]
+  }
+
+  export type ScheduleAssignmentUpdateManyWithoutLabAssistantNestedInput = {
+    create?: XOR<ScheduleAssignmentCreateWithoutLabAssistantInput, ScheduleAssignmentUncheckedCreateWithoutLabAssistantInput> | ScheduleAssignmentCreateWithoutLabAssistantInput[] | ScheduleAssignmentUncheckedCreateWithoutLabAssistantInput[]
+    connectOrCreate?: ScheduleAssignmentCreateOrConnectWithoutLabAssistantInput | ScheduleAssignmentCreateOrConnectWithoutLabAssistantInput[]
+    upsert?: ScheduleAssignmentUpsertWithWhereUniqueWithoutLabAssistantInput | ScheduleAssignmentUpsertWithWhereUniqueWithoutLabAssistantInput[]
+    createMany?: ScheduleAssignmentCreateManyLabAssistantInputEnvelope
+    set?: ScheduleAssignmentWhereUniqueInput | ScheduleAssignmentWhereUniqueInput[]
+    disconnect?: ScheduleAssignmentWhereUniqueInput | ScheduleAssignmentWhereUniqueInput[]
+    delete?: ScheduleAssignmentWhereUniqueInput | ScheduleAssignmentWhereUniqueInput[]
+    connect?: ScheduleAssignmentWhereUniqueInput | ScheduleAssignmentWhereUniqueInput[]
+    update?: ScheduleAssignmentUpdateWithWhereUniqueWithoutLabAssistantInput | ScheduleAssignmentUpdateWithWhereUniqueWithoutLabAssistantInput[]
+    updateMany?: ScheduleAssignmentUpdateManyWithWhereWithoutLabAssistantInput | ScheduleAssignmentUpdateManyWithWhereWithoutLabAssistantInput[]
+    deleteMany?: ScheduleAssignmentScalarWhereInput | ScheduleAssignmentScalarWhereInput[]
+  }
+
+  export type ScheduleAssignmentUncheckedUpdateManyWithoutLabAssistantNestedInput = {
+    create?: XOR<ScheduleAssignmentCreateWithoutLabAssistantInput, ScheduleAssignmentUncheckedCreateWithoutLabAssistantInput> | ScheduleAssignmentCreateWithoutLabAssistantInput[] | ScheduleAssignmentUncheckedCreateWithoutLabAssistantInput[]
+    connectOrCreate?: ScheduleAssignmentCreateOrConnectWithoutLabAssistantInput | ScheduleAssignmentCreateOrConnectWithoutLabAssistantInput[]
+    upsert?: ScheduleAssignmentUpsertWithWhereUniqueWithoutLabAssistantInput | ScheduleAssignmentUpsertWithWhereUniqueWithoutLabAssistantInput[]
+    createMany?: ScheduleAssignmentCreateManyLabAssistantInputEnvelope
+    set?: ScheduleAssignmentWhereUniqueInput | ScheduleAssignmentWhereUniqueInput[]
+    disconnect?: ScheduleAssignmentWhereUniqueInput | ScheduleAssignmentWhereUniqueInput[]
+    delete?: ScheduleAssignmentWhereUniqueInput | ScheduleAssignmentWhereUniqueInput[]
+    connect?: ScheduleAssignmentWhereUniqueInput | ScheduleAssignmentWhereUniqueInput[]
+    update?: ScheduleAssignmentUpdateWithWhereUniqueWithoutLabAssistantInput | ScheduleAssignmentUpdateWithWhereUniqueWithoutLabAssistantInput[]
+    updateMany?: ScheduleAssignmentUpdateManyWithWhereWithoutLabAssistantInput | ScheduleAssignmentUpdateManyWithWhereWithoutLabAssistantInput[]
     deleteMany?: ScheduleAssignmentScalarWhereInput | ScheduleAssignmentScalarWhereInput[]
   }
 
@@ -13515,218 +14740,94 @@ export namespace Prisma {
     deleteMany?: ScheduleAssignmentScalarWhereInput | ScheduleAssignmentScalarWhereInput[]
   }
 
-  export type DepartmentCreateNestedOneWithoutCoursesInput = {
-    create?: XOR<DepartmentCreateWithoutCoursesInput, DepartmentUncheckedCreateWithoutCoursesInput>
-    connectOrCreate?: DepartmentCreateOrConnectWithoutCoursesInput
-    connect?: DepartmentWhereUniqueInput
-  }
-
-  export type CourseOfferingCreateNestedManyWithoutCourseInput = {
-    create?: XOR<CourseOfferingCreateWithoutCourseInput, CourseOfferingUncheckedCreateWithoutCourseInput> | CourseOfferingCreateWithoutCourseInput[] | CourseOfferingUncheckedCreateWithoutCourseInput[]
-    connectOrCreate?: CourseOfferingCreateOrConnectWithoutCourseInput | CourseOfferingCreateOrConnectWithoutCourseInput[]
-    createMany?: CourseOfferingCreateManyCourseInputEnvelope
-    connect?: CourseOfferingWhereUniqueInput | CourseOfferingWhereUniqueInput[]
-  }
-
-  export type CourseOfferingUncheckedCreateNestedManyWithoutCourseInput = {
-    create?: XOR<CourseOfferingCreateWithoutCourseInput, CourseOfferingUncheckedCreateWithoutCourseInput> | CourseOfferingCreateWithoutCourseInput[] | CourseOfferingUncheckedCreateWithoutCourseInput[]
-    connectOrCreate?: CourseOfferingCreateOrConnectWithoutCourseInput | CourseOfferingCreateOrConnectWithoutCourseInput[]
-    createMany?: CourseOfferingCreateManyCourseInputEnvelope
-    connect?: CourseOfferingWhereUniqueInput | CourseOfferingWhereUniqueInput[]
-  }
-
-  export type DepartmentUpdateOneRequiredWithoutCoursesNestedInput = {
-    create?: XOR<DepartmentCreateWithoutCoursesInput, DepartmentUncheckedCreateWithoutCoursesInput>
-    connectOrCreate?: DepartmentCreateOrConnectWithoutCoursesInput
-    upsert?: DepartmentUpsertWithoutCoursesInput
-    connect?: DepartmentWhereUniqueInput
-    update?: XOR<XOR<DepartmentUpdateToOneWithWhereWithoutCoursesInput, DepartmentUpdateWithoutCoursesInput>, DepartmentUncheckedUpdateWithoutCoursesInput>
-  }
-
-  export type CourseOfferingUpdateManyWithoutCourseNestedInput = {
-    create?: XOR<CourseOfferingCreateWithoutCourseInput, CourseOfferingUncheckedCreateWithoutCourseInput> | CourseOfferingCreateWithoutCourseInput[] | CourseOfferingUncheckedCreateWithoutCourseInput[]
-    connectOrCreate?: CourseOfferingCreateOrConnectWithoutCourseInput | CourseOfferingCreateOrConnectWithoutCourseInput[]
-    upsert?: CourseOfferingUpsertWithWhereUniqueWithoutCourseInput | CourseOfferingUpsertWithWhereUniqueWithoutCourseInput[]
-    createMany?: CourseOfferingCreateManyCourseInputEnvelope
-    set?: CourseOfferingWhereUniqueInput | CourseOfferingWhereUniqueInput[]
-    disconnect?: CourseOfferingWhereUniqueInput | CourseOfferingWhereUniqueInput[]
-    delete?: CourseOfferingWhereUniqueInput | CourseOfferingWhereUniqueInput[]
-    connect?: CourseOfferingWhereUniqueInput | CourseOfferingWhereUniqueInput[]
-    update?: CourseOfferingUpdateWithWhereUniqueWithoutCourseInput | CourseOfferingUpdateWithWhereUniqueWithoutCourseInput[]
-    updateMany?: CourseOfferingUpdateManyWithWhereWithoutCourseInput | CourseOfferingUpdateManyWithWhereWithoutCourseInput[]
-    deleteMany?: CourseOfferingScalarWhereInput | CourseOfferingScalarWhereInput[]
-  }
-
-  export type CourseOfferingUncheckedUpdateManyWithoutCourseNestedInput = {
-    create?: XOR<CourseOfferingCreateWithoutCourseInput, CourseOfferingUncheckedCreateWithoutCourseInput> | CourseOfferingCreateWithoutCourseInput[] | CourseOfferingUncheckedCreateWithoutCourseInput[]
-    connectOrCreate?: CourseOfferingCreateOrConnectWithoutCourseInput | CourseOfferingCreateOrConnectWithoutCourseInput[]
-    upsert?: CourseOfferingUpsertWithWhereUniqueWithoutCourseInput | CourseOfferingUpsertWithWhereUniqueWithoutCourseInput[]
-    createMany?: CourseOfferingCreateManyCourseInputEnvelope
-    set?: CourseOfferingWhereUniqueInput | CourseOfferingWhereUniqueInput[]
-    disconnect?: CourseOfferingWhereUniqueInput | CourseOfferingWhereUniqueInput[]
-    delete?: CourseOfferingWhereUniqueInput | CourseOfferingWhereUniqueInput[]
-    connect?: CourseOfferingWhereUniqueInput | CourseOfferingWhereUniqueInput[]
-    update?: CourseOfferingUpdateWithWhereUniqueWithoutCourseInput | CourseOfferingUpdateWithWhereUniqueWithoutCourseInput[]
-    updateMany?: CourseOfferingUpdateManyWithWhereWithoutCourseInput | CourseOfferingUpdateManyWithWhereWithoutCourseInput[]
-    deleteMany?: CourseOfferingScalarWhereInput | CourseOfferingScalarWhereInput[]
-  }
-
-  export type CourseCreateNestedOneWithoutCourseOfferingsInput = {
-    create?: XOR<CourseCreateWithoutCourseOfferingsInput, CourseUncheckedCreateWithoutCourseOfferingsInput>
-    connectOrCreate?: CourseCreateOrConnectWithoutCourseOfferingsInput
+  export type CourseCreateNestedOneWithoutScheduleAssignmentInput = {
+    create?: XOR<CourseCreateWithoutScheduleAssignmentInput, CourseUncheckedCreateWithoutScheduleAssignmentInput>
+    connectOrCreate?: CourseCreateOrConnectWithoutScheduleAssignmentInput
     connect?: CourseWhereUniqueInput
   }
 
-  export type SectionCreateNestedManyWithoutCourseOfferingInput = {
-    create?: XOR<SectionCreateWithoutCourseOfferingInput, SectionUncheckedCreateWithoutCourseOfferingInput> | SectionCreateWithoutCourseOfferingInput[] | SectionUncheckedCreateWithoutCourseOfferingInput[]
-    connectOrCreate?: SectionCreateOrConnectWithoutCourseOfferingInput | SectionCreateOrConnectWithoutCourseOfferingInput[]
-    createMany?: SectionCreateManyCourseOfferingInputEnvelope
-    connect?: SectionWhereUniqueInput | SectionWhereUniqueInput[]
+  export type SectionCreateNestedOneWithoutScheduleAssignmentInput = {
+    create?: XOR<SectionCreateWithoutScheduleAssignmentInput, SectionUncheckedCreateWithoutScheduleAssignmentInput>
+    connectOrCreate?: SectionCreateOrConnectWithoutScheduleAssignmentInput
+    connect?: SectionWhereUniqueInput
   }
 
-  export type SectionUncheckedCreateNestedManyWithoutCourseOfferingInput = {
-    create?: XOR<SectionCreateWithoutCourseOfferingInput, SectionUncheckedCreateWithoutCourseOfferingInput> | SectionCreateWithoutCourseOfferingInput[] | SectionUncheckedCreateWithoutCourseOfferingInput[]
-    connectOrCreate?: SectionCreateOrConnectWithoutCourseOfferingInput | SectionCreateOrConnectWithoutCourseOfferingInput[]
-    createMany?: SectionCreateManyCourseOfferingInputEnvelope
-    connect?: SectionWhereUniqueInput | SectionWhereUniqueInput[]
+  export type GroupCreateNestedOneWithoutScheduleAssignmentInput = {
+    create?: XOR<GroupCreateWithoutScheduleAssignmentInput, GroupUncheckedCreateWithoutScheduleAssignmentInput>
+    connectOrCreate?: GroupCreateOrConnectWithoutScheduleAssignmentInput
+    connect?: GroupWhereUniqueInput
   }
 
-  export type CourseUpdateOneRequiredWithoutCourseOfferingsNestedInput = {
-    create?: XOR<CourseCreateWithoutCourseOfferingsInput, CourseUncheckedCreateWithoutCourseOfferingsInput>
-    connectOrCreate?: CourseCreateOrConnectWithoutCourseOfferingsInput
-    upsert?: CourseUpsertWithoutCourseOfferingsInput
+  export type LabRoomCreateNestedOneWithoutScheduleAssignmentsInput = {
+    create?: XOR<LabRoomCreateWithoutScheduleAssignmentsInput, LabRoomUncheckedCreateWithoutScheduleAssignmentsInput>
+    connectOrCreate?: LabRoomCreateOrConnectWithoutScheduleAssignmentsInput
+    connect?: LabRoomWhereUniqueInput
+  }
+
+  export type LabAssistantCreateNestedOneWithoutScheduleAssignmentsInput = {
+    create?: XOR<LabAssistantCreateWithoutScheduleAssignmentsInput, LabAssistantUncheckedCreateWithoutScheduleAssignmentsInput>
+    connectOrCreate?: LabAssistantCreateOrConnectWithoutScheduleAssignmentsInput
+    connect?: LabAssistantWhereUniqueInput
+  }
+
+  export type TimeSlotCreateNestedOneWithoutScheduleAssignmentsInput = {
+    create?: XOR<TimeSlotCreateWithoutScheduleAssignmentsInput, TimeSlotUncheckedCreateWithoutScheduleAssignmentsInput>
+    connectOrCreate?: TimeSlotCreateOrConnectWithoutScheduleAssignmentsInput
+    connect?: TimeSlotWhereUniqueInput
+  }
+
+  export type CourseUpdateOneRequiredWithoutScheduleAssignmentNestedInput = {
+    create?: XOR<CourseCreateWithoutScheduleAssignmentInput, CourseUncheckedCreateWithoutScheduleAssignmentInput>
+    connectOrCreate?: CourseCreateOrConnectWithoutScheduleAssignmentInput
+    upsert?: CourseUpsertWithoutScheduleAssignmentInput
     connect?: CourseWhereUniqueInput
-    update?: XOR<XOR<CourseUpdateToOneWithWhereWithoutCourseOfferingsInput, CourseUpdateWithoutCourseOfferingsInput>, CourseUncheckedUpdateWithoutCourseOfferingsInput>
+    update?: XOR<XOR<CourseUpdateToOneWithWhereWithoutScheduleAssignmentInput, CourseUpdateWithoutScheduleAssignmentInput>, CourseUncheckedUpdateWithoutScheduleAssignmentInput>
   }
 
-  export type SectionUpdateManyWithoutCourseOfferingNestedInput = {
-    create?: XOR<SectionCreateWithoutCourseOfferingInput, SectionUncheckedCreateWithoutCourseOfferingInput> | SectionCreateWithoutCourseOfferingInput[] | SectionUncheckedCreateWithoutCourseOfferingInput[]
-    connectOrCreate?: SectionCreateOrConnectWithoutCourseOfferingInput | SectionCreateOrConnectWithoutCourseOfferingInput[]
-    upsert?: SectionUpsertWithWhereUniqueWithoutCourseOfferingInput | SectionUpsertWithWhereUniqueWithoutCourseOfferingInput[]
-    createMany?: SectionCreateManyCourseOfferingInputEnvelope
-    set?: SectionWhereUniqueInput | SectionWhereUniqueInput[]
-    disconnect?: SectionWhereUniqueInput | SectionWhereUniqueInput[]
-    delete?: SectionWhereUniqueInput | SectionWhereUniqueInput[]
-    connect?: SectionWhereUniqueInput | SectionWhereUniqueInput[]
-    update?: SectionUpdateWithWhereUniqueWithoutCourseOfferingInput | SectionUpdateWithWhereUniqueWithoutCourseOfferingInput[]
-    updateMany?: SectionUpdateManyWithWhereWithoutCourseOfferingInput | SectionUpdateManyWithWhereWithoutCourseOfferingInput[]
-    deleteMany?: SectionScalarWhereInput | SectionScalarWhereInput[]
-  }
-
-  export type SectionUncheckedUpdateManyWithoutCourseOfferingNestedInput = {
-    create?: XOR<SectionCreateWithoutCourseOfferingInput, SectionUncheckedCreateWithoutCourseOfferingInput> | SectionCreateWithoutCourseOfferingInput[] | SectionUncheckedCreateWithoutCourseOfferingInput[]
-    connectOrCreate?: SectionCreateOrConnectWithoutCourseOfferingInput | SectionCreateOrConnectWithoutCourseOfferingInput[]
-    upsert?: SectionUpsertWithWhereUniqueWithoutCourseOfferingInput | SectionUpsertWithWhereUniqueWithoutCourseOfferingInput[]
-    createMany?: SectionCreateManyCourseOfferingInputEnvelope
-    set?: SectionWhereUniqueInput | SectionWhereUniqueInput[]
-    disconnect?: SectionWhereUniqueInput | SectionWhereUniqueInput[]
-    delete?: SectionWhereUniqueInput | SectionWhereUniqueInput[]
-    connect?: SectionWhereUniqueInput | SectionWhereUniqueInput[]
-    update?: SectionUpdateWithWhereUniqueWithoutCourseOfferingInput | SectionUpdateWithWhereUniqueWithoutCourseOfferingInput[]
-    updateMany?: SectionUpdateManyWithWhereWithoutCourseOfferingInput | SectionUpdateManyWithWhereWithoutCourseOfferingInput[]
-    deleteMany?: SectionScalarWhereInput | SectionScalarWhereInput[]
-  }
-
-  export type CourseOfferingCreateNestedOneWithoutSectionsInput = {
-    create?: XOR<CourseOfferingCreateWithoutSectionsInput, CourseOfferingUncheckedCreateWithoutSectionsInput>
-    connectOrCreate?: CourseOfferingCreateOrConnectWithoutSectionsInput
-    connect?: CourseOfferingWhereUniqueInput
-  }
-
-  export type ScheduleAssignmentCreateNestedOneWithoutSectionInput = {
-    create?: XOR<ScheduleAssignmentCreateWithoutSectionInput, ScheduleAssignmentUncheckedCreateWithoutSectionInput>
-    connectOrCreate?: ScheduleAssignmentCreateOrConnectWithoutSectionInput
-    connect?: ScheduleAssignmentWhereUniqueInput
-  }
-
-  export type ScheduleAssignmentUncheckedCreateNestedOneWithoutSectionInput = {
-    create?: XOR<ScheduleAssignmentCreateWithoutSectionInput, ScheduleAssignmentUncheckedCreateWithoutSectionInput>
-    connectOrCreate?: ScheduleAssignmentCreateOrConnectWithoutSectionInput
-    connect?: ScheduleAssignmentWhereUniqueInput
-  }
-
-  export type CourseOfferingUpdateOneRequiredWithoutSectionsNestedInput = {
-    create?: XOR<CourseOfferingCreateWithoutSectionsInput, CourseOfferingUncheckedCreateWithoutSectionsInput>
-    connectOrCreate?: CourseOfferingCreateOrConnectWithoutSectionsInput
-    upsert?: CourseOfferingUpsertWithoutSectionsInput
-    connect?: CourseOfferingWhereUniqueInput
-    update?: XOR<XOR<CourseOfferingUpdateToOneWithWhereWithoutSectionsInput, CourseOfferingUpdateWithoutSectionsInput>, CourseOfferingUncheckedUpdateWithoutSectionsInput>
-  }
-
-  export type ScheduleAssignmentUpdateOneWithoutSectionNestedInput = {
-    create?: XOR<ScheduleAssignmentCreateWithoutSectionInput, ScheduleAssignmentUncheckedCreateWithoutSectionInput>
-    connectOrCreate?: ScheduleAssignmentCreateOrConnectWithoutSectionInput
-    upsert?: ScheduleAssignmentUpsertWithoutSectionInput
-    disconnect?: ScheduleAssignmentWhereInput | boolean
-    delete?: ScheduleAssignmentWhereInput | boolean
-    connect?: ScheduleAssignmentWhereUniqueInput
-    update?: XOR<XOR<ScheduleAssignmentUpdateToOneWithWhereWithoutSectionInput, ScheduleAssignmentUpdateWithoutSectionInput>, ScheduleAssignmentUncheckedUpdateWithoutSectionInput>
-  }
-
-  export type ScheduleAssignmentUncheckedUpdateOneWithoutSectionNestedInput = {
-    create?: XOR<ScheduleAssignmentCreateWithoutSectionInput, ScheduleAssignmentUncheckedCreateWithoutSectionInput>
-    connectOrCreate?: ScheduleAssignmentCreateOrConnectWithoutSectionInput
-    upsert?: ScheduleAssignmentUpsertWithoutSectionInput
-    disconnect?: ScheduleAssignmentWhereInput | boolean
-    delete?: ScheduleAssignmentWhereInput | boolean
-    connect?: ScheduleAssignmentWhereUniqueInput
-    update?: XOR<XOR<ScheduleAssignmentUpdateToOneWithWhereWithoutSectionInput, ScheduleAssignmentUpdateWithoutSectionInput>, ScheduleAssignmentUncheckedUpdateWithoutSectionInput>
-  }
-
-  export type SectionCreateNestedOneWithoutAssignmentInput = {
-    create?: XOR<SectionCreateWithoutAssignmentInput, SectionUncheckedCreateWithoutAssignmentInput>
-    connectOrCreate?: SectionCreateOrConnectWithoutAssignmentInput
+  export type SectionUpdateOneRequiredWithoutScheduleAssignmentNestedInput = {
+    create?: XOR<SectionCreateWithoutScheduleAssignmentInput, SectionUncheckedCreateWithoutScheduleAssignmentInput>
+    connectOrCreate?: SectionCreateOrConnectWithoutScheduleAssignmentInput
+    upsert?: SectionUpsertWithoutScheduleAssignmentInput
     connect?: SectionWhereUniqueInput
+    update?: XOR<XOR<SectionUpdateToOneWithWhereWithoutScheduleAssignmentInput, SectionUpdateWithoutScheduleAssignmentInput>, SectionUncheckedUpdateWithoutScheduleAssignmentInput>
   }
 
-  export type LabRoomCreateNestedOneWithoutAssignmentsInput = {
-    create?: XOR<LabRoomCreateWithoutAssignmentsInput, LabRoomUncheckedCreateWithoutAssignmentsInput>
-    connectOrCreate?: LabRoomCreateOrConnectWithoutAssignmentsInput
+  export type GroupUpdateOneWithoutScheduleAssignmentNestedInput = {
+    create?: XOR<GroupCreateWithoutScheduleAssignmentInput, GroupUncheckedCreateWithoutScheduleAssignmentInput>
+    connectOrCreate?: GroupCreateOrConnectWithoutScheduleAssignmentInput
+    upsert?: GroupUpsertWithoutScheduleAssignmentInput
+    disconnect?: GroupWhereInput | boolean
+    delete?: GroupWhereInput | boolean
+    connect?: GroupWhereUniqueInput
+    update?: XOR<XOR<GroupUpdateToOneWithWhereWithoutScheduleAssignmentInput, GroupUpdateWithoutScheduleAssignmentInput>, GroupUncheckedUpdateWithoutScheduleAssignmentInput>
+  }
+
+  export type LabRoomUpdateOneRequiredWithoutScheduleAssignmentsNestedInput = {
+    create?: XOR<LabRoomCreateWithoutScheduleAssignmentsInput, LabRoomUncheckedCreateWithoutScheduleAssignmentsInput>
+    connectOrCreate?: LabRoomCreateOrConnectWithoutScheduleAssignmentsInput
+    upsert?: LabRoomUpsertWithoutScheduleAssignmentsInput
     connect?: LabRoomWhereUniqueInput
+    update?: XOR<XOR<LabRoomUpdateToOneWithWhereWithoutScheduleAssignmentsInput, LabRoomUpdateWithoutScheduleAssignmentsInput>, LabRoomUncheckedUpdateWithoutScheduleAssignmentsInput>
   }
 
-  export type LabAssistantCreateNestedOneWithoutAssignmentsInput = {
-    create?: XOR<LabAssistantCreateWithoutAssignmentsInput, LabAssistantUncheckedCreateWithoutAssignmentsInput>
-    connectOrCreate?: LabAssistantCreateOrConnectWithoutAssignmentsInput
+  export type LabAssistantUpdateOneRequiredWithoutScheduleAssignmentsNestedInput = {
+    create?: XOR<LabAssistantCreateWithoutScheduleAssignmentsInput, LabAssistantUncheckedCreateWithoutScheduleAssignmentsInput>
+    connectOrCreate?: LabAssistantCreateOrConnectWithoutScheduleAssignmentsInput
+    upsert?: LabAssistantUpsertWithoutScheduleAssignmentsInput
     connect?: LabAssistantWhereUniqueInput
+    update?: XOR<XOR<LabAssistantUpdateToOneWithWhereWithoutScheduleAssignmentsInput, LabAssistantUpdateWithoutScheduleAssignmentsInput>, LabAssistantUncheckedUpdateWithoutScheduleAssignmentsInput>
   }
 
-  export type TimeSlotCreateNestedOneWithoutAssignmentsInput = {
-    create?: XOR<TimeSlotCreateWithoutAssignmentsInput, TimeSlotUncheckedCreateWithoutAssignmentsInput>
-    connectOrCreate?: TimeSlotCreateOrConnectWithoutAssignmentsInput
+  export type TimeSlotUpdateOneRequiredWithoutScheduleAssignmentsNestedInput = {
+    create?: XOR<TimeSlotCreateWithoutScheduleAssignmentsInput, TimeSlotUncheckedCreateWithoutScheduleAssignmentsInput>
+    connectOrCreate?: TimeSlotCreateOrConnectWithoutScheduleAssignmentsInput
+    upsert?: TimeSlotUpsertWithoutScheduleAssignmentsInput
     connect?: TimeSlotWhereUniqueInput
+    update?: XOR<XOR<TimeSlotUpdateToOneWithWhereWithoutScheduleAssignmentsInput, TimeSlotUpdateWithoutScheduleAssignmentsInput>, TimeSlotUncheckedUpdateWithoutScheduleAssignmentsInput>
   }
 
-  export type SectionUpdateOneRequiredWithoutAssignmentNestedInput = {
-    create?: XOR<SectionCreateWithoutAssignmentInput, SectionUncheckedCreateWithoutAssignmentInput>
-    connectOrCreate?: SectionCreateOrConnectWithoutAssignmentInput
-    upsert?: SectionUpsertWithoutAssignmentInput
-    connect?: SectionWhereUniqueInput
-    update?: XOR<XOR<SectionUpdateToOneWithWhereWithoutAssignmentInput, SectionUpdateWithoutAssignmentInput>, SectionUncheckedUpdateWithoutAssignmentInput>
-  }
-
-  export type LabRoomUpdateOneRequiredWithoutAssignmentsNestedInput = {
-    create?: XOR<LabRoomCreateWithoutAssignmentsInput, LabRoomUncheckedCreateWithoutAssignmentsInput>
-    connectOrCreate?: LabRoomCreateOrConnectWithoutAssignmentsInput
-    upsert?: LabRoomUpsertWithoutAssignmentsInput
-    connect?: LabRoomWhereUniqueInput
-    update?: XOR<XOR<LabRoomUpdateToOneWithWhereWithoutAssignmentsInput, LabRoomUpdateWithoutAssignmentsInput>, LabRoomUncheckedUpdateWithoutAssignmentsInput>
-  }
-
-  export type LabAssistantUpdateOneRequiredWithoutAssignmentsNestedInput = {
-    create?: XOR<LabAssistantCreateWithoutAssignmentsInput, LabAssistantUncheckedCreateWithoutAssignmentsInput>
-    connectOrCreate?: LabAssistantCreateOrConnectWithoutAssignmentsInput
-    upsert?: LabAssistantUpsertWithoutAssignmentsInput
-    connect?: LabAssistantWhereUniqueInput
-    update?: XOR<XOR<LabAssistantUpdateToOneWithWhereWithoutAssignmentsInput, LabAssistantUpdateWithoutAssignmentsInput>, LabAssistantUncheckedUpdateWithoutAssignmentsInput>
-  }
-
-  export type TimeSlotUpdateOneRequiredWithoutAssignmentsNestedInput = {
-    create?: XOR<TimeSlotCreateWithoutAssignmentsInput, TimeSlotUncheckedCreateWithoutAssignmentsInput>
-    connectOrCreate?: TimeSlotCreateOrConnectWithoutAssignmentsInput
-    upsert?: TimeSlotUpsertWithoutAssignmentsInput
-    connect?: TimeSlotWhereUniqueInput
-    update?: XOR<XOR<TimeSlotUpdateToOneWithWhereWithoutAssignmentsInput, TimeSlotUpdateWithoutAssignmentsInput>, TimeSlotUncheckedUpdateWithoutAssignmentsInput>
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -13743,11 +14844,20 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
-  export type NestedEnumRoleFilter<$PrismaModel = never> = {
-    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
-    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
+  export type NestedIntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type NestedDateTimeFilter<$PrismaModel = never> = {
@@ -13778,41 +14888,6 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
-  export type NestedIntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
-  }
-
-  export type NestedEnumRoleWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
-    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    not?: NestedEnumRoleWithAggregatesFilter<$PrismaModel> | $Enums.Role
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumRoleFilter<$PrismaModel>
-    _max?: NestedEnumRoleFilter<$PrismaModel>
-  }
-
-  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedDateTimeFilter<$PrismaModel>
-    _max?: NestedDateTimeFilter<$PrismaModel>
-  }
-
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -13840,327 +14915,92 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
-  export type LabAssistantCreateWithoutUserInput = {
-    id?: string
-    firstName: string
-    lastName: string
-    department: DepartmentCreateNestedOneWithoutLabAssistantsInput
-    assignments?: ScheduleAssignmentCreateNestedManyWithoutLabAssistantInput
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
-  export type LabAssistantUncheckedCreateWithoutUserInput = {
-    id?: string
-    firstName: string
-    lastName: string
-    departmentId: string
-    assignments?: ScheduleAssignmentUncheckedCreateNestedManyWithoutLabAssistantInput
+  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type LabAssistantCreateOrConnectWithoutUserInput = {
-    where: LabAssistantWhereUniqueInput
-    create: XOR<LabAssistantCreateWithoutUserInput, LabAssistantUncheckedCreateWithoutUserInput>
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
-  export type LabAssistantUpsertWithoutUserInput = {
-    update: XOR<LabAssistantUpdateWithoutUserInput, LabAssistantUncheckedUpdateWithoutUserInput>
-    create: XOR<LabAssistantCreateWithoutUserInput, LabAssistantUncheckedCreateWithoutUserInput>
-    where?: LabAssistantWhereInput
+  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
-  export type LabAssistantUpdateToOneWithWhereWithoutUserInput = {
-    where?: LabAssistantWhereInput
-    data: XOR<LabAssistantUpdateWithoutUserInput, LabAssistantUncheckedUpdateWithoutUserInput>
-  }
-
-  export type LabAssistantUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    firstName?: StringFieldUpdateOperationsInput | string
-    lastName?: StringFieldUpdateOperationsInput | string
-    department?: DepartmentUpdateOneRequiredWithoutLabAssistantsNestedInput
-    assignments?: ScheduleAssignmentUpdateManyWithoutLabAssistantNestedInput
-  }
-
-  export type LabAssistantUncheckedUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    firstName?: StringFieldUpdateOperationsInput | string
-    lastName?: StringFieldUpdateOperationsInput | string
-    departmentId?: StringFieldUpdateOperationsInput | string
-    assignments?: ScheduleAssignmentUncheckedUpdateManyWithoutLabAssistantNestedInput
-  }
-
-  export type CourseCreateWithoutDepartmentInput = {
-    id?: string
-    name: string
-    courseCode: string
-    courseOfferings?: CourseOfferingCreateNestedManyWithoutCourseInput
-  }
-
-  export type CourseUncheckedCreateWithoutDepartmentInput = {
-    id?: string
-    name: string
-    courseCode: string
-    courseOfferings?: CourseOfferingUncheckedCreateNestedManyWithoutCourseInput
-  }
-
-  export type CourseCreateOrConnectWithoutDepartmentInput = {
-    where: CourseWhereUniqueInput
-    create: XOR<CourseCreateWithoutDepartmentInput, CourseUncheckedCreateWithoutDepartmentInput>
-  }
-
-  export type CourseCreateManyDepartmentInputEnvelope = {
-    data: CourseCreateManyDepartmentInput | CourseCreateManyDepartmentInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type LabAssistantCreateWithoutDepartmentInput = {
-    id?: string
-    firstName: string
-    lastName: string
-    user: UserCreateNestedOneWithoutLabAssistantInput
-    assignments?: ScheduleAssignmentCreateNestedManyWithoutLabAssistantInput
-  }
-
-  export type LabAssistantUncheckedCreateWithoutDepartmentInput = {
-    id?: string
-    userId: string
-    firstName: string
-    lastName: string
-    assignments?: ScheduleAssignmentUncheckedCreateNestedManyWithoutLabAssistantInput
-  }
-
-  export type LabAssistantCreateOrConnectWithoutDepartmentInput = {
-    where: LabAssistantWhereUniqueInput
-    create: XOR<LabAssistantCreateWithoutDepartmentInput, LabAssistantUncheckedCreateWithoutDepartmentInput>
-  }
-
-  export type LabAssistantCreateManyDepartmentInputEnvelope = {
-    data: LabAssistantCreateManyDepartmentInput | LabAssistantCreateManyDepartmentInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type CourseUpsertWithWhereUniqueWithoutDepartmentInput = {
-    where: CourseWhereUniqueInput
-    update: XOR<CourseUpdateWithoutDepartmentInput, CourseUncheckedUpdateWithoutDepartmentInput>
-    create: XOR<CourseCreateWithoutDepartmentInput, CourseUncheckedCreateWithoutDepartmentInput>
-  }
-
-  export type CourseUpdateWithWhereUniqueWithoutDepartmentInput = {
-    where: CourseWhereUniqueInput
-    data: XOR<CourseUpdateWithoutDepartmentInput, CourseUncheckedUpdateWithoutDepartmentInput>
-  }
-
-  export type CourseUpdateManyWithWhereWithoutDepartmentInput = {
-    where: CourseScalarWhereInput
-    data: XOR<CourseUpdateManyMutationInput, CourseUncheckedUpdateManyWithoutDepartmentInput>
-  }
-
-  export type CourseScalarWhereInput = {
-    AND?: CourseScalarWhereInput | CourseScalarWhereInput[]
-    OR?: CourseScalarWhereInput[]
-    NOT?: CourseScalarWhereInput | CourseScalarWhereInput[]
-    id?: StringFilter<"Course"> | string
-    name?: StringFilter<"Course"> | string
-    courseCode?: StringFilter<"Course"> | string
-    departmentId?: StringFilter<"Course"> | string
-  }
-
-  export type LabAssistantUpsertWithWhereUniqueWithoutDepartmentInput = {
-    where: LabAssistantWhereUniqueInput
-    update: XOR<LabAssistantUpdateWithoutDepartmentInput, LabAssistantUncheckedUpdateWithoutDepartmentInput>
-    create: XOR<LabAssistantCreateWithoutDepartmentInput, LabAssistantUncheckedCreateWithoutDepartmentInput>
-  }
-
-  export type LabAssistantUpdateWithWhereUniqueWithoutDepartmentInput = {
-    where: LabAssistantWhereUniqueInput
-    data: XOR<LabAssistantUpdateWithoutDepartmentInput, LabAssistantUncheckedUpdateWithoutDepartmentInput>
-  }
-
-  export type LabAssistantUpdateManyWithWhereWithoutDepartmentInput = {
-    where: LabAssistantScalarWhereInput
-    data: XOR<LabAssistantUpdateManyMutationInput, LabAssistantUncheckedUpdateManyWithoutDepartmentInput>
-  }
-
-  export type LabAssistantScalarWhereInput = {
-    AND?: LabAssistantScalarWhereInput | LabAssistantScalarWhereInput[]
-    OR?: LabAssistantScalarWhereInput[]
-    NOT?: LabAssistantScalarWhereInput | LabAssistantScalarWhereInput[]
-    id?: StringFilter<"LabAssistant"> | string
-    userId?: StringFilter<"LabAssistant"> | string
-    firstName?: StringFilter<"LabAssistant"> | string
-    lastName?: StringFilter<"LabAssistant"> | string
-    departmentId?: StringFilter<"LabAssistant"> | string
-  }
-
-  export type UserCreateWithoutLabAssistantInput = {
-    id?: string
-    email: string
-    password: string
-    role?: $Enums.Role
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type UserUncheckedCreateWithoutLabAssistantInput = {
-    id?: string
-    email: string
-    password: string
-    role?: $Enums.Role
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type UserCreateOrConnectWithoutLabAssistantInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutLabAssistantInput, UserUncheckedCreateWithoutLabAssistantInput>
-  }
-
-  export type DepartmentCreateWithoutLabAssistantsInput = {
-    id?: string
-    name: string
-    courses?: CourseCreateNestedManyWithoutDepartmentInput
-  }
-
-  export type DepartmentUncheckedCreateWithoutLabAssistantsInput = {
-    id?: string
-    name: string
-    courses?: CourseUncheckedCreateNestedManyWithoutDepartmentInput
-  }
-
-  export type DepartmentCreateOrConnectWithoutLabAssistantsInput = {
-    where: DepartmentWhereUniqueInput
-    create: XOR<DepartmentCreateWithoutLabAssistantsInput, DepartmentUncheckedCreateWithoutLabAssistantsInput>
-  }
-
-  export type ScheduleAssignmentCreateWithoutLabAssistantInput = {
-    id?: string
-    status?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    section: SectionCreateNestedOneWithoutAssignmentInput
-    labRoom: LabRoomCreateNestedOneWithoutAssignmentsInput
-    timeSlot: TimeSlotCreateNestedOneWithoutAssignmentsInput
-  }
-
-  export type ScheduleAssignmentUncheckedCreateWithoutLabAssistantInput = {
-    id?: string
-    status?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    sectionId: string
-    labRoomId: string
-    timeSlotId: string
-  }
-
-  export type ScheduleAssignmentCreateOrConnectWithoutLabAssistantInput = {
-    where: ScheduleAssignmentWhereUniqueInput
-    create: XOR<ScheduleAssignmentCreateWithoutLabAssistantInput, ScheduleAssignmentUncheckedCreateWithoutLabAssistantInput>
-  }
-
-  export type ScheduleAssignmentCreateManyLabAssistantInputEnvelope = {
-    data: ScheduleAssignmentCreateManyLabAssistantInput | ScheduleAssignmentCreateManyLabAssistantInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type UserUpsertWithoutLabAssistantInput = {
-    update: XOR<UserUpdateWithoutLabAssistantInput, UserUncheckedUpdateWithoutLabAssistantInput>
-    create: XOR<UserCreateWithoutLabAssistantInput, UserUncheckedCreateWithoutLabAssistantInput>
-    where?: UserWhereInput
-  }
-
-  export type UserUpdateToOneWithWhereWithoutLabAssistantInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutLabAssistantInput, UserUncheckedUpdateWithoutLabAssistantInput>
-  }
-
-  export type UserUpdateWithoutLabAssistantInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type UserUncheckedUpdateWithoutLabAssistantInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type DepartmentUpsertWithoutLabAssistantsInput = {
-    update: XOR<DepartmentUpdateWithoutLabAssistantsInput, DepartmentUncheckedUpdateWithoutLabAssistantsInput>
-    create: XOR<DepartmentCreateWithoutLabAssistantsInput, DepartmentUncheckedCreateWithoutLabAssistantsInput>
-    where?: DepartmentWhereInput
-  }
-
-  export type DepartmentUpdateToOneWithWhereWithoutLabAssistantsInput = {
-    where?: DepartmentWhereInput
-    data: XOR<DepartmentUpdateWithoutLabAssistantsInput, DepartmentUncheckedUpdateWithoutLabAssistantsInput>
-  }
-
-  export type DepartmentUpdateWithoutLabAssistantsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    courses?: CourseUpdateManyWithoutDepartmentNestedInput
-  }
-
-  export type DepartmentUncheckedUpdateWithoutLabAssistantsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    courses?: CourseUncheckedUpdateManyWithoutDepartmentNestedInput
-  }
-
-  export type ScheduleAssignmentUpsertWithWhereUniqueWithoutLabAssistantInput = {
-    where: ScheduleAssignmentWhereUniqueInput
-    update: XOR<ScheduleAssignmentUpdateWithoutLabAssistantInput, ScheduleAssignmentUncheckedUpdateWithoutLabAssistantInput>
-    create: XOR<ScheduleAssignmentCreateWithoutLabAssistantInput, ScheduleAssignmentUncheckedCreateWithoutLabAssistantInput>
-  }
-
-  export type ScheduleAssignmentUpdateWithWhereUniqueWithoutLabAssistantInput = {
-    where: ScheduleAssignmentWhereUniqueInput
-    data: XOR<ScheduleAssignmentUpdateWithoutLabAssistantInput, ScheduleAssignmentUncheckedUpdateWithoutLabAssistantInput>
-  }
-
-  export type ScheduleAssignmentUpdateManyWithWhereWithoutLabAssistantInput = {
-    where: ScheduleAssignmentScalarWhereInput
-    data: XOR<ScheduleAssignmentUpdateManyMutationInput, ScheduleAssignmentUncheckedUpdateManyWithoutLabAssistantInput>
-  }
-
-  export type ScheduleAssignmentScalarWhereInput = {
-    AND?: ScheduleAssignmentScalarWhereInput | ScheduleAssignmentScalarWhereInput[]
-    OR?: ScheduleAssignmentScalarWhereInput[]
-    NOT?: ScheduleAssignmentScalarWhereInput | ScheduleAssignmentScalarWhereInput[]
-    id?: StringFilter<"ScheduleAssignment"> | string
-    status?: StringFilter<"ScheduleAssignment"> | string
-    createdAt?: DateTimeFilter<"ScheduleAssignment"> | Date | string
-    updatedAt?: DateTimeFilter<"ScheduleAssignment"> | Date | string
-    sectionId?: StringFilter<"ScheduleAssignment"> | string
-    labRoomId?: StringFilter<"ScheduleAssignment"> | string
-    labAssistantId?: StringFilter<"ScheduleAssignment"> | string
-    timeSlotId?: StringFilter<"ScheduleAssignment"> | string
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type ScheduleAssignmentCreateWithoutLabRoomInput = {
     id?: string
-    status?: string
+    status: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    section: SectionCreateNestedOneWithoutAssignmentInput
-    labAssistant: LabAssistantCreateNestedOneWithoutAssignmentsInput
-    timeSlot: TimeSlotCreateNestedOneWithoutAssignmentsInput
+    course: CourseCreateNestedOneWithoutScheduleAssignmentInput
+    section: SectionCreateNestedOneWithoutScheduleAssignmentInput
+    group?: GroupCreateNestedOneWithoutScheduleAssignmentInput
+    labAssistant: LabAssistantCreateNestedOneWithoutScheduleAssignmentsInput
+    timeSlot: TimeSlotCreateNestedOneWithoutScheduleAssignmentsInput
   }
 
   export type ScheduleAssignmentUncheckedCreateWithoutLabRoomInput = {
     id?: string
-    status?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    courseId: string
     sectionId: string
+    groupId?: string | null
     labAssistantId: string
     timeSlotId: string
+    status: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type ScheduleAssignmentCreateOrConnectWithoutLabRoomInput = {
@@ -14189,24 +15029,510 @@ export namespace Prisma {
     data: XOR<ScheduleAssignmentUpdateManyMutationInput, ScheduleAssignmentUncheckedUpdateManyWithoutLabRoomInput>
   }
 
-  export type ScheduleAssignmentCreateWithoutTimeSlotInput = {
+  export type ScheduleAssignmentScalarWhereInput = {
+    AND?: ScheduleAssignmentScalarWhereInput | ScheduleAssignmentScalarWhereInput[]
+    OR?: ScheduleAssignmentScalarWhereInput[]
+    NOT?: ScheduleAssignmentScalarWhereInput | ScheduleAssignmentScalarWhereInput[]
+    id?: StringFilter<"ScheduleAssignment"> | string
+    courseId?: StringFilter<"ScheduleAssignment"> | string
+    sectionId?: StringFilter<"ScheduleAssignment"> | string
+    groupId?: StringNullableFilter<"ScheduleAssignment"> | string | null
+    labRoomId?: StringFilter<"ScheduleAssignment"> | string
+    labAssistantId?: StringFilter<"ScheduleAssignment"> | string
+    timeSlotId?: StringFilter<"ScheduleAssignment"> | string
+    status?: StringFilter<"ScheduleAssignment"> | string
+    createdAt?: DateTimeFilter<"ScheduleAssignment"> | Date | string
+    updatedAt?: DateTimeFilter<"ScheduleAssignment"> | Date | string
+  }
+
+  export type CourseOfferingCreateWithoutCourseInput = {
     id?: string
-    status?: string
+    semester: string
+    year: number
+    totalSections: number
+    requiredLabSize: number
+    isActive: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    section: SectionCreateNestedOneWithoutAssignmentInput
-    labRoom: LabRoomCreateNestedOneWithoutAssignmentsInput
-    labAssistant: LabAssistantCreateNestedOneWithoutAssignmentsInput
+  }
+
+  export type CourseOfferingUncheckedCreateWithoutCourseInput = {
+    id?: string
+    semester: string
+    year: number
+    totalSections: number
+    requiredLabSize: number
+    isActive: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CourseOfferingCreateOrConnectWithoutCourseInput = {
+    where: CourseOfferingWhereUniqueInput
+    create: XOR<CourseOfferingCreateWithoutCourseInput, CourseOfferingUncheckedCreateWithoutCourseInput>
+  }
+
+  export type CourseOfferingCreateManyCourseInputEnvelope = {
+    data: CourseOfferingCreateManyCourseInput | CourseOfferingCreateManyCourseInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ScheduleAssignmentCreateWithoutCourseInput = {
+    id?: string
+    status: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    section: SectionCreateNestedOneWithoutScheduleAssignmentInput
+    group?: GroupCreateNestedOneWithoutScheduleAssignmentInput
+    labRoom: LabRoomCreateNestedOneWithoutScheduleAssignmentsInput
+    labAssistant: LabAssistantCreateNestedOneWithoutScheduleAssignmentsInput
+    timeSlot: TimeSlotCreateNestedOneWithoutScheduleAssignmentsInput
+  }
+
+  export type ScheduleAssignmentUncheckedCreateWithoutCourseInput = {
+    id?: string
+    sectionId: string
+    groupId?: string | null
+    labRoomId: string
+    labAssistantId: string
+    timeSlotId: string
+    status: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ScheduleAssignmentCreateOrConnectWithoutCourseInput = {
+    where: ScheduleAssignmentWhereUniqueInput
+    create: XOR<ScheduleAssignmentCreateWithoutCourseInput, ScheduleAssignmentUncheckedCreateWithoutCourseInput>
+  }
+
+  export type ScheduleAssignmentCreateManyCourseInputEnvelope = {
+    data: ScheduleAssignmentCreateManyCourseInput | ScheduleAssignmentCreateManyCourseInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CourseOfferingUpsertWithWhereUniqueWithoutCourseInput = {
+    where: CourseOfferingWhereUniqueInput
+    update: XOR<CourseOfferingUpdateWithoutCourseInput, CourseOfferingUncheckedUpdateWithoutCourseInput>
+    create: XOR<CourseOfferingCreateWithoutCourseInput, CourseOfferingUncheckedCreateWithoutCourseInput>
+  }
+
+  export type CourseOfferingUpdateWithWhereUniqueWithoutCourseInput = {
+    where: CourseOfferingWhereUniqueInput
+    data: XOR<CourseOfferingUpdateWithoutCourseInput, CourseOfferingUncheckedUpdateWithoutCourseInput>
+  }
+
+  export type CourseOfferingUpdateManyWithWhereWithoutCourseInput = {
+    where: CourseOfferingScalarWhereInput
+    data: XOR<CourseOfferingUpdateManyMutationInput, CourseOfferingUncheckedUpdateManyWithoutCourseInput>
+  }
+
+  export type CourseOfferingScalarWhereInput = {
+    AND?: CourseOfferingScalarWhereInput | CourseOfferingScalarWhereInput[]
+    OR?: CourseOfferingScalarWhereInput[]
+    NOT?: CourseOfferingScalarWhereInput | CourseOfferingScalarWhereInput[]
+    id?: StringFilter<"CourseOffering"> | string
+    courseId?: StringFilter<"CourseOffering"> | string
+    semester?: StringFilter<"CourseOffering"> | string
+    year?: IntFilter<"CourseOffering"> | number
+    totalSections?: IntFilter<"CourseOffering"> | number
+    requiredLabSize?: IntFilter<"CourseOffering"> | number
+    isActive?: BoolFilter<"CourseOffering"> | boolean
+    createdAt?: DateTimeFilter<"CourseOffering"> | Date | string
+    updatedAt?: DateTimeFilter<"CourseOffering"> | Date | string
+  }
+
+  export type ScheduleAssignmentUpsertWithWhereUniqueWithoutCourseInput = {
+    where: ScheduleAssignmentWhereUniqueInput
+    update: XOR<ScheduleAssignmentUpdateWithoutCourseInput, ScheduleAssignmentUncheckedUpdateWithoutCourseInput>
+    create: XOR<ScheduleAssignmentCreateWithoutCourseInput, ScheduleAssignmentUncheckedCreateWithoutCourseInput>
+  }
+
+  export type ScheduleAssignmentUpdateWithWhereUniqueWithoutCourseInput = {
+    where: ScheduleAssignmentWhereUniqueInput
+    data: XOR<ScheduleAssignmentUpdateWithoutCourseInput, ScheduleAssignmentUncheckedUpdateWithoutCourseInput>
+  }
+
+  export type ScheduleAssignmentUpdateManyWithWhereWithoutCourseInput = {
+    where: ScheduleAssignmentScalarWhereInput
+    data: XOR<ScheduleAssignmentUpdateManyMutationInput, ScheduleAssignmentUncheckedUpdateManyWithoutCourseInput>
+  }
+
+  export type CourseCreateWithoutCourseOfferingsInput = {
+    id?: string
+    code: string
+    name: string
+    department: string
+    credits: number
+    year: number
+    section: string
+    batch: string
+    studentType: string
+    isActive: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    ScheduleAssignment?: ScheduleAssignmentCreateNestedManyWithoutCourseInput
+  }
+
+  export type CourseUncheckedCreateWithoutCourseOfferingsInput = {
+    id?: string
+    code: string
+    name: string
+    department: string
+    credits: number
+    year: number
+    section: string
+    batch: string
+    studentType: string
+    isActive: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    ScheduleAssignment?: ScheduleAssignmentUncheckedCreateNestedManyWithoutCourseInput
+  }
+
+  export type CourseCreateOrConnectWithoutCourseOfferingsInput = {
+    where: CourseWhereUniqueInput
+    create: XOR<CourseCreateWithoutCourseOfferingsInput, CourseUncheckedCreateWithoutCourseOfferingsInput>
+  }
+
+  export type CourseUpsertWithoutCourseOfferingsInput = {
+    update: XOR<CourseUpdateWithoutCourseOfferingsInput, CourseUncheckedUpdateWithoutCourseOfferingsInput>
+    create: XOR<CourseCreateWithoutCourseOfferingsInput, CourseUncheckedCreateWithoutCourseOfferingsInput>
+    where?: CourseWhereInput
+  }
+
+  export type CourseUpdateToOneWithWhereWithoutCourseOfferingsInput = {
+    where?: CourseWhereInput
+    data: XOR<CourseUpdateWithoutCourseOfferingsInput, CourseUncheckedUpdateWithoutCourseOfferingsInput>
+  }
+
+  export type CourseUpdateWithoutCourseOfferingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    credits?: IntFieldUpdateOperationsInput | number
+    year?: IntFieldUpdateOperationsInput | number
+    section?: StringFieldUpdateOperationsInput | string
+    batch?: StringFieldUpdateOperationsInput | string
+    studentType?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ScheduleAssignment?: ScheduleAssignmentUpdateManyWithoutCourseNestedInput
+  }
+
+  export type CourseUncheckedUpdateWithoutCourseOfferingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    credits?: IntFieldUpdateOperationsInput | number
+    year?: IntFieldUpdateOperationsInput | number
+    section?: StringFieldUpdateOperationsInput | string
+    batch?: StringFieldUpdateOperationsInput | string
+    studentType?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ScheduleAssignment?: ScheduleAssignmentUncheckedUpdateManyWithoutCourseNestedInput
+  }
+
+  export type GroupCreateWithoutSectionInput = {
+    id?: string
+    name: string
+    capacity: number
+    isActive: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    ScheduleAssignment?: ScheduleAssignmentCreateNestedManyWithoutGroupInput
+  }
+
+  export type GroupUncheckedCreateWithoutSectionInput = {
+    id?: string
+    name: string
+    capacity: number
+    isActive: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    ScheduleAssignment?: ScheduleAssignmentUncheckedCreateNestedManyWithoutGroupInput
+  }
+
+  export type GroupCreateOrConnectWithoutSectionInput = {
+    where: GroupWhereUniqueInput
+    create: XOR<GroupCreateWithoutSectionInput, GroupUncheckedCreateWithoutSectionInput>
+  }
+
+  export type GroupCreateManySectionInputEnvelope = {
+    data: GroupCreateManySectionInput | GroupCreateManySectionInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ScheduleAssignmentCreateWithoutSectionInput = {
+    id?: string
+    status: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    course: CourseCreateNestedOneWithoutScheduleAssignmentInput
+    group?: GroupCreateNestedOneWithoutScheduleAssignmentInput
+    labRoom: LabRoomCreateNestedOneWithoutScheduleAssignmentsInput
+    labAssistant: LabAssistantCreateNestedOneWithoutScheduleAssignmentsInput
+    timeSlot: TimeSlotCreateNestedOneWithoutScheduleAssignmentsInput
+  }
+
+  export type ScheduleAssignmentUncheckedCreateWithoutSectionInput = {
+    id?: string
+    courseId: string
+    groupId?: string | null
+    labRoomId: string
+    labAssistantId: string
+    timeSlotId: string
+    status: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ScheduleAssignmentCreateOrConnectWithoutSectionInput = {
+    where: ScheduleAssignmentWhereUniqueInput
+    create: XOR<ScheduleAssignmentCreateWithoutSectionInput, ScheduleAssignmentUncheckedCreateWithoutSectionInput>
+  }
+
+  export type ScheduleAssignmentCreateManySectionInputEnvelope = {
+    data: ScheduleAssignmentCreateManySectionInput | ScheduleAssignmentCreateManySectionInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type GroupUpsertWithWhereUniqueWithoutSectionInput = {
+    where: GroupWhereUniqueInput
+    update: XOR<GroupUpdateWithoutSectionInput, GroupUncheckedUpdateWithoutSectionInput>
+    create: XOR<GroupCreateWithoutSectionInput, GroupUncheckedCreateWithoutSectionInput>
+  }
+
+  export type GroupUpdateWithWhereUniqueWithoutSectionInput = {
+    where: GroupWhereUniqueInput
+    data: XOR<GroupUpdateWithoutSectionInput, GroupUncheckedUpdateWithoutSectionInput>
+  }
+
+  export type GroupUpdateManyWithWhereWithoutSectionInput = {
+    where: GroupScalarWhereInput
+    data: XOR<GroupUpdateManyMutationInput, GroupUncheckedUpdateManyWithoutSectionInput>
+  }
+
+  export type GroupScalarWhereInput = {
+    AND?: GroupScalarWhereInput | GroupScalarWhereInput[]
+    OR?: GroupScalarWhereInput[]
+    NOT?: GroupScalarWhereInput | GroupScalarWhereInput[]
+    id?: StringFilter<"Group"> | string
+    name?: StringFilter<"Group"> | string
+    sectionId?: StringFilter<"Group"> | string
+    capacity?: IntFilter<"Group"> | number
+    isActive?: BoolFilter<"Group"> | boolean
+    createdAt?: DateTimeFilter<"Group"> | Date | string
+    updatedAt?: DateTimeFilter<"Group"> | Date | string
+  }
+
+  export type ScheduleAssignmentUpsertWithWhereUniqueWithoutSectionInput = {
+    where: ScheduleAssignmentWhereUniqueInput
+    update: XOR<ScheduleAssignmentUpdateWithoutSectionInput, ScheduleAssignmentUncheckedUpdateWithoutSectionInput>
+    create: XOR<ScheduleAssignmentCreateWithoutSectionInput, ScheduleAssignmentUncheckedCreateWithoutSectionInput>
+  }
+
+  export type ScheduleAssignmentUpdateWithWhereUniqueWithoutSectionInput = {
+    where: ScheduleAssignmentWhereUniqueInput
+    data: XOR<ScheduleAssignmentUpdateWithoutSectionInput, ScheduleAssignmentUncheckedUpdateWithoutSectionInput>
+  }
+
+  export type ScheduleAssignmentUpdateManyWithWhereWithoutSectionInput = {
+    where: ScheduleAssignmentScalarWhereInput
+    data: XOR<ScheduleAssignmentUpdateManyMutationInput, ScheduleAssignmentUncheckedUpdateManyWithoutSectionInput>
+  }
+
+  export type SectionCreateWithoutGroupsInput = {
+    id?: string
+    name: string
+    year: number
+    department: string
+    capacity: number
+    isActive: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    ScheduleAssignment?: ScheduleAssignmentCreateNestedManyWithoutSectionInput
+  }
+
+  export type SectionUncheckedCreateWithoutGroupsInput = {
+    id?: string
+    name: string
+    year: number
+    department: string
+    capacity: number
+    isActive: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    ScheduleAssignment?: ScheduleAssignmentUncheckedCreateNestedManyWithoutSectionInput
+  }
+
+  export type SectionCreateOrConnectWithoutGroupsInput = {
+    where: SectionWhereUniqueInput
+    create: XOR<SectionCreateWithoutGroupsInput, SectionUncheckedCreateWithoutGroupsInput>
+  }
+
+  export type ScheduleAssignmentCreateWithoutGroupInput = {
+    id?: string
+    status: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    course: CourseCreateNestedOneWithoutScheduleAssignmentInput
+    section: SectionCreateNestedOneWithoutScheduleAssignmentInput
+    labRoom: LabRoomCreateNestedOneWithoutScheduleAssignmentsInput
+    labAssistant: LabAssistantCreateNestedOneWithoutScheduleAssignmentsInput
+    timeSlot: TimeSlotCreateNestedOneWithoutScheduleAssignmentsInput
+  }
+
+  export type ScheduleAssignmentUncheckedCreateWithoutGroupInput = {
+    id?: string
+    courseId: string
+    sectionId: string
+    labRoomId: string
+    labAssistantId: string
+    timeSlotId: string
+    status: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ScheduleAssignmentCreateOrConnectWithoutGroupInput = {
+    where: ScheduleAssignmentWhereUniqueInput
+    create: XOR<ScheduleAssignmentCreateWithoutGroupInput, ScheduleAssignmentUncheckedCreateWithoutGroupInput>
+  }
+
+  export type ScheduleAssignmentCreateManyGroupInputEnvelope = {
+    data: ScheduleAssignmentCreateManyGroupInput | ScheduleAssignmentCreateManyGroupInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type SectionUpsertWithoutGroupsInput = {
+    update: XOR<SectionUpdateWithoutGroupsInput, SectionUncheckedUpdateWithoutGroupsInput>
+    create: XOR<SectionCreateWithoutGroupsInput, SectionUncheckedCreateWithoutGroupsInput>
+    where?: SectionWhereInput
+  }
+
+  export type SectionUpdateToOneWithWhereWithoutGroupsInput = {
+    where?: SectionWhereInput
+    data: XOR<SectionUpdateWithoutGroupsInput, SectionUncheckedUpdateWithoutGroupsInput>
+  }
+
+  export type SectionUpdateWithoutGroupsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    department?: StringFieldUpdateOperationsInput | string
+    capacity?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ScheduleAssignment?: ScheduleAssignmentUpdateManyWithoutSectionNestedInput
+  }
+
+  export type SectionUncheckedUpdateWithoutGroupsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    department?: StringFieldUpdateOperationsInput | string
+    capacity?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ScheduleAssignment?: ScheduleAssignmentUncheckedUpdateManyWithoutSectionNestedInput
+  }
+
+  export type ScheduleAssignmentUpsertWithWhereUniqueWithoutGroupInput = {
+    where: ScheduleAssignmentWhereUniqueInput
+    update: XOR<ScheduleAssignmentUpdateWithoutGroupInput, ScheduleAssignmentUncheckedUpdateWithoutGroupInput>
+    create: XOR<ScheduleAssignmentCreateWithoutGroupInput, ScheduleAssignmentUncheckedCreateWithoutGroupInput>
+  }
+
+  export type ScheduleAssignmentUpdateWithWhereUniqueWithoutGroupInput = {
+    where: ScheduleAssignmentWhereUniqueInput
+    data: XOR<ScheduleAssignmentUpdateWithoutGroupInput, ScheduleAssignmentUncheckedUpdateWithoutGroupInput>
+  }
+
+  export type ScheduleAssignmentUpdateManyWithWhereWithoutGroupInput = {
+    where: ScheduleAssignmentScalarWhereInput
+    data: XOR<ScheduleAssignmentUpdateManyMutationInput, ScheduleAssignmentUncheckedUpdateManyWithoutGroupInput>
+  }
+
+  export type ScheduleAssignmentCreateWithoutLabAssistantInput = {
+    id?: string
+    status: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    course: CourseCreateNestedOneWithoutScheduleAssignmentInput
+    section: SectionCreateNestedOneWithoutScheduleAssignmentInput
+    group?: GroupCreateNestedOneWithoutScheduleAssignmentInput
+    labRoom: LabRoomCreateNestedOneWithoutScheduleAssignmentsInput
+    timeSlot: TimeSlotCreateNestedOneWithoutScheduleAssignmentsInput
+  }
+
+  export type ScheduleAssignmentUncheckedCreateWithoutLabAssistantInput = {
+    id?: string
+    courseId: string
+    sectionId: string
+    groupId?: string | null
+    labRoomId: string
+    timeSlotId: string
+    status: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ScheduleAssignmentCreateOrConnectWithoutLabAssistantInput = {
+    where: ScheduleAssignmentWhereUniqueInput
+    create: XOR<ScheduleAssignmentCreateWithoutLabAssistantInput, ScheduleAssignmentUncheckedCreateWithoutLabAssistantInput>
+  }
+
+  export type ScheduleAssignmentCreateManyLabAssistantInputEnvelope = {
+    data: ScheduleAssignmentCreateManyLabAssistantInput | ScheduleAssignmentCreateManyLabAssistantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ScheduleAssignmentUpsertWithWhereUniqueWithoutLabAssistantInput = {
+    where: ScheduleAssignmentWhereUniqueInput
+    update: XOR<ScheduleAssignmentUpdateWithoutLabAssistantInput, ScheduleAssignmentUncheckedUpdateWithoutLabAssistantInput>
+    create: XOR<ScheduleAssignmentCreateWithoutLabAssistantInput, ScheduleAssignmentUncheckedCreateWithoutLabAssistantInput>
+  }
+
+  export type ScheduleAssignmentUpdateWithWhereUniqueWithoutLabAssistantInput = {
+    where: ScheduleAssignmentWhereUniqueInput
+    data: XOR<ScheduleAssignmentUpdateWithoutLabAssistantInput, ScheduleAssignmentUncheckedUpdateWithoutLabAssistantInput>
+  }
+
+  export type ScheduleAssignmentUpdateManyWithWhereWithoutLabAssistantInput = {
+    where: ScheduleAssignmentScalarWhereInput
+    data: XOR<ScheduleAssignmentUpdateManyMutationInput, ScheduleAssignmentUncheckedUpdateManyWithoutLabAssistantInput>
+  }
+
+  export type ScheduleAssignmentCreateWithoutTimeSlotInput = {
+    id?: string
+    status: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    course: CourseCreateNestedOneWithoutScheduleAssignmentInput
+    section: SectionCreateNestedOneWithoutScheduleAssignmentInput
+    group?: GroupCreateNestedOneWithoutScheduleAssignmentInput
+    labRoom: LabRoomCreateNestedOneWithoutScheduleAssignmentsInput
+    labAssistant: LabAssistantCreateNestedOneWithoutScheduleAssignmentsInput
   }
 
   export type ScheduleAssignmentUncheckedCreateWithoutTimeSlotInput = {
     id?: string
-    status?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    courseId: string
     sectionId: string
+    groupId?: string | null
     labRoomId: string
     labAssistantId: string
+    status: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type ScheduleAssignmentCreateOrConnectWithoutTimeSlotInput = {
@@ -14235,574 +15561,404 @@ export namespace Prisma {
     data: XOR<ScheduleAssignmentUpdateManyMutationInput, ScheduleAssignmentUncheckedUpdateManyWithoutTimeSlotInput>
   }
 
-  export type DepartmentCreateWithoutCoursesInput = {
+  export type CourseCreateWithoutScheduleAssignmentInput = {
     id?: string
+    code: string
     name: string
-    labAssistants?: LabAssistantCreateNestedManyWithoutDepartmentInput
-  }
-
-  export type DepartmentUncheckedCreateWithoutCoursesInput = {
-    id?: string
-    name: string
-    labAssistants?: LabAssistantUncheckedCreateNestedManyWithoutDepartmentInput
-  }
-
-  export type DepartmentCreateOrConnectWithoutCoursesInput = {
-    where: DepartmentWhereUniqueInput
-    create: XOR<DepartmentCreateWithoutCoursesInput, DepartmentUncheckedCreateWithoutCoursesInput>
-  }
-
-  export type CourseOfferingCreateWithoutCourseInput = {
-    id?: string
-    semester: string
+    department: string
+    credits: number
     year: number
-    sections?: SectionCreateNestedManyWithoutCourseOfferingInput
+    section: string
+    batch: string
+    studentType: string
+    isActive: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    CourseOfferings?: CourseOfferingCreateNestedManyWithoutCourseInput
   }
 
-  export type CourseOfferingUncheckedCreateWithoutCourseInput = {
+  export type CourseUncheckedCreateWithoutScheduleAssignmentInput = {
     id?: string
-    semester: string
+    code: string
+    name: string
+    department: string
+    credits: number
     year: number
-    sections?: SectionUncheckedCreateNestedManyWithoutCourseOfferingInput
+    section: string
+    batch: string
+    studentType: string
+    isActive: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    CourseOfferings?: CourseOfferingUncheckedCreateNestedManyWithoutCourseInput
   }
 
-  export type CourseOfferingCreateOrConnectWithoutCourseInput = {
-    where: CourseOfferingWhereUniqueInput
-    create: XOR<CourseOfferingCreateWithoutCourseInput, CourseOfferingUncheckedCreateWithoutCourseInput>
-  }
-
-  export type CourseOfferingCreateManyCourseInputEnvelope = {
-    data: CourseOfferingCreateManyCourseInput | CourseOfferingCreateManyCourseInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type DepartmentUpsertWithoutCoursesInput = {
-    update: XOR<DepartmentUpdateWithoutCoursesInput, DepartmentUncheckedUpdateWithoutCoursesInput>
-    create: XOR<DepartmentCreateWithoutCoursesInput, DepartmentUncheckedCreateWithoutCoursesInput>
-    where?: DepartmentWhereInput
-  }
-
-  export type DepartmentUpdateToOneWithWhereWithoutCoursesInput = {
-    where?: DepartmentWhereInput
-    data: XOR<DepartmentUpdateWithoutCoursesInput, DepartmentUncheckedUpdateWithoutCoursesInput>
-  }
-
-  export type DepartmentUpdateWithoutCoursesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    labAssistants?: LabAssistantUpdateManyWithoutDepartmentNestedInput
-  }
-
-  export type DepartmentUncheckedUpdateWithoutCoursesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    labAssistants?: LabAssistantUncheckedUpdateManyWithoutDepartmentNestedInput
-  }
-
-  export type CourseOfferingUpsertWithWhereUniqueWithoutCourseInput = {
-    where: CourseOfferingWhereUniqueInput
-    update: XOR<CourseOfferingUpdateWithoutCourseInput, CourseOfferingUncheckedUpdateWithoutCourseInput>
-    create: XOR<CourseOfferingCreateWithoutCourseInput, CourseOfferingUncheckedCreateWithoutCourseInput>
-  }
-
-  export type CourseOfferingUpdateWithWhereUniqueWithoutCourseInput = {
-    where: CourseOfferingWhereUniqueInput
-    data: XOR<CourseOfferingUpdateWithoutCourseInput, CourseOfferingUncheckedUpdateWithoutCourseInput>
-  }
-
-  export type CourseOfferingUpdateManyWithWhereWithoutCourseInput = {
-    where: CourseOfferingScalarWhereInput
-    data: XOR<CourseOfferingUpdateManyMutationInput, CourseOfferingUncheckedUpdateManyWithoutCourseInput>
-  }
-
-  export type CourseOfferingScalarWhereInput = {
-    AND?: CourseOfferingScalarWhereInput | CourseOfferingScalarWhereInput[]
-    OR?: CourseOfferingScalarWhereInput[]
-    NOT?: CourseOfferingScalarWhereInput | CourseOfferingScalarWhereInput[]
-    id?: StringFilter<"CourseOffering"> | string
-    courseId?: StringFilter<"CourseOffering"> | string
-    semester?: StringFilter<"CourseOffering"> | string
-    year?: IntFilter<"CourseOffering"> | number
-  }
-
-  export type CourseCreateWithoutCourseOfferingsInput = {
-    id?: string
-    name: string
-    courseCode: string
-    department: DepartmentCreateNestedOneWithoutCoursesInput
-  }
-
-  export type CourseUncheckedCreateWithoutCourseOfferingsInput = {
-    id?: string
-    name: string
-    courseCode: string
-    departmentId: string
-  }
-
-  export type CourseCreateOrConnectWithoutCourseOfferingsInput = {
+  export type CourseCreateOrConnectWithoutScheduleAssignmentInput = {
     where: CourseWhereUniqueInput
-    create: XOR<CourseCreateWithoutCourseOfferingsInput, CourseUncheckedCreateWithoutCourseOfferingsInput>
+    create: XOR<CourseCreateWithoutScheduleAssignmentInput, CourseUncheckedCreateWithoutScheduleAssignmentInput>
   }
 
-  export type SectionCreateWithoutCourseOfferingInput = {
+  export type SectionCreateWithoutScheduleAssignmentInput = {
     id?: string
-    sectionNumber: string
-    requiredLabSize: number
-    assignment?: ScheduleAssignmentCreateNestedOneWithoutSectionInput
-  }
-
-  export type SectionUncheckedCreateWithoutCourseOfferingInput = {
-    id?: string
-    sectionNumber: string
-    requiredLabSize: number
-    assignment?: ScheduleAssignmentUncheckedCreateNestedOneWithoutSectionInput
-  }
-
-  export type SectionCreateOrConnectWithoutCourseOfferingInput = {
-    where: SectionWhereUniqueInput
-    create: XOR<SectionCreateWithoutCourseOfferingInput, SectionUncheckedCreateWithoutCourseOfferingInput>
-  }
-
-  export type SectionCreateManyCourseOfferingInputEnvelope = {
-    data: SectionCreateManyCourseOfferingInput | SectionCreateManyCourseOfferingInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type CourseUpsertWithoutCourseOfferingsInput = {
-    update: XOR<CourseUpdateWithoutCourseOfferingsInput, CourseUncheckedUpdateWithoutCourseOfferingsInput>
-    create: XOR<CourseCreateWithoutCourseOfferingsInput, CourseUncheckedCreateWithoutCourseOfferingsInput>
-    where?: CourseWhereInput
-  }
-
-  export type CourseUpdateToOneWithWhereWithoutCourseOfferingsInput = {
-    where?: CourseWhereInput
-    data: XOR<CourseUpdateWithoutCourseOfferingsInput, CourseUncheckedUpdateWithoutCourseOfferingsInput>
-  }
-
-  export type CourseUpdateWithoutCourseOfferingsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    courseCode?: StringFieldUpdateOperationsInput | string
-    department?: DepartmentUpdateOneRequiredWithoutCoursesNestedInput
-  }
-
-  export type CourseUncheckedUpdateWithoutCourseOfferingsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    courseCode?: StringFieldUpdateOperationsInput | string
-    departmentId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type SectionUpsertWithWhereUniqueWithoutCourseOfferingInput = {
-    where: SectionWhereUniqueInput
-    update: XOR<SectionUpdateWithoutCourseOfferingInput, SectionUncheckedUpdateWithoutCourseOfferingInput>
-    create: XOR<SectionCreateWithoutCourseOfferingInput, SectionUncheckedCreateWithoutCourseOfferingInput>
-  }
-
-  export type SectionUpdateWithWhereUniqueWithoutCourseOfferingInput = {
-    where: SectionWhereUniqueInput
-    data: XOR<SectionUpdateWithoutCourseOfferingInput, SectionUncheckedUpdateWithoutCourseOfferingInput>
-  }
-
-  export type SectionUpdateManyWithWhereWithoutCourseOfferingInput = {
-    where: SectionScalarWhereInput
-    data: XOR<SectionUpdateManyMutationInput, SectionUncheckedUpdateManyWithoutCourseOfferingInput>
-  }
-
-  export type SectionScalarWhereInput = {
-    AND?: SectionScalarWhereInput | SectionScalarWhereInput[]
-    OR?: SectionScalarWhereInput[]
-    NOT?: SectionScalarWhereInput | SectionScalarWhereInput[]
-    id?: StringFilter<"Section"> | string
-    sectionNumber?: StringFilter<"Section"> | string
-    requiredLabSize?: IntFilter<"Section"> | number
-    courseOfferingId?: StringFilter<"Section"> | string
-  }
-
-  export type CourseOfferingCreateWithoutSectionsInput = {
-    id?: string
-    semester: string
+    name: string
     year: number
-    course: CourseCreateNestedOneWithoutCourseOfferingsInput
-  }
-
-  export type CourseOfferingUncheckedCreateWithoutSectionsInput = {
-    id?: string
-    courseId: string
-    semester: string
-    year: number
-  }
-
-  export type CourseOfferingCreateOrConnectWithoutSectionsInput = {
-    where: CourseOfferingWhereUniqueInput
-    create: XOR<CourseOfferingCreateWithoutSectionsInput, CourseOfferingUncheckedCreateWithoutSectionsInput>
-  }
-
-  export type ScheduleAssignmentCreateWithoutSectionInput = {
-    id?: string
-    status?: string
+    department: string
+    capacity: number
+    isActive: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    labRoom: LabRoomCreateNestedOneWithoutAssignmentsInput
-    labAssistant: LabAssistantCreateNestedOneWithoutAssignmentsInput
-    timeSlot: TimeSlotCreateNestedOneWithoutAssignmentsInput
+    Groups?: GroupCreateNestedManyWithoutSectionInput
   }
 
-  export type ScheduleAssignmentUncheckedCreateWithoutSectionInput = {
+  export type SectionUncheckedCreateWithoutScheduleAssignmentInput = {
     id?: string
-    status?: string
+    name: string
+    year: number
+    department: string
+    capacity: number
+    isActive: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    labRoomId: string
-    labAssistantId: string
-    timeSlotId: string
+    Groups?: GroupUncheckedCreateNestedManyWithoutSectionInput
   }
 
-  export type ScheduleAssignmentCreateOrConnectWithoutSectionInput = {
-    where: ScheduleAssignmentWhereUniqueInput
-    create: XOR<ScheduleAssignmentCreateWithoutSectionInput, ScheduleAssignmentUncheckedCreateWithoutSectionInput>
-  }
-
-  export type CourseOfferingUpsertWithoutSectionsInput = {
-    update: XOR<CourseOfferingUpdateWithoutSectionsInput, CourseOfferingUncheckedUpdateWithoutSectionsInput>
-    create: XOR<CourseOfferingCreateWithoutSectionsInput, CourseOfferingUncheckedCreateWithoutSectionsInput>
-    where?: CourseOfferingWhereInput
-  }
-
-  export type CourseOfferingUpdateToOneWithWhereWithoutSectionsInput = {
-    where?: CourseOfferingWhereInput
-    data: XOR<CourseOfferingUpdateWithoutSectionsInput, CourseOfferingUncheckedUpdateWithoutSectionsInput>
-  }
-
-  export type CourseOfferingUpdateWithoutSectionsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    semester?: StringFieldUpdateOperationsInput | string
-    year?: IntFieldUpdateOperationsInput | number
-    course?: CourseUpdateOneRequiredWithoutCourseOfferingsNestedInput
-  }
-
-  export type CourseOfferingUncheckedUpdateWithoutSectionsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    courseId?: StringFieldUpdateOperationsInput | string
-    semester?: StringFieldUpdateOperationsInput | string
-    year?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type ScheduleAssignmentUpsertWithoutSectionInput = {
-    update: XOR<ScheduleAssignmentUpdateWithoutSectionInput, ScheduleAssignmentUncheckedUpdateWithoutSectionInput>
-    create: XOR<ScheduleAssignmentCreateWithoutSectionInput, ScheduleAssignmentUncheckedCreateWithoutSectionInput>
-    where?: ScheduleAssignmentWhereInput
-  }
-
-  export type ScheduleAssignmentUpdateToOneWithWhereWithoutSectionInput = {
-    where?: ScheduleAssignmentWhereInput
-    data: XOR<ScheduleAssignmentUpdateWithoutSectionInput, ScheduleAssignmentUncheckedUpdateWithoutSectionInput>
-  }
-
-  export type ScheduleAssignmentUpdateWithoutSectionInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    labRoom?: LabRoomUpdateOneRequiredWithoutAssignmentsNestedInput
-    labAssistant?: LabAssistantUpdateOneRequiredWithoutAssignmentsNestedInput
-    timeSlot?: TimeSlotUpdateOneRequiredWithoutAssignmentsNestedInput
-  }
-
-  export type ScheduleAssignmentUncheckedUpdateWithoutSectionInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    labRoomId?: StringFieldUpdateOperationsInput | string
-    labAssistantId?: StringFieldUpdateOperationsInput | string
-    timeSlotId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type SectionCreateWithoutAssignmentInput = {
-    id?: string
-    sectionNumber: string
-    requiredLabSize: number
-    courseOffering: CourseOfferingCreateNestedOneWithoutSectionsInput
-  }
-
-  export type SectionUncheckedCreateWithoutAssignmentInput = {
-    id?: string
-    sectionNumber: string
-    requiredLabSize: number
-    courseOfferingId: string
-  }
-
-  export type SectionCreateOrConnectWithoutAssignmentInput = {
+  export type SectionCreateOrConnectWithoutScheduleAssignmentInput = {
     where: SectionWhereUniqueInput
-    create: XOR<SectionCreateWithoutAssignmentInput, SectionUncheckedCreateWithoutAssignmentInput>
+    create: XOR<SectionCreateWithoutScheduleAssignmentInput, SectionUncheckedCreateWithoutScheduleAssignmentInput>
   }
 
-  export type LabRoomCreateWithoutAssignmentsInput = {
+  export type GroupCreateWithoutScheduleAssignmentInput = {
     id?: string
     name: string
     capacity: number
-    status?: string
-  }
-
-  export type LabRoomUncheckedCreateWithoutAssignmentsInput = {
-    id?: string
-    name: string
-    capacity: number
-    status?: string
-  }
-
-  export type LabRoomCreateOrConnectWithoutAssignmentsInput = {
-    where: LabRoomWhereUniqueInput
-    create: XOR<LabRoomCreateWithoutAssignmentsInput, LabRoomUncheckedCreateWithoutAssignmentsInput>
-  }
-
-  export type LabAssistantCreateWithoutAssignmentsInput = {
-    id?: string
-    firstName: string
-    lastName: string
-    user: UserCreateNestedOneWithoutLabAssistantInput
-    department: DepartmentCreateNestedOneWithoutLabAssistantsInput
-  }
-
-  export type LabAssistantUncheckedCreateWithoutAssignmentsInput = {
-    id?: string
-    userId: string
-    firstName: string
-    lastName: string
-    departmentId: string
-  }
-
-  export type LabAssistantCreateOrConnectWithoutAssignmentsInput = {
-    where: LabAssistantWhereUniqueInput
-    create: XOR<LabAssistantCreateWithoutAssignmentsInput, LabAssistantUncheckedCreateWithoutAssignmentsInput>
-  }
-
-  export type TimeSlotCreateWithoutAssignmentsInput = {
-    id?: string
-    dayOfWeek: string
-    startTime: string
-    endTime: string
-  }
-
-  export type TimeSlotUncheckedCreateWithoutAssignmentsInput = {
-    id?: string
-    dayOfWeek: string
-    startTime: string
-    endTime: string
-  }
-
-  export type TimeSlotCreateOrConnectWithoutAssignmentsInput = {
-    where: TimeSlotWhereUniqueInput
-    create: XOR<TimeSlotCreateWithoutAssignmentsInput, TimeSlotUncheckedCreateWithoutAssignmentsInput>
-  }
-
-  export type SectionUpsertWithoutAssignmentInput = {
-    update: XOR<SectionUpdateWithoutAssignmentInput, SectionUncheckedUpdateWithoutAssignmentInput>
-    create: XOR<SectionCreateWithoutAssignmentInput, SectionUncheckedCreateWithoutAssignmentInput>
-    where?: SectionWhereInput
-  }
-
-  export type SectionUpdateToOneWithWhereWithoutAssignmentInput = {
-    where?: SectionWhereInput
-    data: XOR<SectionUpdateWithoutAssignmentInput, SectionUncheckedUpdateWithoutAssignmentInput>
-  }
-
-  export type SectionUpdateWithoutAssignmentInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    sectionNumber?: StringFieldUpdateOperationsInput | string
-    requiredLabSize?: IntFieldUpdateOperationsInput | number
-    courseOffering?: CourseOfferingUpdateOneRequiredWithoutSectionsNestedInput
-  }
-
-  export type SectionUncheckedUpdateWithoutAssignmentInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    sectionNumber?: StringFieldUpdateOperationsInput | string
-    requiredLabSize?: IntFieldUpdateOperationsInput | number
-    courseOfferingId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type LabRoomUpsertWithoutAssignmentsInput = {
-    update: XOR<LabRoomUpdateWithoutAssignmentsInput, LabRoomUncheckedUpdateWithoutAssignmentsInput>
-    create: XOR<LabRoomCreateWithoutAssignmentsInput, LabRoomUncheckedCreateWithoutAssignmentsInput>
-    where?: LabRoomWhereInput
-  }
-
-  export type LabRoomUpdateToOneWithWhereWithoutAssignmentsInput = {
-    where?: LabRoomWhereInput
-    data: XOR<LabRoomUpdateWithoutAssignmentsInput, LabRoomUncheckedUpdateWithoutAssignmentsInput>
-  }
-
-  export type LabRoomUpdateWithoutAssignmentsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    capacity?: IntFieldUpdateOperationsInput | number
-    status?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type LabRoomUncheckedUpdateWithoutAssignmentsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    capacity?: IntFieldUpdateOperationsInput | number
-    status?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type LabAssistantUpsertWithoutAssignmentsInput = {
-    update: XOR<LabAssistantUpdateWithoutAssignmentsInput, LabAssistantUncheckedUpdateWithoutAssignmentsInput>
-    create: XOR<LabAssistantCreateWithoutAssignmentsInput, LabAssistantUncheckedCreateWithoutAssignmentsInput>
-    where?: LabAssistantWhereInput
-  }
-
-  export type LabAssistantUpdateToOneWithWhereWithoutAssignmentsInput = {
-    where?: LabAssistantWhereInput
-    data: XOR<LabAssistantUpdateWithoutAssignmentsInput, LabAssistantUncheckedUpdateWithoutAssignmentsInput>
-  }
-
-  export type LabAssistantUpdateWithoutAssignmentsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    firstName?: StringFieldUpdateOperationsInput | string
-    lastName?: StringFieldUpdateOperationsInput | string
-    user?: UserUpdateOneRequiredWithoutLabAssistantNestedInput
-    department?: DepartmentUpdateOneRequiredWithoutLabAssistantsNestedInput
-  }
-
-  export type LabAssistantUncheckedUpdateWithoutAssignmentsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    firstName?: StringFieldUpdateOperationsInput | string
-    lastName?: StringFieldUpdateOperationsInput | string
-    departmentId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type TimeSlotUpsertWithoutAssignmentsInput = {
-    update: XOR<TimeSlotUpdateWithoutAssignmentsInput, TimeSlotUncheckedUpdateWithoutAssignmentsInput>
-    create: XOR<TimeSlotCreateWithoutAssignmentsInput, TimeSlotUncheckedCreateWithoutAssignmentsInput>
-    where?: TimeSlotWhereInput
-  }
-
-  export type TimeSlotUpdateToOneWithWhereWithoutAssignmentsInput = {
-    where?: TimeSlotWhereInput
-    data: XOR<TimeSlotUpdateWithoutAssignmentsInput, TimeSlotUncheckedUpdateWithoutAssignmentsInput>
-  }
-
-  export type TimeSlotUpdateWithoutAssignmentsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    dayOfWeek?: StringFieldUpdateOperationsInput | string
-    startTime?: StringFieldUpdateOperationsInput | string
-    endTime?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type TimeSlotUncheckedUpdateWithoutAssignmentsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    dayOfWeek?: StringFieldUpdateOperationsInput | string
-    startTime?: StringFieldUpdateOperationsInput | string
-    endTime?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type CourseCreateManyDepartmentInput = {
-    id?: string
-    name: string
-    courseCode: string
-  }
-
-  export type LabAssistantCreateManyDepartmentInput = {
-    id?: string
-    userId: string
-    firstName: string
-    lastName: string
-  }
-
-  export type CourseUpdateWithoutDepartmentInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    courseCode?: StringFieldUpdateOperationsInput | string
-    courseOfferings?: CourseOfferingUpdateManyWithoutCourseNestedInput
-  }
-
-  export type CourseUncheckedUpdateWithoutDepartmentInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    courseCode?: StringFieldUpdateOperationsInput | string
-    courseOfferings?: CourseOfferingUncheckedUpdateManyWithoutCourseNestedInput
-  }
-
-  export type CourseUncheckedUpdateManyWithoutDepartmentInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    courseCode?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type LabAssistantUpdateWithoutDepartmentInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    firstName?: StringFieldUpdateOperationsInput | string
-    lastName?: StringFieldUpdateOperationsInput | string
-    user?: UserUpdateOneRequiredWithoutLabAssistantNestedInput
-    assignments?: ScheduleAssignmentUpdateManyWithoutLabAssistantNestedInput
-  }
-
-  export type LabAssistantUncheckedUpdateWithoutDepartmentInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    firstName?: StringFieldUpdateOperationsInput | string
-    lastName?: StringFieldUpdateOperationsInput | string
-    assignments?: ScheduleAssignmentUncheckedUpdateManyWithoutLabAssistantNestedInput
-  }
-
-  export type LabAssistantUncheckedUpdateManyWithoutDepartmentInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    firstName?: StringFieldUpdateOperationsInput | string
-    lastName?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type ScheduleAssignmentCreateManyLabAssistantInput = {
-    id?: string
-    status?: string
+    isActive: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    section: SectionCreateNestedOneWithoutGroupsInput
+  }
+
+  export type GroupUncheckedCreateWithoutScheduleAssignmentInput = {
+    id?: string
+    name: string
     sectionId: string
-    labRoomId: string
-    timeSlotId: string
+    capacity: number
+    isActive: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
-  export type ScheduleAssignmentUpdateWithoutLabAssistantInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    section?: SectionUpdateOneRequiredWithoutAssignmentNestedInput
-    labRoom?: LabRoomUpdateOneRequiredWithoutAssignmentsNestedInput
-    timeSlot?: TimeSlotUpdateOneRequiredWithoutAssignmentsNestedInput
+  export type GroupCreateOrConnectWithoutScheduleAssignmentInput = {
+    where: GroupWhereUniqueInput
+    create: XOR<GroupCreateWithoutScheduleAssignmentInput, GroupUncheckedCreateWithoutScheduleAssignmentInput>
   }
 
-  export type ScheduleAssignmentUncheckedUpdateWithoutLabAssistantInput = {
+  export type LabRoomCreateWithoutScheduleAssignmentsInput = {
+    id?: string
+    name: string
+    capacity: number
+    location: string
+    equipment?: LabRoomCreateequipmentInput | string[]
+    isActive: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LabRoomUncheckedCreateWithoutScheduleAssignmentsInput = {
+    id?: string
+    name: string
+    capacity: number
+    location: string
+    equipment?: LabRoomCreateequipmentInput | string[]
+    isActive: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LabRoomCreateOrConnectWithoutScheduleAssignmentsInput = {
+    where: LabRoomWhereUniqueInput
+    create: XOR<LabRoomCreateWithoutScheduleAssignmentsInput, LabRoomUncheckedCreateWithoutScheduleAssignmentsInput>
+  }
+
+  export type LabAssistantCreateWithoutScheduleAssignmentsInput = {
+    id?: string
+    labAssistantId: string
+    username: string
+    firstName: string
+    lastName: string
+    email: string
+    password: string
+    department: string
+    isActive: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LabAssistantUncheckedCreateWithoutScheduleAssignmentsInput = {
+    id?: string
+    labAssistantId: string
+    username: string
+    firstName: string
+    lastName: string
+    email: string
+    password: string
+    department: string
+    isActive: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LabAssistantCreateOrConnectWithoutScheduleAssignmentsInput = {
+    where: LabAssistantWhereUniqueInput
+    create: XOR<LabAssistantCreateWithoutScheduleAssignmentsInput, LabAssistantUncheckedCreateWithoutScheduleAssignmentsInput>
+  }
+
+  export type TimeSlotCreateWithoutScheduleAssignmentsInput = {
+    id?: string
+    dayOfWeek: string
+    startTime: string
+    endTime: string
+    isActive: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TimeSlotUncheckedCreateWithoutScheduleAssignmentsInput = {
+    id?: string
+    dayOfWeek: string
+    startTime: string
+    endTime: string
+    isActive: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TimeSlotCreateOrConnectWithoutScheduleAssignmentsInput = {
+    where: TimeSlotWhereUniqueInput
+    create: XOR<TimeSlotCreateWithoutScheduleAssignmentsInput, TimeSlotUncheckedCreateWithoutScheduleAssignmentsInput>
+  }
+
+  export type CourseUpsertWithoutScheduleAssignmentInput = {
+    update: XOR<CourseUpdateWithoutScheduleAssignmentInput, CourseUncheckedUpdateWithoutScheduleAssignmentInput>
+    create: XOR<CourseCreateWithoutScheduleAssignmentInput, CourseUncheckedCreateWithoutScheduleAssignmentInput>
+    where?: CourseWhereInput
+  }
+
+  export type CourseUpdateToOneWithWhereWithoutScheduleAssignmentInput = {
+    where?: CourseWhereInput
+    data: XOR<CourseUpdateWithoutScheduleAssignmentInput, CourseUncheckedUpdateWithoutScheduleAssignmentInput>
+  }
+
+  export type CourseUpdateWithoutScheduleAssignmentInput = {
     id?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    credits?: IntFieldUpdateOperationsInput | number
+    year?: IntFieldUpdateOperationsInput | number
+    section?: StringFieldUpdateOperationsInput | string
+    batch?: StringFieldUpdateOperationsInput | string
+    studentType?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    CourseOfferings?: CourseOfferingUpdateManyWithoutCourseNestedInput
+  }
+
+  export type CourseUncheckedUpdateWithoutScheduleAssignmentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    credits?: IntFieldUpdateOperationsInput | number
+    year?: IntFieldUpdateOperationsInput | number
+    section?: StringFieldUpdateOperationsInput | string
+    batch?: StringFieldUpdateOperationsInput | string
+    studentType?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    CourseOfferings?: CourseOfferingUncheckedUpdateManyWithoutCourseNestedInput
+  }
+
+  export type SectionUpsertWithoutScheduleAssignmentInput = {
+    update: XOR<SectionUpdateWithoutScheduleAssignmentInput, SectionUncheckedUpdateWithoutScheduleAssignmentInput>
+    create: XOR<SectionCreateWithoutScheduleAssignmentInput, SectionUncheckedCreateWithoutScheduleAssignmentInput>
+    where?: SectionWhereInput
+  }
+
+  export type SectionUpdateToOneWithWhereWithoutScheduleAssignmentInput = {
+    where?: SectionWhereInput
+    data: XOR<SectionUpdateWithoutScheduleAssignmentInput, SectionUncheckedUpdateWithoutScheduleAssignmentInput>
+  }
+
+  export type SectionUpdateWithoutScheduleAssignmentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    department?: StringFieldUpdateOperationsInput | string
+    capacity?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    Groups?: GroupUpdateManyWithoutSectionNestedInput
+  }
+
+  export type SectionUncheckedUpdateWithoutScheduleAssignmentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    department?: StringFieldUpdateOperationsInput | string
+    capacity?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    Groups?: GroupUncheckedUpdateManyWithoutSectionNestedInput
+  }
+
+  export type GroupUpsertWithoutScheduleAssignmentInput = {
+    update: XOR<GroupUpdateWithoutScheduleAssignmentInput, GroupUncheckedUpdateWithoutScheduleAssignmentInput>
+    create: XOR<GroupCreateWithoutScheduleAssignmentInput, GroupUncheckedCreateWithoutScheduleAssignmentInput>
+    where?: GroupWhereInput
+  }
+
+  export type GroupUpdateToOneWithWhereWithoutScheduleAssignmentInput = {
+    where?: GroupWhereInput
+    data: XOR<GroupUpdateWithoutScheduleAssignmentInput, GroupUncheckedUpdateWithoutScheduleAssignmentInput>
+  }
+
+  export type GroupUpdateWithoutScheduleAssignmentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    capacity?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    section?: SectionUpdateOneRequiredWithoutGroupsNestedInput
+  }
+
+  export type GroupUncheckedUpdateWithoutScheduleAssignmentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     sectionId?: StringFieldUpdateOperationsInput | string
-    labRoomId?: StringFieldUpdateOperationsInput | string
-    timeSlotId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type ScheduleAssignmentUncheckedUpdateManyWithoutLabAssistantInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
+    capacity?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    sectionId?: StringFieldUpdateOperationsInput | string
-    labRoomId?: StringFieldUpdateOperationsInput | string
-    timeSlotId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type LabRoomUpsertWithoutScheduleAssignmentsInput = {
+    update: XOR<LabRoomUpdateWithoutScheduleAssignmentsInput, LabRoomUncheckedUpdateWithoutScheduleAssignmentsInput>
+    create: XOR<LabRoomCreateWithoutScheduleAssignmentsInput, LabRoomUncheckedCreateWithoutScheduleAssignmentsInput>
+    where?: LabRoomWhereInput
+  }
+
+  export type LabRoomUpdateToOneWithWhereWithoutScheduleAssignmentsInput = {
+    where?: LabRoomWhereInput
+    data: XOR<LabRoomUpdateWithoutScheduleAssignmentsInput, LabRoomUncheckedUpdateWithoutScheduleAssignmentsInput>
+  }
+
+  export type LabRoomUpdateWithoutScheduleAssignmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    capacity?: IntFieldUpdateOperationsInput | number
+    location?: StringFieldUpdateOperationsInput | string
+    equipment?: LabRoomUpdateequipmentInput | string[]
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LabRoomUncheckedUpdateWithoutScheduleAssignmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    capacity?: IntFieldUpdateOperationsInput | number
+    location?: StringFieldUpdateOperationsInput | string
+    equipment?: LabRoomUpdateequipmentInput | string[]
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LabAssistantUpsertWithoutScheduleAssignmentsInput = {
+    update: XOR<LabAssistantUpdateWithoutScheduleAssignmentsInput, LabAssistantUncheckedUpdateWithoutScheduleAssignmentsInput>
+    create: XOR<LabAssistantCreateWithoutScheduleAssignmentsInput, LabAssistantUncheckedCreateWithoutScheduleAssignmentsInput>
+    where?: LabAssistantWhereInput
+  }
+
+  export type LabAssistantUpdateToOneWithWhereWithoutScheduleAssignmentsInput = {
+    where?: LabAssistantWhereInput
+    data: XOR<LabAssistantUpdateWithoutScheduleAssignmentsInput, LabAssistantUncheckedUpdateWithoutScheduleAssignmentsInput>
+  }
+
+  export type LabAssistantUpdateWithoutScheduleAssignmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    labAssistantId?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LabAssistantUncheckedUpdateWithoutScheduleAssignmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    labAssistantId?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TimeSlotUpsertWithoutScheduleAssignmentsInput = {
+    update: XOR<TimeSlotUpdateWithoutScheduleAssignmentsInput, TimeSlotUncheckedUpdateWithoutScheduleAssignmentsInput>
+    create: XOR<TimeSlotCreateWithoutScheduleAssignmentsInput, TimeSlotUncheckedCreateWithoutScheduleAssignmentsInput>
+    where?: TimeSlotWhereInput
+  }
+
+  export type TimeSlotUpdateToOneWithWhereWithoutScheduleAssignmentsInput = {
+    where?: TimeSlotWhereInput
+    data: XOR<TimeSlotUpdateWithoutScheduleAssignmentsInput, TimeSlotUncheckedUpdateWithoutScheduleAssignmentsInput>
+  }
+
+  export type TimeSlotUpdateWithoutScheduleAssignmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dayOfWeek?: StringFieldUpdateOperationsInput | string
+    startTime?: StringFieldUpdateOperationsInput | string
+    endTime?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TimeSlotUncheckedUpdateWithoutScheduleAssignmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dayOfWeek?: StringFieldUpdateOperationsInput | string
+    startTime?: StringFieldUpdateOperationsInput | string
+    endTime?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ScheduleAssignmentCreateManyLabRoomInput = {
     id?: string
-    status?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    courseId: string
     sectionId: string
+    groupId?: string | null
     labAssistantId: string
     timeSlotId: string
+    status: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type ScheduleAssignmentUpdateWithoutLabRoomInput = {
@@ -14810,39 +15966,321 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    section?: SectionUpdateOneRequiredWithoutAssignmentNestedInput
-    labAssistant?: LabAssistantUpdateOneRequiredWithoutAssignmentsNestedInput
-    timeSlot?: TimeSlotUpdateOneRequiredWithoutAssignmentsNestedInput
+    course?: CourseUpdateOneRequiredWithoutScheduleAssignmentNestedInput
+    section?: SectionUpdateOneRequiredWithoutScheduleAssignmentNestedInput
+    group?: GroupUpdateOneWithoutScheduleAssignmentNestedInput
+    labAssistant?: LabAssistantUpdateOneRequiredWithoutScheduleAssignmentsNestedInput
+    timeSlot?: TimeSlotUpdateOneRequiredWithoutScheduleAssignmentsNestedInput
   }
 
   export type ScheduleAssignmentUncheckedUpdateWithoutLabRoomInput = {
     id?: StringFieldUpdateOperationsInput | string
+    courseId?: StringFieldUpdateOperationsInput | string
+    sectionId?: StringFieldUpdateOperationsInput | string
+    groupId?: NullableStringFieldUpdateOperationsInput | string | null
+    labAssistantId?: StringFieldUpdateOperationsInput | string
+    timeSlotId?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    sectionId?: StringFieldUpdateOperationsInput | string
-    labAssistantId?: StringFieldUpdateOperationsInput | string
-    timeSlotId?: StringFieldUpdateOperationsInput | string
   }
 
   export type ScheduleAssignmentUncheckedUpdateManyWithoutLabRoomInput = {
     id?: StringFieldUpdateOperationsInput | string
+    courseId?: StringFieldUpdateOperationsInput | string
+    sectionId?: StringFieldUpdateOperationsInput | string
+    groupId?: NullableStringFieldUpdateOperationsInput | string | null
+    labAssistantId?: StringFieldUpdateOperationsInput | string
+    timeSlotId?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CourseOfferingCreateManyCourseInput = {
+    id?: string
+    semester: string
+    year: number
+    totalSections: number
+    requiredLabSize: number
+    isActive: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ScheduleAssignmentCreateManyCourseInput = {
+    id?: string
+    sectionId: string
+    groupId?: string | null
+    labRoomId: string
+    labAssistantId: string
+    timeSlotId: string
+    status: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CourseOfferingUpdateWithoutCourseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    semester?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    totalSections?: IntFieldUpdateOperationsInput | number
+    requiredLabSize?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CourseOfferingUncheckedUpdateWithoutCourseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    semester?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    totalSections?: IntFieldUpdateOperationsInput | number
+    requiredLabSize?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CourseOfferingUncheckedUpdateManyWithoutCourseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    semester?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    totalSections?: IntFieldUpdateOperationsInput | number
+    requiredLabSize?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScheduleAssignmentUpdateWithoutCourseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    section?: SectionUpdateOneRequiredWithoutScheduleAssignmentNestedInput
+    group?: GroupUpdateOneWithoutScheduleAssignmentNestedInput
+    labRoom?: LabRoomUpdateOneRequiredWithoutScheduleAssignmentsNestedInput
+    labAssistant?: LabAssistantUpdateOneRequiredWithoutScheduleAssignmentsNestedInput
+    timeSlot?: TimeSlotUpdateOneRequiredWithoutScheduleAssignmentsNestedInput
+  }
+
+  export type ScheduleAssignmentUncheckedUpdateWithoutCourseInput = {
+    id?: StringFieldUpdateOperationsInput | string
     sectionId?: StringFieldUpdateOperationsInput | string
+    groupId?: NullableStringFieldUpdateOperationsInput | string | null
+    labRoomId?: StringFieldUpdateOperationsInput | string
     labAssistantId?: StringFieldUpdateOperationsInput | string
     timeSlotId?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScheduleAssignmentUncheckedUpdateManyWithoutCourseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sectionId?: StringFieldUpdateOperationsInput | string
+    groupId?: NullableStringFieldUpdateOperationsInput | string | null
+    labRoomId?: StringFieldUpdateOperationsInput | string
+    labAssistantId?: StringFieldUpdateOperationsInput | string
+    timeSlotId?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GroupCreateManySectionInput = {
+    id?: string
+    name: string
+    capacity: number
+    isActive: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ScheduleAssignmentCreateManySectionInput = {
+    id?: string
+    courseId: string
+    groupId?: string | null
+    labRoomId: string
+    labAssistantId: string
+    timeSlotId: string
+    status: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type GroupUpdateWithoutSectionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    capacity?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ScheduleAssignment?: ScheduleAssignmentUpdateManyWithoutGroupNestedInput
+  }
+
+  export type GroupUncheckedUpdateWithoutSectionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    capacity?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ScheduleAssignment?: ScheduleAssignmentUncheckedUpdateManyWithoutGroupNestedInput
+  }
+
+  export type GroupUncheckedUpdateManyWithoutSectionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    capacity?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScheduleAssignmentUpdateWithoutSectionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    course?: CourseUpdateOneRequiredWithoutScheduleAssignmentNestedInput
+    group?: GroupUpdateOneWithoutScheduleAssignmentNestedInput
+    labRoom?: LabRoomUpdateOneRequiredWithoutScheduleAssignmentsNestedInput
+    labAssistant?: LabAssistantUpdateOneRequiredWithoutScheduleAssignmentsNestedInput
+    timeSlot?: TimeSlotUpdateOneRequiredWithoutScheduleAssignmentsNestedInput
+  }
+
+  export type ScheduleAssignmentUncheckedUpdateWithoutSectionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    courseId?: StringFieldUpdateOperationsInput | string
+    groupId?: NullableStringFieldUpdateOperationsInput | string | null
+    labRoomId?: StringFieldUpdateOperationsInput | string
+    labAssistantId?: StringFieldUpdateOperationsInput | string
+    timeSlotId?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScheduleAssignmentUncheckedUpdateManyWithoutSectionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    courseId?: StringFieldUpdateOperationsInput | string
+    groupId?: NullableStringFieldUpdateOperationsInput | string | null
+    labRoomId?: StringFieldUpdateOperationsInput | string
+    labAssistantId?: StringFieldUpdateOperationsInput | string
+    timeSlotId?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScheduleAssignmentCreateManyGroupInput = {
+    id?: string
+    courseId: string
+    sectionId: string
+    labRoomId: string
+    labAssistantId: string
+    timeSlotId: string
+    status: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ScheduleAssignmentUpdateWithoutGroupInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    course?: CourseUpdateOneRequiredWithoutScheduleAssignmentNestedInput
+    section?: SectionUpdateOneRequiredWithoutScheduleAssignmentNestedInput
+    labRoom?: LabRoomUpdateOneRequiredWithoutScheduleAssignmentsNestedInput
+    labAssistant?: LabAssistantUpdateOneRequiredWithoutScheduleAssignmentsNestedInput
+    timeSlot?: TimeSlotUpdateOneRequiredWithoutScheduleAssignmentsNestedInput
+  }
+
+  export type ScheduleAssignmentUncheckedUpdateWithoutGroupInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    courseId?: StringFieldUpdateOperationsInput | string
+    sectionId?: StringFieldUpdateOperationsInput | string
+    labRoomId?: StringFieldUpdateOperationsInput | string
+    labAssistantId?: StringFieldUpdateOperationsInput | string
+    timeSlotId?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScheduleAssignmentUncheckedUpdateManyWithoutGroupInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    courseId?: StringFieldUpdateOperationsInput | string
+    sectionId?: StringFieldUpdateOperationsInput | string
+    labRoomId?: StringFieldUpdateOperationsInput | string
+    labAssistantId?: StringFieldUpdateOperationsInput | string
+    timeSlotId?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScheduleAssignmentCreateManyLabAssistantInput = {
+    id?: string
+    courseId: string
+    sectionId: string
+    groupId?: string | null
+    labRoomId: string
+    timeSlotId: string
+    status: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ScheduleAssignmentUpdateWithoutLabAssistantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    course?: CourseUpdateOneRequiredWithoutScheduleAssignmentNestedInput
+    section?: SectionUpdateOneRequiredWithoutScheduleAssignmentNestedInput
+    group?: GroupUpdateOneWithoutScheduleAssignmentNestedInput
+    labRoom?: LabRoomUpdateOneRequiredWithoutScheduleAssignmentsNestedInput
+    timeSlot?: TimeSlotUpdateOneRequiredWithoutScheduleAssignmentsNestedInput
+  }
+
+  export type ScheduleAssignmentUncheckedUpdateWithoutLabAssistantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    courseId?: StringFieldUpdateOperationsInput | string
+    sectionId?: StringFieldUpdateOperationsInput | string
+    groupId?: NullableStringFieldUpdateOperationsInput | string | null
+    labRoomId?: StringFieldUpdateOperationsInput | string
+    timeSlotId?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScheduleAssignmentUncheckedUpdateManyWithoutLabAssistantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    courseId?: StringFieldUpdateOperationsInput | string
+    sectionId?: StringFieldUpdateOperationsInput | string
+    groupId?: NullableStringFieldUpdateOperationsInput | string | null
+    labRoomId?: StringFieldUpdateOperationsInput | string
+    timeSlotId?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ScheduleAssignmentCreateManyTimeSlotInput = {
     id?: string
-    status?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    courseId: string
     sectionId: string
+    groupId?: string | null
     labRoomId: string
     labAssistantId: string
+    status: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type ScheduleAssignmentUpdateWithoutTimeSlotInput = {
@@ -14850,81 +16288,35 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    section?: SectionUpdateOneRequiredWithoutAssignmentNestedInput
-    labRoom?: LabRoomUpdateOneRequiredWithoutAssignmentsNestedInput
-    labAssistant?: LabAssistantUpdateOneRequiredWithoutAssignmentsNestedInput
+    course?: CourseUpdateOneRequiredWithoutScheduleAssignmentNestedInput
+    section?: SectionUpdateOneRequiredWithoutScheduleAssignmentNestedInput
+    group?: GroupUpdateOneWithoutScheduleAssignmentNestedInput
+    labRoom?: LabRoomUpdateOneRequiredWithoutScheduleAssignmentsNestedInput
+    labAssistant?: LabAssistantUpdateOneRequiredWithoutScheduleAssignmentsNestedInput
   }
 
   export type ScheduleAssignmentUncheckedUpdateWithoutTimeSlotInput = {
     id?: StringFieldUpdateOperationsInput | string
+    courseId?: StringFieldUpdateOperationsInput | string
+    sectionId?: StringFieldUpdateOperationsInput | string
+    groupId?: NullableStringFieldUpdateOperationsInput | string | null
+    labRoomId?: StringFieldUpdateOperationsInput | string
+    labAssistantId?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    sectionId?: StringFieldUpdateOperationsInput | string
-    labRoomId?: StringFieldUpdateOperationsInput | string
-    labAssistantId?: StringFieldUpdateOperationsInput | string
   }
 
   export type ScheduleAssignmentUncheckedUpdateManyWithoutTimeSlotInput = {
     id?: StringFieldUpdateOperationsInput | string
+    courseId?: StringFieldUpdateOperationsInput | string
+    sectionId?: StringFieldUpdateOperationsInput | string
+    groupId?: NullableStringFieldUpdateOperationsInput | string | null
+    labRoomId?: StringFieldUpdateOperationsInput | string
+    labAssistantId?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    sectionId?: StringFieldUpdateOperationsInput | string
-    labRoomId?: StringFieldUpdateOperationsInput | string
-    labAssistantId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type CourseOfferingCreateManyCourseInput = {
-    id?: string
-    semester: string
-    year: number
-  }
-
-  export type CourseOfferingUpdateWithoutCourseInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    semester?: StringFieldUpdateOperationsInput | string
-    year?: IntFieldUpdateOperationsInput | number
-    sections?: SectionUpdateManyWithoutCourseOfferingNestedInput
-  }
-
-  export type CourseOfferingUncheckedUpdateWithoutCourseInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    semester?: StringFieldUpdateOperationsInput | string
-    year?: IntFieldUpdateOperationsInput | number
-    sections?: SectionUncheckedUpdateManyWithoutCourseOfferingNestedInput
-  }
-
-  export type CourseOfferingUncheckedUpdateManyWithoutCourseInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    semester?: StringFieldUpdateOperationsInput | string
-    year?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type SectionCreateManyCourseOfferingInput = {
-    id?: string
-    sectionNumber: string
-    requiredLabSize: number
-  }
-
-  export type SectionUpdateWithoutCourseOfferingInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    sectionNumber?: StringFieldUpdateOperationsInput | string
-    requiredLabSize?: IntFieldUpdateOperationsInput | number
-    assignment?: ScheduleAssignmentUpdateOneWithoutSectionNestedInput
-  }
-
-  export type SectionUncheckedUpdateWithoutCourseOfferingInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    sectionNumber?: StringFieldUpdateOperationsInput | string
-    requiredLabSize?: IntFieldUpdateOperationsInput | number
-    assignment?: ScheduleAssignmentUncheckedUpdateOneWithoutSectionNestedInput
-  }
-
-  export type SectionUncheckedUpdateManyWithoutCourseOfferingInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    sectionNumber?: StringFieldUpdateOperationsInput | string
-    requiredLabSize?: IntFieldUpdateOperationsInput | number
   }
 
 
