@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { db, type LabRoom, type Course, type LabAssistant, type ScheduleAssignment } from "@/lib/local-storage"
 import { Building2, BookOpen, Users, Calendar } from "lucide-react"
 
 export default function AdminDashboard() {
@@ -13,21 +12,21 @@ export default function AdminDashboard() {
     schedules: 0,
   })
 
-  useEffect(() => {
-    const labRooms = db.findAll<LabRoom>("lab_rooms").filter((room) => room.isActive)
-    const courses = db.findAll<Course>("courses").filter((course) => course.isActive)
-    const assistants = db.findAll<LabAssistant>("lab_assistants").filter((assistant) => assistant.isActive)
-    const schedules = db
-      .findAll<ScheduleAssignment>("schedule_assignments")
-      .filter((schedule) => schedule.status === "active")
+  // useEffect(() => {
+  //   const labRooms = db.findAll<LabRoom>("lab_rooms").filter((room) => room.isActive)
+  //   const courses = db.findAll<Course>("courses").filter((course) => course.isActive)
+  //   const assistants = db.findAll<LabAssistant>("lab_assistants").filter((assistant) => assistant.isActive)
+  //   const schedules = db
+  //     .findAll<ScheduleAssignment>("schedule_assignments")
+  //     .filter((schedule) => schedule.status === "active")
 
-    setStats({
-      labRooms: labRooms.length,
-      courses: courses.length,
-      assistants: assistants.length,
-      schedules: schedules.length,
-    })
-  }, [])
+  //   setStats({
+  //     labRooms: labRooms.length,
+  //     courses: courses.length,
+  //     assistants: assistants.length,
+  //     schedules: schedules.length,
+  //   })
+  // }, [])
 
   const statCards = [
     {

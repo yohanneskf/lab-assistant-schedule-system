@@ -2,15 +2,10 @@
 
 import { useEffect } from "react"
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { initializeDefaultData } from "@/lib/local-storage"
 import { UserCog, Users } from "lucide-react"
 import Link from "next/link"
 
 export default function HomePage() {
-  useEffect(() => {
-    initializeDefaultData()
-  }, [])
-
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="max-w-md w-full space-y-8">

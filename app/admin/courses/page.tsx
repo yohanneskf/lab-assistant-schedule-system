@@ -1,12 +1,10 @@
-"use client"
+"use client";
 
-import type React from "react"
-
-import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -14,18 +12,30 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Badge } from "@/components/ui/badge"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Plus, Edit, Trash2, BookOpen } from "lucide-react"
-import { type Course, createCourse, getCourses, updateCourse, deleteCourse } from "@/lib/local-storage"
+} from "@/components/ui/dialog";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Plus, Edit, Trash2, BookOpen } from "lucide-react";
+
+export type Course = {
+  id: string;
+  code: string;
+  name: string;
+  department: string;
+  credits: number;
+  year: number;
+  section: string;
+  batch: string;
+  studentType: "regular" | "extension";
+  isActive: boolean;
+};
 
 export default function CoursesPage() {
-  const [courses, setCourses] = useState<Course[]>([])
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
-  const [editingCourse, setEditingCourse] = useState<Course | null>(null)
-  const [formData, setFormData] = useState({
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [editingCourse, setEditingCourse] = useState<Course | null>(null);
+  const [formData, setFormData] = useState<Omit<Course, "id" | "isActive">>({
     code: "",
     name: "",
     department: "",
@@ -33,57 +43,23 @@ export default function CoursesPage() {
     year: 1,
     section: "",
     batch: "",
-    studentType: "regular" as "regular" | "extension",
-  })
+    studentType: "regular",
+  });
+
+  // Fetch courses from backend
+  const fetchCourses = async () => {
+    try {
+      const res = await fetch("/api/courses");
+      const data = await res.json();
+      setCourses(data);
+    } catch (error) {
+      console.error("Failed to fetch courses:", error);
+    }
+  };
 
   useEffect(() => {
-    setCourses(getCourses())
-  }, [])
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-
-    const courseData = {
-      ...formData,
-      isActive: true,
-    }
-
-    if (editingCourse) {
-      const updated = updateCourse(editingCourse.id, courseData)
-      if (updated) {
-        setCourses(getCourses())
-        setIsDialogOpen(false)
-        resetForm()
-      }
-    } else {
-      const newCourse = createCourse(courseData)
-      setCourses(getCourses())
-      setIsDialogOpen(false)
-      resetForm()
-    }
-  }
-
-  const handleEdit = (course: Course) => {
-    setEditingCourse(course)
-    setFormData({
-      code: course.code,
-      name: course.name,
-      department: course.department,
-      credits: course.credits,
-      year: course.year,
-      section: course.section,
-      batch: course.batch,
-      studentType: course.studentType,
-    })
-    setIsDialogOpen(true)
-  }
-
-  const handleDelete = (id: string) => {
-    if (confirm("Are you sure you want to delete this course?")) {
-      deleteCourse(id)
-      setCourses(getCourses())
-    }
-  }
+    fetchCourses();
+  }, []);
 
   const resetForm = () => {
     setFormData({
@@ -95,33 +71,95 @@ export default function CoursesPage() {
       section: "",
       batch: "",
       studentType: "regular",
-    })
-    setEditingCourse(null)
-  }
+    });
+    setEditingCourse(null);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const courseData = { ...formData, isActive: true };
+
+    try {
+      if (editingCourse) {
+        await fetch(`/api/courses/${editingCourse.id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(courseData),
+        });
+      } else {
+        await fetch("/api/courses", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(courseData),
+        });
+      }
+      fetchCourses();
+      setIsDialogOpen(false);
+      resetForm();
+    } catch (error) {
+      console.error("Error saving course:", error);
+    }
+  };
+
+  useEffect(() => {
+  const fetchCourses = async () => {
+    try {
+      console.log("Fetching courses from backend...");
+      const res = await fetch("/api/courses");
+      console.log("Response status:", res.status);
+
+      const data = await res.json();
+      console.log("Courses received:", data);
+      setCourses(data);
+    } catch (error) {
+      console.error("Failed to fetch courses:", error);
+    }
+  };
+
+  fetchCourses();
+}, []);
+
+  const handleEdit = (course: Course) => {
+    setEditingCourse(course);
+    setFormData({
+      code: course.code,
+      name: course.name,
+      department: course.department,
+      credits: course.credits,
+      year: course.year,
+      section: course.section,
+      batch: course.batch,
+      studentType: course.studentType,
+    });
+    setIsDialogOpen(true);
+  };
+
+  const handleDelete = async (id: string) => {
+    if (confirm("Are you sure you want to delete this course?")) {
+      try {
+        await fetch(`/api/courses/${id}`, { method: "DELETE" });
+        fetchCourses();
+      } catch (error) {
+        console.error("Error deleting course:", error);
+      }
+    }
+  };
 
   const handleDialogChange = (open: boolean) => {
-    setIsDialogOpen(open)
-    if (!open) {
-      resetForm()
-    }
-  }
+    setIsDialogOpen(open);
+    if (!open) resetForm();
+  };
 
   const getYearColor = (year: number) => {
     switch (year) {
-      case 1:
-        return "bg-green-100 text-green-800"
-      case 2:
-        return "bg-blue-100 text-blue-800"
-      case 3:
-        return "bg-yellow-100 text-yellow-800"
-      case 4:
-        return "bg-orange-100 text-orange-800"
-      case 5:
-        return "bg-purple-100 text-purple-800"
-      default:
-        return "bg-gray-100 text-gray-800"
+      case 1: return "bg-green-100 text-green-800";
+      case 2: return "bg-blue-100 text-blue-800";
+      case 3: return "bg-yellow-100 text-yellow-800";
+      case 4: return "bg-orange-100 text-orange-800";
+      case 5: return "bg-purple-100 text-purple-800";
+      default: return "bg-gray-100 text-gray-800";
     }
-  }
+  };
 
   return (
     <div className="space-y-6">
@@ -133,8 +171,7 @@ export default function CoursesPage() {
         <Dialog open={isDialogOpen} onOpenChange={handleDialogChange}>
           <DialogTrigger asChild>
             <Button>
-              <Plus className="mr-2 h-4 w-4" />
-              Add Course
+              <Plus className="mr-2 h-4 w-4" /> Add Course
             </Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-[600px]">
@@ -148,57 +185,29 @@ export default function CoursesPage() {
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="code">Course Code</Label>
-                  <Input
-                    id="code"
-                    value={formData.code}
-                    onChange={(e) => setFormData({ ...formData, code: e.target.value })}
-                    placeholder="CS101"
-                    required
-                  />
+                  <Input id="code" value={formData.code} onChange={(e) => setFormData({ ...formData, code: e.target.value })} placeholder="CS101" required />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="credits">Credits</Label>
-                  <Input
-                    id="credits"
-                    type="number"
-                    min="1"
-                    max="6"
-                    value={formData.credits}
-                    onChange={(e) => setFormData({ ...formData, credits: Number.parseInt(e.target.value) })}
-                    required
-                  />
+                  <Input id="credits" type="number" min="1" max="6" value={formData.credits} onChange={(e) => setFormData({ ...formData, credits: parseInt(e.target.value) })} required />
                 </div>
               </div>
+
               <div className="space-y-2">
                 <Label htmlFor="name">Course Name</Label>
-                <Input
-                  id="name"
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  placeholder="Introduction to Computer Science"
-                  required
-                />
+                <Input id="name" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} placeholder="Introduction to Computer Science" required />
               </div>
+
               <div className="space-y-2">
                 <Label htmlFor="department">Department</Label>
-                <Input
-                  id="department"
-                  value={formData.department}
-                  onChange={(e) => setFormData({ ...formData, department: e.target.value })}
-                  placeholder="Computer Science"
-                  required
-                />
+                <Input id="department" value={formData.department} onChange={(e) => setFormData({ ...formData, department: e.target.value })} placeholder="Computer Science" required />
               </div>
+
               <div className="grid grid-cols-3 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="year">Year Level</Label>
-                  <Select
-                    value={formData.year.toString()}
-                    onValueChange={(value) => setFormData({ ...formData, year: Number.parseInt(value) })}
-                  >
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
+                  <Select value={formData.year.toString()} onValueChange={(value) => setFormData({ ...formData, year: parseInt(value) })}>
+                    <SelectTrigger><SelectValue placeholder="Select year" /></SelectTrigger>
                     <SelectContent>
                       <SelectItem value="1">1st Year</SelectItem>
                       <SelectItem value="2">2nd Year</SelectItem>
@@ -210,44 +219,27 @@ export default function CoursesPage() {
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="section">Section</Label>
-                  <Input
-                    id="section"
-                    value={formData.section}
-                    onChange={(e) => setFormData({ ...formData, section: e.target.value })}
-                    placeholder="A"
-                    required
-                  />
+                  <Input id="section" value={formData.section} onChange={(e) => setFormData({ ...formData, section: e.target.value })} placeholder="A" required />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="batch">Batch (Year)</Label>
-                  <Input
-                    id="batch"
-                    value={formData.batch}
-                    onChange={(e) => setFormData({ ...formData, batch: e.target.value })}
-                    placeholder="2024"
-                    required
-                  />
+                  <Input id="batch" value={formData.batch} onChange={(e) => setFormData({ ...formData, batch: e.target.value })} placeholder="2024" required />
                 </div>
               </div>
+
               <div className="space-y-2">
                 <Label htmlFor="studentType">Student Type</Label>
-                <Select
-                  value={formData.studentType}
-                  onValueChange={(value: "regular" | "extension") => setFormData({ ...formData, studentType: value })}
-                >
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
+                <Select value={formData.studentType} onValueChange={(value: "regular" | "extension") => setFormData({ ...formData, studentType: value })}>
+                  <SelectTrigger><SelectValue placeholder="Select type" /></SelectTrigger>
                   <SelectContent>
                     <SelectItem value="regular">Regular</SelectItem>
                     <SelectItem value="extension">Extension</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
+
               <div className="flex justify-end space-x-2">
-                <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>
-                  Cancel
-                </Button>
+                <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>Cancel</Button>
                 <Button type="submit">{editingCourse ? "Update Course" : "Create Course"}</Button>
               </div>
             </form>
@@ -258,16 +250,13 @@ export default function CoursesPage() {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <BookOpen className="h-5 w-5" />
-            Course Catalog ({courses.length})
+            <BookOpen className="h-5 w-5" /> Course Catalog ({courses.length})
           </CardTitle>
           <CardDescription>All courses with academic structure details</CardDescription>
         </CardHeader>
         <CardContent>
           {courses.length === 0 ? (
-            <div className="text-center py-8 text-muted-foreground">
-              No courses found. Add your first course to get started.
-            </div>
+            <div className="text-center py-8 text-muted-foreground">No courses found. Add your first course to get started.</div>
           ) : (
             <Table>
               <TableHeader>
@@ -296,9 +285,7 @@ export default function CoursesPage() {
                     </TableCell>
                     <TableCell>{course.batch}</TableCell>
                     <TableCell>
-                      <Badge variant={course.studentType === "regular" ? "default" : "outline"}>
-                        {course.studentType}
-                      </Badge>
+                      <Badge variant={course.studentType === "regular" ? "default" : "outline"}>{course.studentType}</Badge>
                     </TableCell>
                     <TableCell>
                       <Badge variant="secondary">{course.credits} credits</Badge>
@@ -321,5 +308,5 @@ export default function CoursesPage() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
