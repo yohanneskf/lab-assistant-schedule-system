@@ -16,13 +16,29 @@ export default function AdminLayout({
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    const user = AuthService.getCurrentUser()
-    if (!user || user.role !== "admin") {
-      router.push("/")
-      return
-    }
-    setIsLoading(false)
-  }, [router])
+  console.log("[AdminLayout] useEffect triggered");
+  const user = AuthService.getCurrentUser();
+  console.log("[AdminLayout] currentUser:", user);
+
+  if (!user) {
+    console.log("[AdminLayout] No user, redirecting to /");
+    router.push("/");
+    return;
+  }
+
+  if (user.role !== "ADMIN") {  // Make sure role is uppercase like in JWT
+    console.log("[AdminLayout] User role not ADMIN, redirecting to /");
+    router.push("/");
+    return;
+  }
+
+  console.log("[AdminLayout] User verified as ADMIN, allow access");
+
+  // ✅ Stop loading now
+  setIsLoading(false);
+}, []);
+
+
 
   if (isLoading) {
     return (

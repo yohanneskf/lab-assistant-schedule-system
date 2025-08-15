@@ -31,20 +31,25 @@ export default function AssistantLoginPage() {
     setError("")
 
     try {
-      const user = AuthService.login(email, password)
+      // ✅ Use assistantLogin instead of admin login
+      const user = await AuthService.assistantLogin(email, password)
+
+      console.log("[handleSubmit] Logged in user:", user)
 
       if (!user) {
         setError("Invalid email or password")
         return
       }
 
-      if (user.role !== "lab_assistant") {
-        setError("Access denied. This portal is for lab assistants only.")
+      if (user.role !== "LAB_ASSISTANT") {
+        setError("Access denied. Assistant only.")
         return
       }
 
+      console.log("[handleSubmit] Redirecting to assistant dashboard")
       router.push("/assistant")
     } catch (err) {
+      console.error("[handleSubmit] Error:", err)
       setError("Login failed. Please try again.")
     } finally {
       setIsLoading(false)

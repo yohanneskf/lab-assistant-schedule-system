@@ -21,30 +21,35 @@ export default function AdminLoginPage() {
   const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsLoading(true)
-    setError("")
+  e.preventDefault()
+  setIsLoading(true)
+  setError("")
 
-    try {
-      const user = AuthService.login(email, password)
+  try {
+    const user = await AuthService.login(email, password) // ✅ add await
 
-      if (!user) {
-        setError("Invalid email or password")
-        return
-      }
+    console.log("[handleSubmit] Logged in user:", user);
 
-      if (user.role !== "admin") {
-        setError("Access denied. Admin credentials required.")
-        return
-      }
-
-      router.push("/admin")
-    } catch (err) {
-      setError("Login failed. Please try again.")
-    } finally {
-      setIsLoading(false)
+    if (!user) {
+      setError("Invalid email or password")
+      return
     }
+
+    if (user.role !== "ADMIN") { 
+      setError("Access denied. Admin credentials required.")
+      return
+    }
+
+    router.push("/admin")
+  } catch (err) {
+    console.error("[handleSubmit] Error:", err);
+    setError("Login failed. Please try again.")
+  } finally {
+    setIsLoading(false)
   }
+}
+
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
