@@ -1,0 +1,141 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+   output   = "../lib/generated/prisma"
+
+}
+
+datasource db {
+  provider = "postgres" // or "mysql", "sqlite", etc.
+  url      = env("DATABASE_URL")
+}
+
+model LabRoom {
+  id        String @id @default(cuid())
+  name      String
+  capacity  Int
+  location  String
+  equipment String[]
+  isActive  Boolean @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  scheduleAssignments ScheduleAssignment[]
+}
+
+model Course {
+  id              String @id @default(cuid())
+  code            String @unique
+  name            String
+  department      String
+  credits         Int
+  year            Int
+  section         String
+  batch           String
+  studentType     String
+  isActive        Boolean @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  courseOfferings CourseOffering[]
+  scheduleAssignments ScheduleAssignment[]
+}
+
+model CourseOffering {
+  id              String @id @default(cuid())
+  courseId        String
+  semester        String
+  year            Int
+  totalSections   Int
+  requiredLabSize Int
+  isActive        Boolean @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  course          Course @relation(fields: [courseId], references: [id])
+}
+
+model Section {
+  id          String @id @default(cuid())
+  name        String
+  year        Int
+  department  String
+  capacity    Int
+  isActive    Boolean @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  groups      Group[]
+  scheduleAssignments ScheduleAssignment[]
+}
+
+model Group {
+  id          String @id @default(cuid())
+  name        String
+  sectionId   String
+  capacity    Int
+  isActive    Boolean @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  section     Section @relation(fields: [sectionId], references: [id])
+}
+
+model LabAssistant {
+  id               String @id @default(cuid())
+  labAssistantId   String @unique
+  username         String @unique
+  firstName        String
+  lastName         String
+  email            String @unique
+  password         String
+  department       String
+  isActive         Boolean @default(true)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  scheduleAssignments ScheduleAssignment[]
+  user             User?
+}
+
+model TimeSlot {
+  id        String @id @default(cuid())
+  dayOfWeek String
+  startTime String
+  endTime   String
+  isActive  Boolean @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  scheduleAssignments ScheduleAssignment[]
+}
+
+model ScheduleAssignment {
+  id             String @id @default(cuid())
+  courseId       String
+  sectionId      String
+  groupId        String?
+  labRoomId      String
+  labAssistantId String
+  timeSlotId     String
+  status         String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  course         Course @relation(fields: [courseId], references: [id])
+  section        Section @relation(fields: [sectionId], references: [id])
+  labRoom        LabRoom @relation(fields: [labRoomId], references: [id])
+  labAssistant   LabAssistant @relation(fields: [labAssistantId], references: [id])
+  timeSlot       TimeSlot @relation(fields: [timeSlotId], references: [id])
+}
+
+model User {
+  id             String @id @default(cuid())
+  email          String @unique
+  password       String
+  role           String
+  labAssistantId String? @unique
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  labAssistant   LabAssistant? @relation(fields: [labAssistantId], references: [id]) 
+}
