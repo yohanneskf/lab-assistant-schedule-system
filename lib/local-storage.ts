@@ -16,6 +16,10 @@ export interface Course {
   name: string
   department: string
   credits: number
+  year: number // 1st year, 2nd year, etc.
+  section: string // A, B, C, etc.
+  batch: string // 2023, 2024, etc.
+  studentType: "regular" | "extension"
   isActive: boolean
   createdAt: string
   updatedAt: string
@@ -35,9 +39,20 @@ export interface CourseOffering {
 
 export interface Section {
   id: string
-  courseOfferingId: string
-  sectionNumber: number
-  maxStudents: number
+  name: string // Section A, Section B, etc.
+  year: number // 1st year, 2nd year, etc.
+  department: string
+  capacity: number
+  isActive: boolean
+  createdAt: string
+  updatedAt: string
+}
+
+export interface Group {
+  id: string
+  name: string // Group 1, Group 2, etc.
+  sectionId: string
+  capacity: number
   isActive: boolean
   createdAt: string
   updatedAt: string
@@ -45,6 +60,8 @@ export interface Section {
 
 export interface LabAssistant {
   id: string
+  labAssistantId: string // Unique lab assistant identifier
+  username: string // Login username created by admin
   firstName: string
   lastName: string
   email: string
@@ -67,7 +84,9 @@ export interface TimeSlot {
 
 export interface ScheduleAssignment {
   id: string
+  courseId: string // Added courseId to link schedules with courses
   sectionId: string
+  groupId?: string // Optional group within section
   labRoomId: string
   labAssistantId: string
   timeSlotId: string
@@ -251,22 +270,104 @@ export function initializeDefaultData() {
     db.create<LabRoom>("lab_rooms", room)
   })
 
-  // Sample courses
+  // Sample courses with new fields
   const courses = [
     {
       code: "CS101",
       name: "Introduction to Computer Science",
       department: "Computer Science",
       credits: 3,
+      year: 1,
+      section: "A",
+      batch: "2024",
+      studentType: "regular" as const,
       isActive: true,
     },
-    { code: "CS201", name: "Data Structures", department: "Computer Science", credits: 4, isActive: true },
-    { code: "PHYS101", name: "General Physics I", department: "Physics", credits: 4, isActive: true },
+    {
+      code: "CS201",
+      name: "Data Structures",
+      department: "Computer Science",
+      credits: 4,
+      year: 2,
+      section: "B",
+      batch: "2023",
+      studentType: "regular" as const,
+      isActive: true,
+    },
+    {
+      code: "PHYS101",
+      name: "General Physics I",
+      department: "Physics",
+      credits: 4,
+      year: 1,
+      section: "A",
+      batch: "2024",
+      studentType: "extension" as const,
+      isActive: true,
+    },
   ]
 
   courses.forEach((course) => {
     db.create<Course>("courses", course)
   })
+
+  const sections = [
+    {
+      name: "Section A",
+      year: 1,
+      department: "Computer Science",
+      capacity: 30,
+      isActive: true,
+    },
+    {
+      name: "Section B",
+      year: 2,
+      department: "Computer Science",
+      capacity: 25,
+      isActive: true,
+    },
+    {
+      name: "Section A",
+      year: 1,
+      department: "Physics",
+      capacity: 20,
+      isActive: true,
+    },
+  ]
+
+  const createdSections = sections.map((section) => db.create<Section>("sections", section))
+
+  const groups = [
+    { name: "Group 1", sectionId: createdSections[0].id, capacity: 15, isActive: true },
+    { name: "Group 2", sectionId: createdSections[0].id, capacity: 15, isActive: true },
+    { name: "Group 1", sectionId: createdSections[1].id, capacity: 12, isActive: true },
+    { name: "Group 2", sectionId: createdSections[1].id, capacity: 13, isActive: true },
+  ]
+
+  groups.forEach((group) => {
+    db.create<Group>("groups", group)
+  })
+
+  const sampleAssistant: Omit<LabAssistant, "id" | "createdAt" | "updatedAt"> = {
+    labAssistantId: "LA001",
+    username: "john_doe",
+    firstName: "John",
+    lastName: "Doe",
+    email: "john.doe@lab.edu",
+    password: "assistant123",
+    department: "Computer Science",
+    isActive: true,
+  }
+  const createdAssistant = db.create<LabAssistant>("lab_assistants", sampleAssistant)
+
+  // Create user account for the lab assistant
+  const assistantUser: Omit<User, "id" | "createdAt" | "updatedAt"> = {
+    email: "john.doe@lab.edu",
+    password: "assistant123",
+    role: "lab_assistant",
+    labAssistantId: createdAssistant.id,
+  }
+  db.create<User>("users", assistantUser)
 
   localStorage.setItem("lab_management_initialized", "true")
 }
@@ -299,7 +400,6 @@ export const deleteCourseOffering = (id: string) => db.delete<CourseOffering>("c
 export const getCourseOfferingsByCourse = (courseId: string) =>
   db.findWhere<CourseOffering>("course_offerings", (offering) => offering.courseId === courseId)
 
-// Sections CRUD
 export const getSections = () => db.findAll<Section>("sections")
 export const getSection = (id: string) => db.findById<Section>("sections", id)
 export const createSection = (data: Omit<Section, "id" | "createdAt" | "updatedAt">) =>
@@ -307,8 +407,15 @@ export const createSection = (data: Omit<Section, "id" | "createdAt" | "updatedA
 export const updateSection = (id: string, data: Partial<Omit<Section, "id" | "createdAt">>) =>
   db.update<Section>("sections", id, data)
 export const deleteSection = (id: string) => db.delete<Section>("sections", id)
-export const getSectionsByCourseOffering = (courseOfferingId: string) =>
-  db.findWhere<Section>("sections", (section) => section.courseOfferingId === courseOfferingId)
+
+export const getGroups = () => db.findAll<Group>("groups")
+export const getGroup = (id: string) => db.findById<Group>("groups", id)
+export const createGroup = (data: Omit<Group, "id" | "createdAt" | "updatedAt">) => db.create<Group>("groups", data)
+export const updateGroup = (id: string, data: Partial<Omit<Group, "id" | "createdAt">>) =>
+  db.update<Group>("groups", id, data)
+export const deleteGroup = (id: string) => db.delete<Group>("groups", id)
+export const getGroupsBySection = (sectionId: string) =>
+  db.findWhere<Group>("groups", (group) => group.sectionId === sectionId)
 
 // Lab Assistants CRUD
 export const getLabAssistants = () => db.findAll<LabAssistant>("lab_assistants")
@@ -374,3 +481,6 @@ export const getAssistantScheduleConflicts = (
     )
   })
 }
+
+export const getLabAssistantByUsername = (username: string) =>
+  db.findWhere<LabAssistant>("lab_assistants", (assistant) => assistant.username === username)[0] || null

@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/dialog"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
-import { Textarea } from "@/components/ui/textarea"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Plus, Edit, Trash2, BookOpen } from "lucide-react"
 import { type Course, createCourse, getCourses, updateCourse, deleteCourse } from "@/lib/local-storage"
 
@@ -28,9 +28,12 @@ export default function CoursesPage() {
   const [formData, setFormData] = useState({
     code: "",
     name: "",
-    description: "",
-    credits: 3,
     department: "",
+    credits: 3,
+    year: 1,
+    section: "",
+    batch: "",
+    studentType: "regular" as "regular" | "extension",
   })
 
   useEffect(() => {
@@ -40,15 +43,20 @@ export default function CoursesPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
 
+    const courseData = {
+      ...formData,
+      isActive: true,
+    }
+
     if (editingCourse) {
-      const updated = updateCourse(editingCourse.id, formData)
+      const updated = updateCourse(editingCourse.id, courseData)
       if (updated) {
         setCourses(getCourses())
         setIsDialogOpen(false)
         resetForm()
       }
     } else {
-      const newCourse = createCourse(formData)
+      const newCourse = createCourse(courseData)
       setCourses(getCourses())
       setIsDialogOpen(false)
       resetForm()
@@ -60,9 +68,12 @@ export default function CoursesPage() {
     setFormData({
       code: course.code,
       name: course.name,
-      description: course.description,
-      credits: course.credits,
       department: course.department,
+      credits: course.credits,
+      year: course.year,
+      section: course.section,
+      batch: course.batch,
+      studentType: course.studentType,
     })
     setIsDialogOpen(true)
   }
@@ -78,9 +89,12 @@ export default function CoursesPage() {
     setFormData({
       code: "",
       name: "",
-      description: "",
-      credits: 3,
       department: "",
+      credits: 3,
+      year: 1,
+      section: "",
+      batch: "",
+      studentType: "regular",
     })
     setEditingCourse(null)
   }
@@ -92,12 +106,29 @@ export default function CoursesPage() {
     }
   }
 
+  const getYearColor = (year: number) => {
+    switch (year) {
+      case 1:
+        return "bg-green-100 text-green-800"
+      case 2:
+        return "bg-blue-100 text-blue-800"
+      case 3:
+        return "bg-yellow-100 text-yellow-800"
+      case 4:
+        return "bg-orange-100 text-orange-800"
+      case 5:
+        return "bg-purple-100 text-purple-800"
+      default:
+        return "bg-gray-100 text-gray-800"
+    }
+  }
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Courses</h1>
-          <p className="text-muted-foreground">Manage course catalog and information</p>
+          <p className="text-muted-foreground">Manage course catalog with academic structure</p>
         </div>
         <Dialog open={isDialogOpen} onOpenChange={handleDialogChange}>
           <DialogTrigger asChild>
@@ -106,11 +137,11 @@ export default function CoursesPage() {
               Add Course
             </Button>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[500px]">
+          <DialogContent className="sm:max-w-[600px]">
             <DialogHeader>
               <DialogTitle>{editingCourse ? "Edit Course" : "Add New Course"}</DialogTitle>
               <DialogDescription>
-                {editingCourse ? "Update course information" : "Create a new course in the catalog"}
+                {editingCourse ? "Update course information" : "Create a new course with academic details"}
               </DialogDescription>
             </DialogHeader>
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -158,15 +189,60 @@ export default function CoursesPage() {
                   required
                 />
               </div>
+              <div className="grid grid-cols-3 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="year">Year Level</Label>
+                  <Select
+                    value={formData.year.toString()}
+                    onValueChange={(value) => setFormData({ ...formData, year: Number.parseInt(value) })}
+                  >
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="1">1st Year</SelectItem>
+                      <SelectItem value="2">2nd Year</SelectItem>
+                      <SelectItem value="3">3rd Year</SelectItem>
+                      <SelectItem value="4">4th Year</SelectItem>
+                      <SelectItem value="5">5th Year</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="section">Section</Label>
+                  <Input
+                    id="section"
+                    value={formData.section}
+                    onChange={(e) => setFormData({ ...formData, section: e.target.value })}
+                    placeholder="A"
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="batch">Batch (Year)</Label>
+                  <Input
+                    id="batch"
+                    value={formData.batch}
+                    onChange={(e) => setFormData({ ...formData, batch: e.target.value })}
+                    placeholder="2024"
+                    required
+                  />
+                </div>
+              </div>
               <div className="space-y-2">
-                <Label htmlFor="description">Description</Label>
-                <Textarea
-                  id="description"
-                  value={formData.description}
-                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  placeholder="Course description and objectives..."
-                  rows={3}
-                />
+                <Label htmlFor="studentType">Student Type</Label>
+                <Select
+                  value={formData.studentType}
+                  onValueChange={(value: "regular" | "extension") => setFormData({ ...formData, studentType: value })}
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="regular">Regular</SelectItem>
+                    <SelectItem value="extension">Extension</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
               <div className="flex justify-end space-x-2">
                 <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>
@@ -185,7 +261,7 @@ export default function CoursesPage() {
             <BookOpen className="h-5 w-5" />
             Course Catalog ({courses.length})
           </CardTitle>
-          <CardDescription>All courses available in the system</CardDescription>
+          <CardDescription>All courses with academic structure details</CardDescription>
         </CardHeader>
         <CardContent>
           {courses.length === 0 ? (
@@ -199,8 +275,10 @@ export default function CoursesPage() {
                   <TableHead>Code</TableHead>
                   <TableHead>Name</TableHead>
                   <TableHead>Department</TableHead>
+                  <TableHead>Year & Section</TableHead>
+                  <TableHead>Batch</TableHead>
+                  <TableHead>Type</TableHead>
                   <TableHead>Credits</TableHead>
-                  <TableHead>Description</TableHead>
                   <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
               </TableHeader>
@@ -211,9 +289,20 @@ export default function CoursesPage() {
                     <TableCell>{course.name}</TableCell>
                     <TableCell>{course.department}</TableCell>
                     <TableCell>
+                      <div className="flex items-center gap-2">
+                        <Badge className={getYearColor(course.year)}>Year {course.year}</Badge>
+                        <span className="text-sm">Section {course.section}</span>
+                      </div>
+                    </TableCell>
+                    <TableCell>{course.batch}</TableCell>
+                    <TableCell>
+                      <Badge variant={course.studentType === "regular" ? "default" : "outline"}>
+                        {course.studentType}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
                       <Badge variant="secondary">{course.credits} credits</Badge>
                     </TableCell>
-                    <TableCell className="max-w-xs truncate">{course.description}</TableCell>
                     <TableCell className="text-right">
                       <div className="flex justify-end space-x-2">
                         <Button variant="outline" size="sm" onClick={() => handleEdit(course)}>
