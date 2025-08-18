@@ -6,19 +6,10 @@ import { Badge } from "@/components/ui/badge"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
 import { AuthService } from "@/lib/auth"
-import {
-  db,
-  type ScheduleAssignment,
-  type LabRoom,
-  type TimeSlot,
-  type Section,
-  type Group,
-  type LabAssistant,
-  type Course,
-} from "@/lib/local-storage"
-import { Calendar, Clock, MapPin, User, LogOut, Key, BookOpen } from "lucide-react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
+import { Calendar, Clock, MapPin, User, LogOut, Key, BookOpen } from "lucide-react"
+import type { LabAssistant, ScheduleAssignment, Course, LabRoom, TimeSlot, Section, Group } from "@/lib/generated/prisma/client"
 
 interface ScheduleWithDetails extends ScheduleAssignment {
   course: Course
@@ -34,56 +25,29 @@ export default function AssistantDashboard() {
   const [loading, setLoading] = useState(true)
   const router = useRouter()
 
-  useEffect(() => {
-    loadSchedules()
-  }, [])
+  // useEffect(() => {
+  //   fetchData()
+  // }, [])
 
-  const loadSchedules = () => {
+  const fetchData = async () => {
     const user = AuthService.getCurrentUser()
     if (!user || !user.labAssistantId) {
-      setLoading(false)
+      router.push("/assistant-login")
       return
     }
 
-    // Get lab assistant details
-    const assistantData = db.findById<LabAssistant>("lab_assistants", user.labAssistantId)
-    setAssistant(assistantData)
+    try {
+      const res = await fetch(`/api/assistant/${user.labAssistantId}/dashboard`)
+      if (!res.ok) throw new Error("Failed to fetch data")
 
-    // Get all active schedule assignments for this lab assistant
-    const assignments = db.findWhere<ScheduleAssignment>(
-      "schedule_assignments",
-      (assignment) => assignment.labAssistantId === user.labAssistantId && assignment.status === "active",
-    )
-
-    // Enrich with related data
-    const enrichedSchedules: ScheduleWithDetails[] = assignments.map((assignment) => {
-      const course = db.findById<Course>("courses", assignment.courseId)!
-      const labRoom = db.findById<LabRoom>("lab_rooms", assignment.labRoomId)!
-      const timeSlot = db.findById<TimeSlot>("time_slots", assignment.timeSlotId)!
-      const section = db.findById<Section>("sections", assignment.sectionId)!
-      const group = assignment.groupId ? db.findById<Group>("groups", assignment.groupId) : undefined
-
-      return {
-        ...assignment,
-        course,
-        labRoom,
-        timeSlot,
-        section,
-        group,
-      }
-    })
-
-    // Sort by day of week and time
-    const dayOrder = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
-    enrichedSchedules.sort((a, b) => {
-      const dayA = dayOrder.indexOf(a.timeSlot.dayOfWeek)
-      const dayB = dayOrder.indexOf(b.timeSlot.dayOfWeek)
-      if (dayA !== dayB) return dayA - dayB
-      return a.timeSlot.startTime.localeCompare(b.timeSlot.startTime)
-    })
-
-    setSchedules(enrichedSchedules)
-    setLoading(false)
+      const data = await res.json()
+      setAssistant(data.assistant)
+      setSchedules(data.schedules)
+    } catch (err) {
+      console.error("[Dashboard] Error fetching schedules:", err)
+    } finally {
+      setLoading(false)
+    }
   }
 
   const handleLogout = () => {
@@ -93,7 +57,7 @@ export default function AssistantDashboard() {
 
   const formatTime = (time: string) => {
     const [hours, minutes] = time.split(":")
-    const hour = Number.parseInt(hours)
+    const hour = Number(hours)
     const ampm = hour >= 12 ? "PM" : "AM"
     const displayHour = hour % 12 || 12
     return `${displayHour}:${minutes} ${ampm}`
@@ -102,7 +66,7 @@ export default function AssistantDashboard() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-64">
-        <div className="text-lg">Loading your schedule...</div>
+        <div className="text-lg">Loading your schedule Please Wait...</div>
       </div>
     )
   }
@@ -113,7 +77,7 @@ export default function AssistantDashboard() {
         <div>
           <h1 className="text-3xl font-bold text-gray-900">My Schedule</h1>
           <p className="text-gray-600">
-            Welcome, {assistant?.firstName} {assistant?.lastName} ({assistant?.labAssistantId})
+            Welcome, {assistant?.firstName} {assistant?.lastName} ({assistant?.id})
           </p>
         </div>
         <div className="flex space-x-2">

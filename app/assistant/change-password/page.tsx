@@ -1,87 +1,61 @@
-"use client"
+"use client";
 
-import type React from "react"
-
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import { ArrowLeft, Eye, EyeOff } from "lucide-react"
-import { AuthService } from "@/lib/auth"
-import { db, type LabAssistant } from "@/lib/local-storage"
-import { useRouter } from "next/navigation"
-import Link from "next/link"
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { ArrowLeft, Eye, EyeOff } from "lucide-react";
+import { AuthService } from "@/lib/auth";
 
 export default function ChangePasswordPage() {
   const [formData, setFormData] = useState({
     currentPassword: "",
     newPassword: "",
     confirmPassword: "",
-  })
-  const [showPasswords, setShowPasswords] = useState({
-    current: false,
-    new: false,
-    confirm: false,
-  })
-  const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null)
-  const [isLoading, setIsLoading] = useState(false)
-  const router = useRouter()
+  });
+  const [showPasswords, setShowPasswords] = useState({ current: false, new: false, confirm: false });
+  const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsLoading(true)
-    setMessage(null)
+    e.preventDefault();
+    setIsLoading(true);
+    setMessage(null);
+
+    if (formData.newPassword !== formData.confirmPassword) {
+      setMessage({ type: "error", text: "New passwords do not match." });
+      setIsLoading(false);
+      return;
+    }
 
     try {
-      const user = AuthService.getCurrentUser()
-      if (!user || !user.labAssistantId) {
-        setMessage({ type: "error", text: "User not found. Please log in again." })
-        return
+      const res = await AuthService.changePassword(formData.currentPassword, formData.newPassword);
+
+      if (!res.success) {
+        setMessage({ type: "error", text: res.error || "Failed to change password." });
+        return;
       }
 
-      // Validate current password
-      const assistant = db.findById<LabAssistant>("lab_assistants", user.labAssistantId)
-      if (!assistant || assistant.password !== formData.currentPassword) {
-        setMessage({ type: "error", text: "Current password is incorrect." })
-        return
-      }
+      setMessage({ type: "success", text: "Password changed successfully!" });
+      setFormData({ currentPassword: "", newPassword: "", confirmPassword: "" });
 
-      // Validate new password
-      if (formData.newPassword.length < 6) {
-        setMessage({ type: "error", text: "New password must be at least 6 characters long." })
-        return
-      }
-
-      if (formData.newPassword !== formData.confirmPassword) {
-        setMessage({ type: "error", text: "New passwords do not match." })
-        return
-      }
-
-      // Update password
-      db.update("lab_assistants", user.labAssistantId, {
-        password: formData.newPassword,
-        updatedAt: new Date().toISOString(),
-      })
-
-      setMessage({ type: "success", text: "Password changed successfully!" })
-      setFormData({ currentPassword: "", newPassword: "", confirmPassword: "" })
-
-      // Redirect to dashboard after 2 seconds
-      setTimeout(() => {
-        router.push("/assistant")
-      }, 2000)
-    } catch (error) {
-      setMessage({ type: "error", text: "An error occurred. Please try again." })
+      setTimeout(() => router.push("/assistant"), 2000);
+    } catch (err) {
+      console.error(err);
+      setMessage({ type: "error", text: "An error occurred. Please try again." });
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   const togglePasswordVisibility = (field: keyof typeof showPasswords) => {
-    setShowPasswords((prev) => ({ ...prev, [field]: !prev[field] }))
-  }
+    setShowPasswords((prev) => ({ ...prev, [field]: !prev[field] }));
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
@@ -101,6 +75,7 @@ export default function ChangePasswordPage() {
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
+            {/** Current Password */}
             <div className="space-y-2">
               <Label htmlFor="currentPassword">Current Password</Label>
               <div className="relative">
@@ -123,6 +98,7 @@ export default function ChangePasswordPage() {
               </div>
             </div>
 
+            {/** New Password */}
             <div className="space-y-2">
               <Label htmlFor="newPassword">New Password</Label>
               <div className="relative">
@@ -145,6 +121,7 @@ export default function ChangePasswordPage() {
               </div>
             </div>
 
+            {/** Confirm Password */}
             <div className="space-y-2">
               <Label htmlFor="confirmPassword">Confirm New Password</Label>
               <div className="relative">
@@ -182,5 +159,5 @@ export default function ChangePasswordPage() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
