@@ -1,64 +1,79 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { db, type LabRoom, type Course, type LabAssistant, type ScheduleAssignment } from "@/lib/local-storage"
-import { Building2, BookOpen, Users, Calendar } from "lucide-react"
+import { useEffect, useState } from "react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Building2, BookOpen, Users, Calendar } from "lucide-react";
+
+interface Stats {
+  labRooms: number;
+  courses: number;
+  assistants: number;
+  schedules: number;
+}
 
 export default function AdminDashboard() {
-  const [stats, setStats] = useState({
-    labRooms: 0,
-    courses: 0,
-    assistants: 0,
-    schedules: 0,
-  })
+  const [stats, setStats] = useState<Stats | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const labRooms = db.findAll<LabRoom>("lab_rooms").filter((room) => room.isActive)
-    const courses = db.findAll<Course>("courses").filter((course) => course.isActive)
-    const assistants = db.findAll<LabAssistant>("lab_assistants").filter((assistant) => assistant.isActive)
-    const schedules = db
-      .findAll<ScheduleAssignment>("schedule_assignments")
-      .filter((schedule) => schedule.status === "active")
+    const fetchStats = async () => {
+      try {
+        const response = await fetch('/api/stats');
+        if (!response.ok) {
+          throw new Error('Failed to fetch data');
+        }
+        const data: Stats = await response.json();
+        setStats(data);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'An unknown error occurred.');
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    setStats({
-      labRooms: labRooms.length,
-      courses: courses.length,
-      assistants: assistants.length,
-      schedules: schedules.length,
-    })
-  }, [])
+    fetchStats();
+  }, []);
 
+  if (loading) {
+    return <div className="p-6 text-center">Loading dashboard...</div>;
+  }
+
+  if (error) {
+    return <div className="p-6 text-center text-red-500">Error: {error}</div>;
+  }
+
+  // The rest of the component remains the same, but now it uses the fetched 'stats'
   const statCards = [
     {
       title: "Lab Rooms",
-      value: stats.labRooms,
+      value: stats?.labRooms ?? 0,
       description: "Active lab rooms",
       icon: Building2,
       color: "text-blue-600",
     },
     {
       title: "Courses",
-      value: stats.courses,
+      value: stats?.courses ?? 0,
       description: "Active courses",
       icon: BookOpen,
       color: "text-green-600",
     },
     {
       title: "Lab Assistants",
-      value: stats.assistants,
+      value: stats?.assistants ?? 0,
       description: "Active assistants",
       icon: Users,
       color: "text-purple-600",
     },
     {
       title: "Schedules",
-      value: stats.schedules,
+      value: stats?.schedules ?? 0,
       description: "Active assignments",
       icon: Calendar,
       color: "text-orange-600",
     },
-  ]
+  ];
 
   return (
     <div className="space-y-6">
@@ -69,7 +84,7 @@ export default function AdminDashboard() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {statCards.map((stat) => {
-          const Icon = stat.icon
+          const Icon = stat.icon;
           return (
             <Card key={stat.title}>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -81,7 +96,7 @@ export default function AdminDashboard() {
                 <p className="text-xs text-muted-foreground">{stat.description}</p>
               </CardContent>
             </Card>
-          )
+          );
         })}
       </div>
 
@@ -107,7 +122,7 @@ export default function AdminDashboard() {
           <CardContent className="space-y-2">
             <div className="flex justify-between text-sm">
               <span>Database:</span>
-              <span className="text-green-600">Local Storage</span>
+              <span className="text-green-600">PostgreSQL</span>
             </div>
             <div className="flex justify-between text-sm">
               <span>Status:</span>
@@ -121,5 +136,5 @@ export default function AdminDashboard() {
         </Card>
       </div>
     </div>
-  )
+  );
 }
