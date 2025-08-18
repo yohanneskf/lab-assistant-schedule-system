@@ -1,12 +1,18 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -14,17 +20,45 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Badge } from "@/components/ui/badge"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Plus, Edit, Trash2, BookOpen } from "lucide-react"
-import { type Course, createCourse, getCourses, updateCourse, deleteCourse } from "@/lib/local-storage"
+} from "@/components/ui/dialog";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Plus, Edit, Trash2, BookOpen } from "lucide-react";
+
+// Define the Course type here or import it from a shared types file
+interface Course {
+  id: string;
+  code: string;
+  name: string;
+  department: string;
+  credits: number;
+  year: number;
+  section: string;
+  batch: string;
+  studentType: "regular" | "extension";
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
 
 export default function CoursesPage() {
-  const [courses, setCourses] = useState<Course[]>([])
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
-  const [editingCourse, setEditingCourse] = useState<Course | null>(null)
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [editingCourse, setEditingCourse] = useState<Course | null>(null);
   const [formData, setFormData] = useState({
     code: "",
     name: "",
@@ -34,37 +68,56 @@ export default function CoursesPage() {
     section: "",
     batch: "",
     studentType: "regular" as "regular" | "extension",
-  })
+  });
 
   useEffect(() => {
-    setCourses(getCourses())
-  }, [])
+    loadCourses();
+  }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+  // Use fetch to get data from the API route
+  const loadCourses = async () => {
+    const res = await fetch("/api/courses");
+    const coursesData = await res.json();
+    setCourses(coursesData);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
     const courseData = {
       ...formData,
       isActive: true,
-    }
+    };
 
     if (editingCourse) {
-      const updated = updateCourse(editingCourse.id, courseData)
-      if (updated) {
-        setCourses(getCourses())
-        setIsDialogOpen(false)
-        resetForm()
+      // Use fetch with PATCH to update the course
+      const res = await fetch(`/api/courses/${editingCourse.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(courseData),
+      });
+      if (res.ok) {
+        loadCourses();
+        setIsDialogOpen(false);
+        resetForm();
       }
     } else {
-      const newCourse = createCourse(courseData)
-      setCourses(getCourses())
-      setIsDialogOpen(false)
-      resetForm()
+      // Use fetch with POST to create a new course
+      const res = await fetch("/api/courses", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(courseData),
+      });
+      if (res.ok) {
+        loadCourses();
+        setIsDialogOpen(false);
+        resetForm();
+      }
     }
-  }
+  };
 
   const handleEdit = (course: Course) => {
-    setEditingCourse(course)
+    setEditingCourse(course);
     setFormData({
       code: course.code,
       name: course.name,
@@ -74,16 +127,21 @@ export default function CoursesPage() {
       section: course.section,
       batch: course.batch,
       studentType: course.studentType,
-    })
-    setIsDialogOpen(true)
-  }
+    });
+    setIsDialogOpen(true);
+  };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
     if (confirm("Are you sure you want to delete this course?")) {
-      deleteCourse(id)
-      setCourses(getCourses())
+      // Use fetch with DELETE to deactivate the course
+      const res = await fetch(`/api/courses/${id}`, {
+        method: "DELETE",
+      });
+      if (res.ok) {
+        loadCourses();
+      }
     }
-  }
+  };
 
   const resetForm = () => {
     setFormData({
@@ -95,40 +153,42 @@ export default function CoursesPage() {
       section: "",
       batch: "",
       studentType: "regular",
-    })
-    setEditingCourse(null)
-  }
+    });
+    setEditingCourse(null);
+  };
 
   const handleDialogChange = (open: boolean) => {
-    setIsDialogOpen(open)
+    setIsDialogOpen(open);
     if (!open) {
-      resetForm()
+      resetForm();
     }
-  }
+  };
 
   const getYearColor = (year: number) => {
     switch (year) {
       case 1:
-        return "bg-green-100 text-green-800"
+        return "bg-green-100 text-green-800";
       case 2:
-        return "bg-blue-100 text-blue-800"
+        return "bg-blue-100 text-blue-800";
       case 3:
-        return "bg-yellow-100 text-yellow-800"
+        return "bg-yellow-100 text-yellow-800";
       case 4:
-        return "bg-orange-100 text-orange-800"
+        return "bg-orange-100 text-orange-800";
       case 5:
-        return "bg-purple-100 text-purple-800"
+        return "bg-purple-100 text-purple-800";
       default:
-        return "bg-gray-100 text-gray-800"
+        return "bg-gray-100 text-gray-800";
     }
-  }
+  };
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Courses</h1>
-          <p className="text-muted-foreground">Manage course catalog with academic structure</p>
+          <p className="text-muted-foreground">
+            Manage course catalog with academic structure
+          </p>
         </div>
         <Dialog open={isDialogOpen} onOpenChange={handleDialogChange}>
           <DialogTrigger asChild>
@@ -139,9 +199,13 @@ export default function CoursesPage() {
           </DialogTrigger>
           <DialogContent className="sm:max-w-[600px]">
             <DialogHeader>
-              <DialogTitle>{editingCourse ? "Edit Course" : "Add New Course"}</DialogTitle>
+              <DialogTitle>
+                {editingCourse ? "Edit Course" : "Add New Course"}
+              </DialogTitle>
               <DialogDescription>
-                {editingCourse ? "Update course information" : "Create a new course with academic details"}
+                {editingCourse
+                  ? "Update course information"
+                  : "Create a new course with academic details"}
               </DialogDescription>
             </DialogHeader>
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -151,7 +215,9 @@ export default function CoursesPage() {
                   <Input
                     id="code"
                     value={formData.code}
-                    onChange={(e) => setFormData({ ...formData, code: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, code: e.target.value })
+                    }
                     placeholder="CS101"
                     required
                   />
@@ -164,7 +230,12 @@ export default function CoursesPage() {
                     min="1"
                     max="6"
                     value={formData.credits}
-                    onChange={(e) => setFormData({ ...formData, credits: Number.parseInt(e.target.value) })}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        credits: Number.parseInt(e.target.value),
+                      })
+                    }
                     required
                   />
                 </div>
@@ -174,7 +245,9 @@ export default function CoursesPage() {
                 <Input
                   id="name"
                   value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, name: e.target.value })
+                  }
                   placeholder="Introduction to Computer Science"
                   required
                 />
@@ -184,7 +257,9 @@ export default function CoursesPage() {
                 <Input
                   id="department"
                   value={formData.department}
-                  onChange={(e) => setFormData({ ...formData, department: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, department: e.target.value })
+                  }
                   placeholder="Computer Science"
                   required
                 />
@@ -194,7 +269,9 @@ export default function CoursesPage() {
                   <Label htmlFor="year">Year Level</Label>
                   <Select
                     value={formData.year.toString()}
-                    onValueChange={(value) => setFormData({ ...formData, year: Number.parseInt(value) })}
+                    onValueChange={(value) =>
+                      setFormData({ ...formData, year: Number.parseInt(value) })
+                    }
                   >
                     <SelectTrigger>
                       <SelectValue />
@@ -213,7 +290,9 @@ export default function CoursesPage() {
                   <Input
                     id="section"
                     value={formData.section}
-                    onChange={(e) => setFormData({ ...formData, section: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, section: e.target.value })
+                    }
                     placeholder="A"
                     required
                   />
@@ -223,7 +302,9 @@ export default function CoursesPage() {
                   <Input
                     id="batch"
                     value={formData.batch}
-                    onChange={(e) => setFormData({ ...formData, batch: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, batch: e.target.value })
+                    }
                     placeholder="2024"
                     required
                   />
@@ -233,7 +314,9 @@ export default function CoursesPage() {
                 <Label htmlFor="studentType">Student Type</Label>
                 <Select
                   value={formData.studentType}
-                  onValueChange={(value: "regular" | "extension") => setFormData({ ...formData, studentType: value })}
+                  onValueChange={(value: "regular" | "extension") =>
+                    setFormData({ ...formData, studentType: value })
+                  }
                 >
                   <SelectTrigger>
                     <SelectValue />
@@ -245,10 +328,16 @@ export default function CoursesPage() {
                 </Select>
               </div>
               <div className="flex justify-end space-x-2">
-                <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setIsDialogOpen(false)}
+                >
                   Cancel
                 </Button>
-                <Button type="submit">{editingCourse ? "Update Course" : "Create Course"}</Button>
+                <Button type="submit">
+                  {editingCourse ? "Update Course" : "Create Course"}
+                </Button>
               </div>
             </form>
           </DialogContent>
@@ -261,7 +350,9 @@ export default function CoursesPage() {
             <BookOpen className="h-5 w-5" />
             Course Catalog ({courses.length})
           </CardTitle>
-          <CardDescription>All courses with academic structure details</CardDescription>
+          <CardDescription>
+            All courses with academic structure details
+          </CardDescription>
         </CardHeader>
         <CardContent>
           {courses.length === 0 ? (
@@ -290,25 +381,45 @@ export default function CoursesPage() {
                     <TableCell>{course.department}</TableCell>
                     <TableCell>
                       <div className="flex items-center gap-2">
-                        <Badge className={getYearColor(course.year)}>Year {course.year}</Badge>
-                        <span className="text-sm">Section {course.section}</span>
+                        <Badge className={getYearColor(course.year)}>
+                          Year {course.year}
+                        </Badge>
+                        <span className="text-sm">
+                          Section {course.section}
+                        </span>
                       </div>
                     </TableCell>
                     <TableCell>{course.batch}</TableCell>
                     <TableCell>
-                      <Badge variant={course.studentType === "regular" ? "default" : "outline"}>
+                      <Badge
+                        variant={
+                          course.studentType === "regular"
+                            ? "default"
+                            : "outline"
+                        }
+                      >
                         {course.studentType}
                       </Badge>
                     </TableCell>
                     <TableCell>
-                      <Badge variant="secondary">{course.credits} credits</Badge>
+                      <Badge variant="secondary">
+                        {course.credits} credits
+                      </Badge>
                     </TableCell>
                     <TableCell className="text-right">
                       <div className="flex justify-end space-x-2">
-                        <Button variant="outline" size="sm" onClick={() => handleEdit(course)}>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleEdit(course)}
+                        >
                           <Edit className="h-4 w-4" />
                         </Button>
-                        <Button variant="outline" size="sm" onClick={() => handleDelete(course.id)}>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleDelete(course.id)}
+                        >
                           <Trash2 className="h-4 w-4" />
                         </Button>
                       </div>
@@ -321,5 +432,5 @@ export default function CoursesPage() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

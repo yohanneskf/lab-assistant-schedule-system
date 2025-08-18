@@ -1,11 +1,24 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Button } from "@/components/ui/button"
-import { AuthService } from "@/lib/auth"
+import { useEffect, useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
+import { AuthService } from "@/lib/auth";
 import {
   db,
   type ScheduleAssignment,
@@ -15,96 +28,120 @@ import {
   type Group,
   type LabAssistant,
   type Course,
-} from "@/lib/local-storage"
-import { Calendar, Clock, MapPin, User, LogOut, Key, BookOpen } from "lucide-react"
-import { useRouter } from "next/navigation"
-import Link from "next/link"
+} from "@/lib/local-storage";
+import {
+  Calendar,
+  Clock,
+  MapPin,
+  User,
+  LogOut,
+  Key,
+  BookOpen,
+} from "lucide-react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface ScheduleWithDetails extends ScheduleAssignment {
-  course: Course
-  labRoom: LabRoom
-  timeSlot: TimeSlot
-  section: Section
-  group?: Group
+  course: Course;
+  labRoom: LabRoom;
+  timeSlot: TimeSlot;
+  section: Section;
+  group?: Group;
 }
 
 export default function AssistantDashboard() {
-  const [schedules, setSchedules] = useState<ScheduleWithDetails[]>([])
-  const [assistant, setAssistant] = useState<LabAssistant | null>(null)
-  const [loading, setLoading] = useState(true)
-  const router = useRouter()
+  const [schedules, setSchedules] = useState<ScheduleWithDetails[]>([]);
+  const [assistant, setAssistant] = useState<LabAssistant | null>(null);
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
-    loadSchedules()
-  }, [])
+    loadSchedules();
+  }, []);
 
   const loadSchedules = () => {
-    const user = AuthService.getCurrentUser()
+    const user = AuthService.getCurrentUser();
     if (!user || !user.labAssistantId) {
-      setLoading(false)
-      return
+      setLoading(false);
+      return;
     }
 
     // Get lab assistant details
-    const assistantData = db.findById<LabAssistant>("lab_assistants", user.labAssistantId)
-    setAssistant(assistantData)
+    const assistantData = db.findById<LabAssistant>(
+      "lab_assistants",
+      user.labAssistantId
+    );
+    setAssistant(assistantData);
 
     // Get all active schedule assignments for this lab assistant
     const assignments = db.findWhere<ScheduleAssignment>(
       "schedule_assignments",
-      (assignment) => assignment.labAssistantId === user.labAssistantId && assignment.status === "active",
-    )
+      (assignment) =>
+        assignment.labAssistantId === user.labAssistantId &&
+        assignment.status === "active"
+    );
 
     // Enrich with related data
-    const enrichedSchedules: ScheduleWithDetails[] = assignments.map((assignment) => {
-      const course = db.findById<Course>("courses", assignment.courseId)!
-      const labRoom = db.findById<LabRoom>("lab_rooms", assignment.labRoomId)!
-      const timeSlot = db.findById<TimeSlot>("time_slots", assignment.timeSlotId)!
-      const section = db.findById<Section>("sections", assignment.sectionId)!
-      const group = assignment.groupId ? db.findById<Group>("groups", assignment.groupId) : undefined
+    const enrichedSchedules: ScheduleWithDetails[] = assignments.map(
+      (assignment) => {
+        const course = db.findById<Course>("courses", assignment.courseId)!;
+        const labRoom = db.findById<LabRoom>(
+          "lab_rooms",
+          assignment.labRoomId
+        )!;
+        const timeSlot = db.findById<TimeSlot>(
+          "time_slots",
+          assignment.timeSlotId
+        )!;
+        const section = db.findById<Section>("sections", assignment.sectionId)!;
+        const groupRaw = assignment.groupId
+          ? db.findById<Group>("groups", assignment.groupId)
+          : undefined;
+        const group = groupRaw === null ? undefined : groupRaw;
 
-      return {
-        ...assignment,
-        course,
-        labRoom,
-        timeSlot,
-        section,
-        group,
+        return {
+          ...assignment,
+          course,
+          labRoom,
+          timeSlot,
+          section,
+          group,
+        };
       }
-    })
+    );
 
     // Sort by day of week and time
-    const dayOrder = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+    const dayOrder = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
     enrichedSchedules.sort((a, b) => {
-      const dayA = dayOrder.indexOf(a.timeSlot.dayOfWeek)
-      const dayB = dayOrder.indexOf(b.timeSlot.dayOfWeek)
-      if (dayA !== dayB) return dayA - dayB
-      return a.timeSlot.startTime.localeCompare(b.timeSlot.startTime)
-    })
+      const dayA = dayOrder.indexOf(a.timeSlot.dayOfWeek);
+      const dayB = dayOrder.indexOf(b.timeSlot.dayOfWeek);
+      if (dayA !== dayB) return dayA - dayB;
+      return a.timeSlot.startTime.localeCompare(b.timeSlot.startTime);
+    });
 
-    setSchedules(enrichedSchedules)
-    setLoading(false)
-  }
+    setSchedules(enrichedSchedules);
+    setLoading(false);
+  };
 
   const handleLogout = () => {
-    AuthService.logout()
-    router.push("/assistant-login")
-  }
+    AuthService.logout();
+    router.push("/assistant-login");
+  };
 
   const formatTime = (time: string) => {
-    const [hours, minutes] = time.split(":")
-    const hour = Number.parseInt(hours)
-    const ampm = hour >= 12 ? "PM" : "AM"
-    const displayHour = hour % 12 || 12
-    return `${displayHour}:${minutes} ${ampm}`
-  }
+    const [hours, minutes] = time.split(":");
+    const hour = Number.parseInt(hours);
+    const ampm = hour >= 12 ? "PM" : "AM";
+    const displayHour = hour % 12 || 12;
+    return `${displayHour}:${minutes} ${ampm}`;
+  };
 
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-64">
         <div className="text-lg">Loading your schedule...</div>
       </div>
-    )
+    );
   }
 
   return (
@@ -113,7 +150,8 @@ export default function AssistantDashboard() {
         <div>
           <h1 className="text-3xl font-bold text-gray-900">My Schedule</h1>
           <p className="text-gray-600">
-            Welcome, {assistant?.firstName} {assistant?.lastName} ({assistant?.labAssistantId})
+            Welcome, {assistant?.firstName} {assistant?.lastName} (
+            {assistant?.labAssistantId})
           </p>
         </div>
         <div className="flex space-x-2">
@@ -133,7 +171,9 @@ export default function AssistantDashboard() {
       <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Sessions</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Total Sessions
+            </CardTitle>
             <Calendar className="h-4 w-4 text-blue-600" />
           </CardHeader>
           <CardContent>
@@ -148,7 +188,9 @@ export default function AssistantDashboard() {
             <BookOpen className="h-4 w-4 text-indigo-600" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{new Set(schedules.map((s) => s.course.id)).size}</div>
+            <div className="text-2xl font-bold">
+              {new Set(schedules.map((s) => s.course.id)).size}
+            </div>
             <p className="text-xs text-muted-foreground">Different courses</p>
           </CardContent>
         </Card>
@@ -159,7 +201,9 @@ export default function AssistantDashboard() {
             <Clock className="h-4 w-4 text-green-600" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{new Set(schedules.map((s) => s.section.id)).size}</div>
+            <div className="text-2xl font-bold">
+              {new Set(schedules.map((s) => s.section.id)).size}
+            </div>
             <p className="text-xs text-muted-foreground">Different sections</p>
           </CardContent>
         </Card>
@@ -170,7 +214,9 @@ export default function AssistantDashboard() {
             <MapPin className="h-4 w-4 text-purple-600" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{new Set(schedules.map((s) => s.labRoom.id)).size}</div>
+            <div className="text-2xl font-bold">
+              {new Set(schedules.map((s) => s.labRoom.id)).size}
+            </div>
             <p className="text-xs text-muted-foreground">Different rooms</p>
           </CardContent>
         </Card>
@@ -190,12 +236,15 @@ export default function AssistantDashboard() {
       <Card>
         <CardHeader>
           <CardTitle>Weekly Schedule</CardTitle>
-          <CardDescription>Your lab assistant assignments for the current semester</CardDescription>
+          <CardDescription>
+            Your lab assistant assignments for the current semester
+          </CardDescription>
         </CardHeader>
         <CardContent>
           {schedules.length === 0 ? (
             <div className="text-center py-8 text-gray-500">
-              No schedule assignments found. Contact your administrator if this seems incorrect.
+              No schedule assignments found. Contact your administrator if this
+              seems incorrect.
             </div>
           ) : (
             <Table>
@@ -214,8 +263,12 @@ export default function AssistantDashboard() {
                   <TableRow key={schedule.id}>
                     <TableCell>
                       <div className="space-y-1">
-                        <div className="font-medium">{schedule.course.code}</div>
-                        <div className="text-sm text-gray-600">{schedule.course.name}</div>
+                        <div className="font-medium">
+                          {schedule.course.code}
+                        </div>
+                        <div className="text-sm text-gray-600">
+                          {schedule.course.name}
+                        </div>
                         <Badge variant="secondary" className="text-xs">
                           {schedule.course.credits} Credits
                         </Badge>
@@ -223,26 +276,43 @@ export default function AssistantDashboard() {
                     </TableCell>
                     <TableCell>
                       <div className="space-y-1">
-                        <Badge variant="outline">{schedule.timeSlot.dayOfWeek}</Badge>
+                        <Badge variant="outline">
+                          {schedule.timeSlot.dayOfWeek}
+                        </Badge>
                         <div className="text-sm text-gray-600">
-                          {formatTime(schedule.timeSlot.startTime)} - {formatTime(schedule.timeSlot.endTime)}
+                          {formatTime(schedule.timeSlot.startTime)} -{" "}
+                          {formatTime(schedule.timeSlot.endTime)}
                         </div>
                       </div>
                     </TableCell>
                     <TableCell>
                       <div className="space-y-1">
-                        <div className="font-medium">{schedule.section.name}</div>
-                        {schedule.group && <div className="text-sm text-gray-600">{schedule.group.name}</div>}
+                        <div className="font-medium">
+                          {schedule.section.name}
+                        </div>
+                        {schedule.group && (
+                          <div className="text-sm text-gray-600">
+                            {schedule.group.name}
+                          </div>
+                        )}
                       </div>
                     </TableCell>
                     <TableCell>
                       <div className="space-y-1">
-                        <Badge variant="secondary">Year {schedule.section.year}</Badge>
-                        <div className="text-sm text-gray-600">{schedule.section.department}</div>
+                        <Badge variant="secondary">
+                          Year {schedule.section.year}
+                        </Badge>
+                        <div className="text-sm text-gray-600">
+                          {schedule.section.department}
+                        </div>
                       </div>
                     </TableCell>
-                    <TableCell className="font-medium">{schedule.labRoom.name}</TableCell>
-                    <TableCell className="text-sm text-gray-600">{schedule.labRoom.location}</TableCell>
+                    <TableCell className="font-medium">
+                      {schedule.labRoom.name}
+                    </TableCell>
+                    <TableCell className="text-sm text-gray-600">
+                      {schedule.labRoom.location}
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -251,5 +321,5 @@ export default function AssistantDashboard() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

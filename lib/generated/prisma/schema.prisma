@@ -1,0 +1,151 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model LabRoom {
+  id                  String               @id @default(cuid())
+  name                String
+  capacity            Int
+  location            String
+  equipment           String[]             @db.Text
+  isActive            Boolean
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+  ScheduleAssignments ScheduleAssignment[]
+}
+
+model Course {
+  id              String           @id @default(cuid())
+  code            String
+  name            String
+  department      String
+  credits         Int
+  year            Int
+  section         String
+  batch           String
+  studentType     String
+  isActive        Boolean
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  CourseOfferings CourseOffering[]
+
+  ScheduleAssignment ScheduleAssignment[]
+}
+
+model CourseOffering {
+  id              String   @id @default(cuid())
+  courseId        String
+  semester        String
+  year            Int
+  totalSections   Int
+  requiredLabSize Int
+  isActive        Boolean
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  course          Course   @relation(fields: [courseId], references: [id])
+}
+
+model Section {
+  id         String   @id @default(cuid())
+  name       String
+  year       Int
+  department String
+  capacity   Int
+  isActive   Boolean
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  Groups     Group[]
+
+  ScheduleAssignment ScheduleAssignment[]
+}
+
+model Group {
+  id        String   @id @default(cuid())
+  name      String
+  sectionId String
+  capacity  Int
+  isActive  Boolean
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  section   Section  @relation(fields: [sectionId], references: [id])
+
+  ScheduleAssignment ScheduleAssignment[]
+}
+
+model LabAssistant {
+  id                  String               @id @default(cuid())
+  labAssistantId      String
+  username            String
+  firstName           String
+  lastName            String
+  email               String
+  password            String
+  department          String
+  isActive            Boolean
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+  ScheduleAssignments ScheduleAssignment[]
+}
+
+// This is your updated schema.prisma file
+
+// First, define the enum outside of the models
+enum SlotType {
+  Lab
+  Lecture
+  Tutorial
+}
+
+model TimeSlot {
+  id                  String               @id @default(cuid())
+  dayOfWeek           String
+  startTime           String
+  endTime             String
+  slotType            SlotType // Add this new field and use the enum type
+  isActive            Boolean              @default(true)
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+  ScheduleAssignments ScheduleAssignment[]
+}
+
+model ScheduleAssignment {
+  id             String   @id @default(cuid())
+  courseId       String
+  sectionId      String
+  groupId        String?
+  labRoomId      String
+  labAssistantId String
+  timeSlotId     String
+  status         String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  course       Course       @relation(fields: [courseId], references: [id])
+  section      Section      @relation(fields: [sectionId], references: [id])
+  group        Group?       @relation(fields: [groupId], references: [id])
+  labRoom      LabRoom      @relation(fields: [labRoomId], references: [id])
+  labAssistant LabAssistant @relation(fields: [labAssistantId], references: [id])
+  timeSlot     TimeSlot     @relation(fields: [timeSlotId], references: [id])
+}
+
+model User {
+  id             String   @id @default(cuid())
+  email          String   @unique
+  password       String
+  role           String
+  labAssistantId String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}

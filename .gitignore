@@ -17,9 +17,13 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # env files
+<<<<<<< HEAD
 .env*
 .env
 .env.local
+=======
+# .env*
+>>>>>>> jhonkf/main
 
 # vercel
 .vercel
@@ -28,4 +32,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> jhonkf/main
 /lib/generated/prisma

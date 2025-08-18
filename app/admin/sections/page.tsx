@@ -1,10 +1,14 @@
-"use client"
+"use client";
 
-import type React from "react"
-
-import { useEffect, useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -12,146 +16,187 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Badge } from "@/components/ui/badge"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Plus, Edit, Trash2 } from "lucide-react"
-import { db, type Section, type Group } from "@/lib/local-storage"
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Plus, Edit, Trash2 } from "lucide-react";
 
-interface SectionWithGroups extends Section {
-  groups: Group[]
+interface Group {
+  id: string;
+  name: string;
+  sectionId: string;
+  capacity: number;
+  isActive: boolean;
+}
+
+interface Section {
+  id: string;
+  name: string;
+  year: number;
+  department: string;
+  capacity: number;
+  isActive: boolean;
+  groups: Group[];
 }
 
 export default function SectionsPage() {
-  const [sections, setSections] = useState<SectionWithGroups[]>([])
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
-  const [editingSection, setEditingSection] = useState<Section | null>(null)
+  const [sections, setSections] = useState<Section[]>([]);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [editingSection, setEditingSection] = useState<Section | null>(null);
   const [formData, setFormData] = useState({
     name: "",
     year: "",
     department: "",
     capacity: "",
-  })
+  });
 
-  // Group form state
-  const [isGroupDialogOpen, setIsGroupDialogOpen] = useState(false)
-  const [selectedSectionId, setSelectedSectionId] = useState<string>("")
+  // Group state
+  const [isGroupDialogOpen, setIsGroupDialogOpen] = useState(false);
+  const [selectedSectionId, setSelectedSectionId] = useState<string>("");
   const [groupFormData, setGroupFormData] = useState({
     name: "",
     capacity: "",
-  })
+  });
 
   useEffect(() => {
-    loadSections()
-  }, [])
+    loadSections();
+  }, []);
 
-  const loadSections = () => {
-    const allSections = db.findAll<Section>("sections").filter((section) => section.isActive)
-    const allGroups = db.findAll<Group>("groups").filter((group) => group.isActive)
-
-    const sectionsWithGroups: SectionWithGroups[] = allSections.map((section) => ({
-      ...section,
-      groups: allGroups.filter((group) => group.sectionId === section.id),
-    }))
-
-    setSections(sectionsWithGroups)
-  }
+  const loadSections = async () => {
+    try {
+      const res = await fetch("/api/sections");
+      const data = await res.json();
+      setSections(data);
+    } catch (err) {
+      console.error("Failed to fetch sections:", err);
+    }
+  };
 
   const handleDialogChange = (open: boolean) => {
-    setIsDialogOpen(open)
+    setIsDialogOpen(open);
     if (!open) {
-      setEditingSection(null)
-      setFormData({ name: "", year: "", department: "", capacity: "" })
+      setEditingSection(null);
+      setFormData({ name: "", year: "", department: "", capacity: "" });
     }
-  }
+  };
 
   const handleGroupDialogChange = (open: boolean) => {
-    setIsGroupDialogOpen(open)
+    setIsGroupDialogOpen(open);
     if (!open) {
-      setSelectedSectionId("")
-      setGroupFormData({ name: "", capacity: "" })
+      setSelectedSectionId("");
+      setGroupFormData({ name: "", capacity: "" });
     }
-  }
+  };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-    const sectionData: Omit<Section, "id"> = {
+    const sectionData = {
       name: formData.name,
-      year: Number.parseInt(formData.year),
+      year: Number(formData.year),
       department: formData.department,
-      capacity: Number.parseInt(formData.capacity),
-      isActive: true,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      capacity: Number(formData.capacity),
+    };
+
+    try {
+      if (editingSection) {
+        await fetch(`/api/sections/${editingSection.id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(sectionData),
+        });
+      } else {
+        await fetch("/api/sections", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(sectionData),
+        });
+      }
+      loadSections();
+      handleDialogChange(false);
+    } catch (err) {
+      console.error("Failed to save section:", err);
     }
+  };
 
-    if (editingSection) {
-      db.update("sections", editingSection.id, { ...sectionData, updatedAt: new Date().toISOString() })
-    } else {
-      db.create("sections", sectionData)
-    }
+  const handleGroupSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-    loadSections()
-    handleDialogChange(false)
-  }
-
-  const handleGroupSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-
-    const groupData: Omit<Group, "id"> = {
+    const groupData = {
       name: groupFormData.name,
       sectionId: selectedSectionId,
-      capacity: Number.parseInt(groupFormData.capacity),
-      isActive: true,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    }
+      capacity: Number(groupFormData.capacity),
+    };
 
-    db.create("groups", groupData)
-    loadSections()
-    handleGroupDialogChange(false)
-  }
+    try {
+      await fetch("/api/groups", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(groupData),
+      });
+      loadSections();
+      handleGroupDialogChange(false);
+    } catch (err) {
+      console.error("Failed to save group:", err);
+    }
+  };
 
   const handleEdit = (section: Section) => {
-    setEditingSection(section)
+    setEditingSection(section);
     setFormData({
       name: section.name,
       year: section.year.toString(),
       department: section.department,
       capacity: section.capacity.toString(),
-    })
-    setIsDialogOpen(true)
-  }
+    });
+    setIsDialogOpen(true);
+  };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
     if (confirm("Are you sure you want to delete this section?")) {
-      db.update("sections", id, { isActive: false, updatedAt: new Date().toISOString() })
-      loadSections()
+      await fetch(`/api/sections/${id}`, { method: "DELETE" });
+      loadSections();
     }
-  }
+  };
 
-  const handleDeleteGroup = (groupId: string) => {
+  const handleDeleteGroup = async (groupId: string) => {
     if (confirm("Are you sure you want to delete this group?")) {
-      db.update("groups", groupId, { isActive: false, updatedAt: new Date().toISOString() })
-      loadSections()
+      await fetch(`/api/groups/${groupId}`, { method: "DELETE" });
+      loadSections();
     }
-  }
+  };
 
   const openGroupDialog = (sectionId: string) => {
-    setSelectedSectionId(sectionId)
-    setIsGroupDialogOpen(true)
-  }
+    setSelectedSectionId(sectionId);
+    setIsGroupDialogOpen(true);
+  };
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Sections & Groups</h1>
-          <p className="text-gray-600">Manage academic sections and their groups</p>
+          <h1 className="text-3xl font-bold text-gray-900">
+            Sections & Groups
+          </h1>
+          <p className="text-gray-600">
+            Manage academic sections and their groups
+          </p>
         </div>
         <Dialog open={isDialogOpen} onOpenChange={handleDialogChange}>
           <DialogTrigger asChild>
@@ -162,9 +207,13 @@ export default function SectionsPage() {
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>{editingSection ? "Edit Section" : "Add New Section"}</DialogTitle>
+              <DialogTitle>
+                {editingSection ? "Edit Section" : "Add New Section"}
+              </DialogTitle>
               <DialogDescription>
-                {editingSection ? "Update section information" : "Create a new academic section"}
+                {editingSection
+                  ? "Update section information"
+                  : "Create a new academic section"}
               </DialogDescription>
             </DialogHeader>
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -173,14 +222,21 @@ export default function SectionsPage() {
                 <Input
                   id="name"
                   value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, name: e.target.value })
+                  }
                   placeholder="e.g., Section A"
                   required
                 />
               </div>
               <div>
                 <Label htmlFor="year">Year</Label>
-                <Select value={formData.year} onValueChange={(value) => setFormData({ ...formData, year: value })}>
+                <Select
+                  value={formData.year}
+                  onValueChange={(value) =>
+                    setFormData({ ...formData, year: value })
+                  }
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Select year" />
                   </SelectTrigger>
@@ -198,7 +254,9 @@ export default function SectionsPage() {
                 <Input
                   id="department"
                   value={formData.department}
-                  onChange={(e) => setFormData({ ...formData, department: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, department: e.target.value })
+                  }
                   placeholder="e.g., Computer Science"
                   required
                 />
@@ -209,7 +267,9 @@ export default function SectionsPage() {
                   id="capacity"
                   type="number"
                   value={formData.capacity}
-                  onChange={(e) => setFormData({ ...formData, capacity: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, capacity: e.target.value })
+                  }
                   placeholder="e.g., 30"
                   required
                 />
@@ -225,7 +285,9 @@ export default function SectionsPage() {
       <Card>
         <CardHeader>
           <CardTitle>Sections</CardTitle>
-          <CardDescription>Academic sections and their associated groups</CardDescription>
+          <CardDescription>
+            Academic sections and their associated groups
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <Table>
@@ -251,7 +313,11 @@ export default function SectionsPage() {
                   <TableCell>
                     <div className="flex flex-wrap gap-1">
                       {section.groups.map((group) => (
-                        <Badge key={group.id} variant="outline" className="text-xs">
+                        <Badge
+                          key={group.id}
+                          variant="outline"
+                          className="text-xs"
+                        >
                           {group.name}
                           <button
                             onClick={() => handleDeleteGroup(group.id)}
@@ -273,10 +339,18 @@ export default function SectionsPage() {
                   </TableCell>
                   <TableCell>
                     <div className="flex space-x-2">
-                      <Button size="sm" variant="outline" onClick={() => handleEdit(section)}>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => handleEdit(section)}
+                      >
                         <Edit className="h-4 w-4" />
                       </Button>
-                      <Button size="sm" variant="outline" onClick={() => handleDelete(section.id)}>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => handleDelete(section.id)}
+                      >
                         <Trash2 className="h-4 w-4" />
                       </Button>
                     </div>
@@ -293,7 +367,9 @@ export default function SectionsPage() {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Add New Group</DialogTitle>
-            <DialogDescription>Create a new group for the selected section</DialogDescription>
+            <DialogDescription>
+              Create a new group for the selected section
+            </DialogDescription>
           </DialogHeader>
           <form onSubmit={handleGroupSubmit} className="space-y-4">
             <div>
@@ -301,7 +377,9 @@ export default function SectionsPage() {
               <Input
                 id="groupName"
                 value={groupFormData.name}
-                onChange={(e) => setGroupFormData({ ...groupFormData, name: e.target.value })}
+                onChange={(e) =>
+                  setGroupFormData({ ...groupFormData, name: e.target.value })
+                }
                 placeholder="e.g., Group 1"
                 required
               />
@@ -312,7 +390,12 @@ export default function SectionsPage() {
                 id="groupCapacity"
                 type="number"
                 value={groupFormData.capacity}
-                onChange={(e) => setGroupFormData({ ...groupFormData, capacity: e.target.value })}
+                onChange={(e) =>
+                  setGroupFormData({
+                    ...groupFormData,
+                    capacity: e.target.value,
+                  })
+                }
                 placeholder="e.g., 15"
                 required
               />
@@ -324,5 +407,5 @@ export default function SectionsPage() {
         </DialogContent>
       </Dialog>
     </div>
-  )
+  );
 }

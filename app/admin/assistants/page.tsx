@@ -1,12 +1,18 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -14,29 +20,43 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Badge } from "@/components/ui/badge"
-import { Plus, Edit, Trash2, Users, Key, Eye, EyeOff } from "lucide-react"
+} from "@/components/ui/dialog";
 import {
-  type LabAssistant,
-  type User,
-  createLabAssistant,
-  getLabAssistants,
-  updateLabAssistant,
-  deleteLabAssistant,
-  createUser,
-  updateUser,
-  getUserByEmail,
-} from "@/lib/local-storage"
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
+import { Plus, Edit, Trash2, Users, Key, Eye, EyeOff } from "lucide-react";
+
+// Define the LabAssistant type here or import it from a shared types file
+interface LabAssistant {
+  id: string;
+  labAssistantId: string;
+  username: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  password?: string;
+  department: string;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
 
 export default function AssistantsPage() {
-  const [assistants, setAssistants] = useState<LabAssistant[]>([])
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
-  const [isPasswordDialogOpen, setIsPasswordDialogOpen] = useState(false)
-  const [editingAssistant, setEditingAssistant] = useState<LabAssistant | null>(null)
-  const [selectedAssistant, setSelectedAssistant] = useState<LabAssistant | null>(null)
-  const [showPassword, setShowPassword] = useState(false)
+  const [assistants, setAssistants] = useState<LabAssistant[]>([]);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isPasswordDialogOpen, setIsPasswordDialogOpen] = useState(false);
+  const [editingAssistant, setEditingAssistant] = useState<LabAssistant | null>(
+    null
+  );
+  const [selectedAssistant, setSelectedAssistant] =
+    useState<LabAssistant | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     labAssistantId: "",
     username: "",
@@ -45,128 +65,138 @@ export default function AssistantsPage() {
     email: "",
     password: "",
     department: "",
-  })
+  });
   const [passwordData, setPasswordData] = useState({
     newPassword: "",
     confirmPassword: "",
-  })
+  });
 
   useEffect(() => {
-    setAssistants(getLabAssistants())
-  }, [])
+    loadLabAssistants();
+  }, []);
+
+  const loadLabAssistants = async () => {
+    const res = await fetch("/api/lab-assistants");
+    const assistantsData = await res.json();
+    setAssistants(assistantsData);
+  };
 
   const generateLabAssistantId = () => {
-    const year = new Date().getFullYear()
-    const existingIds = assistants.map((a) => a.labAssistantId).filter((id) => id && id.startsWith(`LA${year}`))
-    const nextNumber = existingIds.length + 1
-    return `LA${year}${nextNumber.toString().padStart(3, "0")}`
-  }
+    const year = new Date().getFullYear();
+    const existingIds = assistants
+      .map((a) => a.labAssistantId)
+      .filter((id) => id && id.startsWith(`LA${year}`));
+    const nextNumber = existingIds.length + 1;
+    return `LA${year}${nextNumber.toString().padStart(3, "0")}`;
+  };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const assistantData = {
+      ...formData,
+      labAssistantId: formData.labAssistantId || generateLabAssistantId(),
+      isActive: true,
+    };
 
     if (editingAssistant) {
-      const updated = updateLabAssistant(editingAssistant.id, formData)
-      if (updated) {
-        // Update corresponding user account
-        const existingUser = getUserByEmail(editingAssistant.email)
-        if (existingUser) {
-          updateUser(existingUser.id, {
-            email: formData.email,
-            password: formData.password,
-          })
-        }
-        setAssistants(getLabAssistants())
-        setIsDialogOpen(false)
-        resetForm()
+      // Update assistant by making a PATCH request
+      const res = await fetch(`/api/lab-assistants/${editingAssistant.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(assistantData),
+      });
+
+      if (res.ok) {
+        loadLabAssistants();
+        setIsDialogOpen(false);
+        resetForm();
       }
     } else {
-      const assistantData = {
-        ...formData,
-        labAssistantId: formData.labAssistantId || generateLabAssistantId(),
-        isActive: true,
+      // Create assistant by making a POST request
+      const res = await fetch("/api/lab-assistants", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(assistantData),
+      });
+
+      if (res.ok) {
+        loadLabAssistants();
+        setIsDialogOpen(false);
+        resetForm();
       }
-
-      const newAssistant = createLabAssistant(assistantData)
-
-      // Create corresponding user account
-      const userData: Omit<User, "id" | "createdAt" | "updatedAt"> = {
-        email: formData.email,
-        password: formData.password,
-        role: "lab_assistant" as const,
-        labAssistantId: newAssistant.id,
-      }
-      createUser(userData)
-
-      setAssistants(getLabAssistants())
-      setIsDialogOpen(false)
-      resetForm()
     }
-  }
+  };
 
-  const handlePasswordSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+  const handlePasswordSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
     if (passwordData.newPassword !== passwordData.confirmPassword) {
-      alert("Passwords do not match!")
-      return
+      alert("Passwords do not match!");
+      return;
     }
 
     if (passwordData.newPassword.length < 6) {
-      alert("Password must be at least 6 characters long!")
-      return
+      alert("Password must be at least 6 characters long!");
+      return;
     }
 
     if (selectedAssistant) {
-      // Update assistant password
-      updateLabAssistant(selectedAssistant.id, { password: passwordData.newPassword })
+      // Update the password by making a PATCH request to the same endpoint
+      const res = await fetch(`/api/lab-assistants/${selectedAssistant.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: selectedAssistant.email,
+          password: passwordData.newPassword,
+        }),
+      });
 
-      // Update user account password
-      const user = getUserByEmail(selectedAssistant.email)
-      if (user) {
-        updateUser(user.id, { password: passwordData.newPassword })
+      if (res.ok) {
+        loadLabAssistants();
+        setIsPasswordDialogOpen(false);
+        setPasswordData({ newPassword: "", confirmPassword: "" });
+        setSelectedAssistant(null);
       }
-
-      setAssistants(getLabAssistants())
-      setIsPasswordDialogOpen(false)
-      setPasswordData({ newPassword: "", confirmPassword: "" })
-      setSelectedAssistant(null)
     }
-  }
+  };
 
   const handleEdit = (assistant: LabAssistant) => {
-    setEditingAssistant(assistant)
+    setEditingAssistant(assistant);
     setFormData({
       labAssistantId: assistant.labAssistantId,
       username: assistant.username,
       firstName: assistant.firstName,
       lastName: assistant.lastName,
       email: assistant.email,
-      password: assistant.password,
+      // You should not pre-populate the password field
+      password: "",
       department: assistant.department,
-    })
-    setIsDialogOpen(true)
-  }
+    });
+    setIsDialogOpen(true);
+  };
 
   const handleChangePassword = (assistant: LabAssistant) => {
-    setSelectedAssistant(assistant)
-    setIsPasswordDialogOpen(true)
-  }
+    setSelectedAssistant(assistant);
+    setIsPasswordDialogOpen(true);
+  };
 
-  const handleDelete = (id: string) => {
-    if (confirm("Are you sure you want to delete this lab assistant? This will also delete their user account.")) {
-      const assistant = assistants.find((a) => a.id === id)
-      if (assistant) {
-        // Delete user account first
-        const user = getUserByEmail(assistant.email)
-        if (user) {
-          // Note: We would need a deleteUser function, but for now we'll just delete the assistant
-        }
+  const handleDelete = async (id: string) => {
+    if (
+      confirm(
+        "Are you sure you want to delete this lab assistant? This will also delete their user account."
+      )
+    ) {
+      // Delete the assistant by making a DELETE request
+      const res = await fetch(`/api/lab-assistants/${id}`, {
+        method: "DELETE",
+      });
+
+      if (res.ok) {
+        loadLabAssistants();
       }
-      deleteLabAssistant(id)
-      setAssistants(getLabAssistants())
     }
-  }
+  };
 
   const resetForm = () => {
     setFormData({
@@ -177,36 +207,38 @@ export default function AssistantsPage() {
       email: "",
       password: "",
       department: "",
-    })
-    setEditingAssistant(null)
-  }
+    });
+    setEditingAssistant(null);
+  };
 
   const handleDialogChange = (open: boolean) => {
-    setIsDialogOpen(open)
+    setIsDialogOpen(open);
     if (!open) {
-      resetForm()
+      resetForm();
     } else if (!editingAssistant) {
       setFormData((prev) => ({
         ...prev,
         labAssistantId: generateLabAssistantId(),
-      }))
+      }));
     }
-  }
+  };
 
   const handlePasswordDialogChange = (open: boolean) => {
-    setIsPasswordDialogOpen(open)
+    setIsPasswordDialogOpen(open);
     if (!open) {
-      setPasswordData({ newPassword: "", confirmPassword: "" })
-      setSelectedAssistant(null)
+      setPasswordData({ newPassword: "", confirmPassword: "" });
+      setSelectedAssistant(null);
     }
-  }
+  };
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Lab Assistants</h1>
-          <p className="text-muted-foreground">Manage lab assistant information and login credentials</p>
+          <p className="text-muted-foreground">
+            Manage lab assistant information and login credentials
+          </p>
         </div>
         <Dialog open={isDialogOpen} onOpenChange={handleDialogChange}>
           <DialogTrigger asChild>
@@ -217,7 +249,11 @@ export default function AssistantsPage() {
           </DialogTrigger>
           <DialogContent className="sm:max-w-[500px]">
             <DialogHeader>
-              <DialogTitle>{editingAssistant ? "Edit Lab Assistant" : "Add New Lab Assistant"}</DialogTitle>
+              <DialogTitle>
+                {editingAssistant
+                  ? "Edit Lab Assistant"
+                  : "Add New Lab Assistant"}
+              </DialogTitle>
               <DialogDescription>
                 {editingAssistant
                   ? "Update assistant information and credentials"
@@ -231,7 +267,12 @@ export default function AssistantsPage() {
                   <Input
                     id="labAssistantId"
                     value={formData.labAssistantId}
-                    onChange={(e) => setFormData({ ...formData, labAssistantId: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        labAssistantId: e.target.value,
+                      })
+                    }
                     placeholder="LA2024001"
                     required
                   />
@@ -241,7 +282,9 @@ export default function AssistantsPage() {
                   <Input
                     id="username"
                     value={formData.username}
-                    onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, username: e.target.value })
+                    }
                     placeholder="john_doe"
                     required
                   />
@@ -253,7 +296,9 @@ export default function AssistantsPage() {
                   <Input
                     id="firstName"
                     value={formData.firstName}
-                    onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, firstName: e.target.value })
+                    }
                     placeholder="John"
                     required
                   />
@@ -263,7 +308,9 @@ export default function AssistantsPage() {
                   <Input
                     id="lastName"
                     value={formData.lastName}
-                    onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, lastName: e.target.value })
+                    }
                     placeholder="Doe"
                     required
                   />
@@ -275,7 +322,9 @@ export default function AssistantsPage() {
                   id="email"
                   type="email"
                   value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, email: e.target.value })
+                  }
                   placeholder="john.doe@lab.edu"
                   required
                 />
@@ -287,7 +336,9 @@ export default function AssistantsPage() {
                     id="password"
                     type={showPassword ? "text" : "password"}
                     value={formData.password}
-                    onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, password: e.target.value })
+                    }
                     placeholder="Enter login password"
                     required
                   />
@@ -298,7 +349,11 @@ export default function AssistantsPage() {
                     className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
                     onClick={() => setShowPassword(!showPassword)}
                   >
-                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    {showPassword ? (
+                      <EyeOff className="h-4 w-4" />
+                    ) : (
+                      <Eye className="h-4 w-4" />
+                    )}
                   </Button>
                 </div>
               </div>
@@ -307,16 +362,24 @@ export default function AssistantsPage() {
                 <Input
                   id="department"
                   value={formData.department}
-                  onChange={(e) => setFormData({ ...formData, department: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, department: e.target.value })
+                  }
                   placeholder="Computer Science"
                   required
                 />
               </div>
               <div className="flex justify-end space-x-2">
-                <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setIsDialogOpen(false)}
+                >
                   Cancel
                 </Button>
-                <Button type="submit">{editingAssistant ? "Update Assistant" : "Create Assistant"}</Button>
+                <Button type="submit">
+                  {editingAssistant ? "Update Assistant" : "Create Assistant"}
+                </Button>
               </div>
             </form>
           </DialogContent>
@@ -324,12 +387,16 @@ export default function AssistantsPage() {
       </div>
 
       {/* Password Change Dialog */}
-      <Dialog open={isPasswordDialogOpen} onOpenChange={handlePasswordDialogChange}>
+      <Dialog
+        open={isPasswordDialogOpen}
+        onOpenChange={handlePasswordDialogChange}
+      >
         <DialogContent className="sm:max-w-[400px]">
           <DialogHeader>
             <DialogTitle>Change Password</DialogTitle>
             <DialogDescription>
-              Change password for {selectedAssistant?.firstName} {selectedAssistant?.lastName}
+              Change password for {selectedAssistant?.firstName}{" "}
+              {selectedAssistant?.lastName}
             </DialogDescription>
           </DialogHeader>
           <form onSubmit={handlePasswordSubmit} className="space-y-4">
@@ -339,7 +406,12 @@ export default function AssistantsPage() {
                 id="newPassword"
                 type="password"
                 value={passwordData.newPassword}
-                onChange={(e) => setPasswordData({ ...passwordData, newPassword: e.target.value })}
+                onChange={(e) =>
+                  setPasswordData({
+                    ...passwordData,
+                    newPassword: e.target.value,
+                  })
+                }
                 placeholder="Enter new password"
                 required
               />
@@ -350,13 +422,22 @@ export default function AssistantsPage() {
                 id="confirmPassword"
                 type="password"
                 value={passwordData.confirmPassword}
-                onChange={(e) => setPasswordData({ ...passwordData, confirmPassword: e.target.value })}
+                onChange={(e) =>
+                  setPasswordData({
+                    ...passwordData,
+                    confirmPassword: e.target.value,
+                  })
+                }
                 placeholder="Confirm new password"
                 required
               />
             </div>
             <div className="flex justify-end space-x-2">
-              <Button type="button" variant="outline" onClick={() => setIsPasswordDialogOpen(false)}>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setIsPasswordDialogOpen(false)}
+              >
                 Cancel
               </Button>
               <Button type="submit">Change Password</Button>
@@ -371,7 +452,9 @@ export default function AssistantsPage() {
             <Users className="h-5 w-5" />
             Lab Assistants ({assistants.filter((a) => a.isActive).length})
           </CardTitle>
-          <CardDescription>All registered lab assistants with their login credentials</CardDescription>
+          <CardDescription>
+            All registered lab assistants with their login credentials
+          </CardDescription>
         </CardHeader>
         <CardContent>
           {assistants.filter((a) => a.isActive).length === 0 ? (
@@ -396,7 +479,9 @@ export default function AssistantsPage() {
                   .filter((a) => a.isActive)
                   .map((assistant) => (
                     <TableRow key={assistant.id}>
-                      <TableCell className="font-medium">{assistant.labAssistantId}</TableCell>
+                      <TableCell className="font-medium">
+                        {assistant.labAssistantId}
+                      </TableCell>
                       <TableCell>
                         {assistant.firstName} {assistant.lastName}
                       </TableCell>
@@ -404,19 +489,33 @@ export default function AssistantsPage() {
                       <TableCell>{assistant.email}</TableCell>
                       <TableCell>{assistant.department}</TableCell>
                       <TableCell>
-                        <Badge variant={assistant.isActive ? "default" : "secondary"}>
+                        <Badge
+                          variant={assistant.isActive ? "default" : "secondary"}
+                        >
                           {assistant.isActive ? "Active" : "Inactive"}
                         </Badge>
                       </TableCell>
                       <TableCell className="text-right">
                         <div className="flex justify-end space-x-2">
-                          <Button variant="outline" size="sm" onClick={() => handleEdit(assistant)}>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handleEdit(assistant)}
+                          >
                             <Edit className="h-4 w-4" />
                           </Button>
-                          <Button variant="outline" size="sm" onClick={() => handleChangePassword(assistant)}>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handleChangePassword(assistant)}
+                          >
                             <Key className="h-4 w-4" />
                           </Button>
-                          <Button variant="outline" size="sm" onClick={() => handleDelete(assistant.id)}>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handleDelete(assistant.id)}
+                          >
                             <Trash2 className="h-4 w-4" />
                           </Button>
                         </div>
@@ -429,5 +528,5 @@ export default function AssistantsPage() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

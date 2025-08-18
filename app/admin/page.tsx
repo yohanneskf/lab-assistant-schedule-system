@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+<<<<<<< HEAD
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Building2, BookOpen, Users, Calendar } from "lucide-react";
 
@@ -15,10 +16,29 @@ export default function AdminDashboard() {
   const [stats, setStats] = useState<Stats | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+=======
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Building2, BookOpen, Users, Calendar } from "lucide-react";
+
+export default function AdminDashboard() {
+  const [stats, setStats] = useState({
+    labRooms: 0,
+    courses: 0,
+    assistants: 0,
+    schedules: 0,
+  });
+>>>>>>> jhonkf/main
 
   useEffect(() => {
     const fetchStats = async () => {
       try {
+<<<<<<< HEAD
         const response = await fetch('/api/stats');
         if (!response.ok) {
           throw new Error('Failed to fetch data');
@@ -29,6 +49,16 @@ export default function AdminDashboard() {
         setError(err instanceof Error ? err.message : 'An unknown error occurred.');
       } finally {
         setLoading(false);
+=======
+        const response = await fetch("/api/dashboard");
+        if (!response.ok) {
+          throw new Error("Failed to fetch dashboard data");
+        }
+        const data = await response.json();
+        setStats(data);
+      } catch (error) {
+        console.error("Error fetching dashboard stats:", error);
+>>>>>>> jhonkf/main
       }
     };
 
@@ -88,12 +118,16 @@ export default function AdminDashboard() {
           return (
             <Card key={stat.title}>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">{stat.title}</CardTitle>
+                <CardTitle className="text-sm font-medium">
+                  {stat.title}
+                </CardTitle>
                 <Icon className={`h-4 w-4 ${stat.color}`} />
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">{stat.value}</div>
-                <p className="text-xs text-muted-foreground">{stat.description}</p>
+                <p className="text-xs text-muted-foreground">
+                  {stat.description}
+                </p>
               </CardContent>
             </Card>
           );
@@ -107,8 +141,12 @@ export default function AdminDashboard() {
             <CardDescription>Common administrative tasks</CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">
-            <div className="text-sm text-gray-600">• Create new lab room assignments</div>
-            <div className="text-sm text-gray-600">• Manage course offerings</div>
+            <div className="text-sm text-gray-600">
+              • Create new lab room assignments
+            </div>
+            <div className="text-sm text-gray-600">
+              • Manage course offerings
+            </div>
             <div className="text-sm text-gray-600">• Add lab assistants</div>
             <div className="text-sm text-gray-600">• Schedule lab sessions</div>
           </CardContent>
@@ -137,4 +175,8 @@ export default function AdminDashboard() {
       </div>
     </div>
   );
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> jhonkf/main
