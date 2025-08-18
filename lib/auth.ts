@@ -58,5 +58,39 @@ export const AuthService = {
     console.log("[AuthService.assistantLogin] Data received:", data);
     localStorage.setItem("token", data.token);
     return data.user;
-  }
+  },
+
+  // Change password for authenticated user
+  async changePassword(currentPassword: string, newPassword: string) {
+    if (typeof window === "undefined") return { success: false, error: "Not authenticated" };
+
+    const token = localStorage.getItem("token");
+    if (!token) return { success: false, error: "Not authenticated" };
+
+    try {
+      const res = await fetch("/api/auth/change-password", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ currentPassword, newPassword }),
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        return { success: false, error: errorData.error || "Failed to change password" };
+      }
+
+      const data = await res.json();
+      return { success: true, message: data.message };
+    } catch (err) {
+      console.error("[AuthService.changePassword] Error:", err);
+      return { success: false, error: "Internal server error" };
+    }
+  },
+
 };
+
+
+
