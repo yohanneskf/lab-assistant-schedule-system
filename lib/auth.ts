@@ -1,6 +1,6 @@
-// The local-storage.ts file would contain your mock database,
-// but for a real app, this part will be replaced by a live database.
-// The provided code already handles localStorage correctly.
+import { NextResponse } from "next/server";
+import bcrypt from "bcryptjs";
+import prisma from "@/lib/prisma";
 
 export interface AuthUser {
   id: string;
@@ -12,7 +12,7 @@ export interface AuthUser {
 export class AuthService {
   private static SESSION_KEY = "lab_management_session";
 
-  // This is the only method you need to change. It now calls the API route.
+  // This is the updated login method that handles all roles
   static async login(
     email: string,
     password: string
@@ -27,7 +27,7 @@ export class AuthService {
       });
 
       if (!response.ok) {
-        return null; // The server will send a 401 for invalid credentials
+        return null; // Server will send a 401 for invalid credentials
       }
 
       const authUser: AuthUser = await response.json();
@@ -40,7 +40,6 @@ export class AuthService {
     }
   }
 
-  // The rest of the methods remain the same as they correctly use localStorage.
   static logout(): void {
     if (typeof window === "undefined") return;
     localStorage.removeItem(this.SESSION_KEY);

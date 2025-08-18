@@ -1,80 +1,91 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import { AuthService } from "@/lib/auth"
-import { initializeDefaultData } from "@/lib/local-storage"
-import { Users, ArrowLeft } from "lucide-react"
-import Link from "next/link"
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { AuthService } from "@/lib/auth";
+import { Users, ArrowLeft } from "lucide-react";
+import Link from "next/link";
 
 export default function AssistantLoginPage() {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [error, setError] = useState("")
-  const [isLoading, setIsLoading] = useState(false)
-  const router = useRouter()
-
-  useEffect(() => {
-    initializeDefaultData()
-  }, [])
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsLoading(true)
-    setError("")
+    e.preventDefault();
+    setIsLoading(true);
+    setError("");
 
     try {
-      // ✅ Use assistantLogin instead of admin login
-      const user = await AuthService.assistantLogin(email, password)
-
-      console.log("[handleSubmit] Logged in user:", user)
+      // ✅ Use the unified login method
+      const user = await AuthService.login(email, password);
 
       if (!user) {
-        setError("Invalid email or password")
-        return
+        setError("Invalid email or password");
+        return;
       }
 
-      if (user.role !== "LAB_ASSISTANT") {
-        setError("Access denied. Assistant only.")
-        return
+      // ✅ Check the user's role AFTER a successful login
+      if (user.role !== "lab_assistant") {
+        // Make sure this role matches your Prisma enum
+        setError("Access denied. Assistant only.");
+        return;
       }
 
-      console.log("[handleSubmit] Redirecting to assistant dashboard")
-      router.push("/assistant")
+      console.log("[handleSubmit] Redirecting to assistant dashboard");
+      router.push("/assistant");
     } catch (err) {
-      console.error("[handleSubmit] Error:", err)
-      setError("Login failed. Please try again.")
+      console.error("[handleSubmit] Error:", err);
+      setError("Login failed. Please try again.");
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
+    // ... (rest of the component remains the same)
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
-          <Link href="/" className="inline-flex items-center text-sm text-gray-600 hover:text-gray-900 mb-4">
+          <Link
+            href="/"
+            className="inline-flex items-center text-sm text-gray-600 hover:text-gray-900 mb-4"
+          >
             <ArrowLeft className="h-4 w-4 mr-1" />
             Back to login options
           </Link>
           <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
             <Users className="h-8 w-8 text-green-600" />
           </div>
-          <h1 className="text-3xl font-bold text-gray-900">Lab Assistant Login</h1>
-          <p className="mt-2 text-gray-600">Sign in to view your assigned lab schedules</p>
+          <h1 className="text-3xl font-bold text-gray-900">
+            Lab Assistant Login
+          </h1>
+          <p className="mt-2 text-gray-600">
+            Sign in to view your assigned lab schedules
+          </p>
         </div>
 
         <Card>
           <CardHeader>
             <CardTitle>Welcome Back</CardTitle>
-            <CardDescription>Enter your lab assistant credentials to continue</CardDescription>
+            <CardDescription>
+              Enter your lab assistant credentials to continue
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -121,5 +132,5 @@ export default function AssistantLoginPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }
