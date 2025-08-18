@@ -8,3 +8,13 @@ export async function POST(req: Request) {
   })
   return NextResponse.json(group)
 }
+
+export async function GET() {
+  try {
+    const groups = await prisma.group.findMany();
+    return NextResponse.json(groups);
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ message: "Failed to fetch groups" }, { status: 500 });
+  }
+}

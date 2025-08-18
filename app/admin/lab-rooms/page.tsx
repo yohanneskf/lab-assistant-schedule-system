@@ -1,233 +1,271 @@
-"use client"
-
-import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+// Replace this with a direct call to the API route
+"use client";
+import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Badge } from "@/components/ui/badge"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Plus, Edit, Trash2, Clock } from "lucide-react"
+} from "@/components/ui/dialog";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Plus, Edit, Trash2 } from "lucide-react";
 
-const DAYS_OF_WEEK = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-
-type TimeSlot = {
-  id: string
-  dayOfWeek: string
-  startTime: string
-  endTime: string
-  isActive: boolean
-  createdAt: string
-  updatedAt: string
+// Define the LabRoom type here or import it from a shared file
+interface LabRoom {
+  id: string;
+  name: string;
+  capacity: number;
+  location: string;
+  equipment: string[];
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
 
-export default function TimeSlotsPage() {
-  const [timeSlots, setTimeSlots] = useState<TimeSlot[]>([])
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
-  const [editingTimeSlot, setEditingTimeSlot] = useState<TimeSlot | null>(null)
+export default function LabRoomsPage() {
+  const [labRooms, setLabRooms] = useState<LabRoom[]>([]);
+  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+  const [editingRoom, setEditingRoom] = useState<LabRoom | null>(null);
   const [formData, setFormData] = useState({
-    dayOfWeek: "Monday",
-    startTime: "",
-    endTime: "",
-    isActive: true,
-  })
+    name: "",
+    capacity: "",
+    location: "",
+    equipment: "",
+  });
 
   useEffect(() => {
-    fetchTimeSlots()
-  }, [])
+    loadLabRooms();
+  }, []);
 
-  const fetchTimeSlots = async () => {
-    const res = await fetch("/api/time-slotes")
-    if (res.ok) {
-      setTimeSlots(await res.json())
-    }
-  }
+  // Use fetch to get data from the API route
+  const loadLabRooms = async () => {
+    const res = await fetch("/api/lab-rooms");
+    const rooms = await res.json();
+    setLabRooms(rooms);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    if (formData.startTime >= formData.endTime) {
-      alert("End time must be after start time")
-      return
+    const roomData = {
+      name: formData.name,
+      capacity: Number(formData.capacity),
+      location: formData.location,
+      equipment: formData.equipment
+        .split(",")
+        .map((item) => item.trim())
+        .filter(Boolean),
+    };
+
+    if (editingRoom) {
+      // Use fetch with the PATCH method to update a room
+      await fetch(`/api/lab-rooms/${editingRoom.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(roomData),
+      });
+    } else {
+      // Use fetch with the POST method to create a new room
+      await fetch("/api/lab-rooms", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(roomData),
+      });
     }
 
-    const method = editingTimeSlot ? "PUT" : "POST"
-    const url = editingTimeSlot ? `/api/time-slotes/${editingTimeSlot.id}` : "/api/time-slots"
+    resetForm();
+    loadLabRooms(); // Reload the list after the action
+  };
 
-    const res = await fetch(url, {
-      method,
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
-    })
-
-    if (res.ok) {
-      fetchTimeSlots()
-      setIsDialogOpen(false)
-      resetForm()
-    }
-  }
-
-  const handleEdit = (slot: TimeSlot) => {
-    setEditingTimeSlot(slot)
+  const handleEdit = (room: LabRoom) => {
+    setEditingRoom(room);
     setFormData({
-      dayOfWeek: slot.dayOfWeek,
-      startTime: slot.startTime,
-      endTime: slot.endTime,
-      isActive: slot.isActive,
-    })
-    setIsDialogOpen(true)
-  }
+      name: room.name,
+      capacity: room.capacity.toString(),
+      location: room.location,
+      equipment: room.equipment.join(", "),
+    });
+    setIsCreateDialogOpen(true);
+  };
 
   const handleDelete = async (id: string) => {
-    if (confirm("Are you sure you want to delete this time slot?")) {
-      await fetch(`/api/time-slotes/${id}`, { method: "DELETE" })
-      fetchTimeSlots()
+    if (confirm("Are you sure you want to delete this lab room?")) {
+      // Use fetch with the DELETE method to deactivate a room
+      await fetch(`/api/lab-rooms/${id}`, {
+        method: "DELETE",
+      });
+      loadLabRooms(); // Reload the list after the action
     }
-  }
+  };
 
   const resetForm = () => {
-    setFormData({
-      dayOfWeek: "Monday",
-      startTime: "",
-      endTime: "",
-      isActive: true,
-    })
-    setEditingTimeSlot(null)
-  }
+    setFormData({ name: "", capacity: "", location: "", equipment: "" });
+    setEditingRoom(null);
+    setIsCreateDialogOpen(false);
+  };
 
-  const handleDialogChange = (open: boolean) => {
-    setIsDialogOpen(open)
-    if (!open) resetForm()
-  }
-
-  const formatTime = (time: string) => {
-    const [hours, minutes] = time.split(":")
-    const hour = parseInt(hours)
-    const ampm = hour >= 12 ? "PM" : "AM"
-    const displayHour = hour % 12 || 12
-    return `${displayHour}:${minutes} ${ampm}`
-  }
-
-  const getDayColor = (day: string) => {
-    const colors = {
-      Monday: "bg-red-100 text-red-800",
-      Tuesday: "bg-orange-100 text-orange-800",
-      Wednesday: "bg-yellow-100 text-yellow-800",
-      Thursday: "bg-green-100 text-green-800",
-      Friday: "bg-blue-100 text-blue-800",
-      Saturday: "bg-purple-100 text-purple-800",
-      Sunday: "bg-pink-100 text-pink-800",
-    }
-    return colors[day as keyof typeof colors] || "bg-gray-100 text-gray-800"
-  }
-
-  const sortedTimeSlots = [...timeSlots].sort((a, b) => {
-    const dayOrder = DAYS_OF_WEEK.indexOf(a.dayOfWeek) - DAYS_OF_WEEK.indexOf(b.dayOfWeek)
-    if (dayOrder !== 0) return dayOrder
-    return a.startTime.localeCompare(b.startTime)
-  })
-
+  // The rest of the return JSX remains the same
   return (
     <div className="space-y-6">
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
-          <div>
-            <CardTitle>Time Slots</CardTitle>
-            <CardDescription>Manage available lab and lecture time slots</CardDescription>
-          </div>
-          <Dialog open={isDialogOpen} onOpenChange={handleDialogChange}>
-            <DialogTrigger asChild>
-              <Button>
-                <Plus className="mr-2 h-4 w-4" /> Add Time Slot
-              </Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>{editingTimeSlot ? "Edit" : "Add"} Time Slot</DialogTitle>
-                <DialogDescription>Fill in the time slot details</DialogDescription>
-              </DialogHeader>
-              <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="flex justify-between items-center">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900">Lab Rooms</h1>
+          <p className="text-gray-600">
+            Manage laboratory spaces and facilities
+          </p>
+        </div>
+        <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
+          <DialogTrigger asChild>
+            <Button onClick={() => setEditingRoom(null)}>
+              <Plus className="mr-2 h-4 w-4" />
+              Add Lab Room
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>
+                {editingRoom ? "Edit Lab Room" : "Create New Lab Room"}
+              </DialogTitle>
+              <DialogDescription>
+                {editingRoom
+                  ? "Update the lab room details."
+                  : "Add a new lab room to the system."}
+              </DialogDescription>
+            </DialogHeader>
+            <form onSubmit={handleSubmit}>
+              <div className="space-y-4">
                 <div>
-                  <Label>Day of Week</Label>
-                  <Select
-                    value={formData.dayOfWeek}
-                    onValueChange={(v) => setFormData({ ...formData, dayOfWeek: v })}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select day" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {DAYS_OF_WEEK.map((day) => (
-                        <SelectItem key={day} value={day}>{day}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div>
-                  <Label>Start Time</Label>
+                  <Label htmlFor="name">Room Name</Label>
                   <Input
-                    type="time"
-                    value={formData.startTime}
-                    onChange={(e) => setFormData({ ...formData, startTime: e.target.value })}
+                    id="name"
+                    value={formData.name}
+                    onChange={(e) =>
+                      setFormData({ ...formData, name: e.target.value })
+                    }
                     required
                   />
                 </div>
                 <div>
-                  <Label>End Time</Label>
+                  <Label htmlFor="capacity">Capacity</Label>
                   <Input
-                    type="time"
-                    value={formData.endTime}
-                    onChange={(e) => setFormData({ ...formData, endTime: e.target.value })}
+                    id="capacity"
+                    type="number"
+                    value={formData.capacity}
+                    onChange={(e) =>
+                      setFormData({ ...formData, capacity: e.target.value })
+                    }
                     required
                   />
                 </div>
-                <Button type="submit" className="w-full">
-                  {editingTimeSlot ? "Update" : "Create"}
+                <div>
+                  <Label htmlFor="location">Location</Label>
+                  <Input
+                    id="location"
+                    value={formData.location}
+                    onChange={(e) =>
+                      setFormData({ ...formData, location: e.target.value })
+                    }
+                    required
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="equipment">Equipment (comma-separated)</Label>
+                  <Input
+                    id="equipment"
+                    value={formData.equipment}
+                    onChange={(e) =>
+                      setFormData({ ...formData, equipment: e.target.value })
+                    }
+                    placeholder="Computers, Projector, Whiteboard"
+                  />
+                </div>
+              </div>
+              <DialogFooter className="mt-6">
+                <Button type="button" variant="outline" onClick={resetForm}>
+                  Cancel
                 </Button>
-              </form>
-            </DialogContent>
-          </Dialog>
+                <Button type="submit">
+                  {editingRoom ? "Update" : "Create"}
+                </Button>
+              </DialogFooter>
+            </form>
+          </DialogContent>
+        </Dialog>
+      </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Lab Rooms</CardTitle>
+          <CardDescription>{labRooms.length} active lab rooms</CardDescription>
         </CardHeader>
         <CardContent>
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Day</TableHead>
-                <TableHead>Start</TableHead>
-                <TableHead>End</TableHead>
-                <TableHead>Status</TableHead>
+                <TableHead>Name</TableHead>
+                <TableHead>Location</TableHead>
+                <TableHead>Capacity</TableHead>
+                <TableHead>Equipment</TableHead>
                 <TableHead>Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {sortedTimeSlots.map((slot) => (
-                <TableRow key={slot.id}>
-                  <TableCell><Badge className={getDayColor(slot.dayOfWeek)}>{slot.dayOfWeek}</Badge></TableCell>
-                  <TableCell>{formatTime(slot.startTime)}</TableCell>
-                  <TableCell>{formatTime(slot.endTime)}</TableCell>
+              {labRooms.map((room) => (
+                <TableRow key={room.id}>
+                  <TableCell className="font-medium">{room.name}</TableCell>
+                  <TableCell>{room.location}</TableCell>
+                  <TableCell>{room.capacity}</TableCell>
                   <TableCell>
-                    {slot.isActive ? (
-                      <Badge className="bg-green-100 text-green-800">Active</Badge>
-                    ) : (
-                      <Badge className="bg-gray-100 text-gray-800">Inactive</Badge>
-                    )}
+                    <div className="flex flex-wrap gap-1">
+                      {room.equipment.map((item, index) => (
+                        <Badge
+                          key={index}
+                          variant="secondary"
+                          className="text-xs"
+                        >
+                          {item}
+                        </Badge>
+                      ))}
+                    </div>
                   </TableCell>
                   <TableCell>
-                    <Button variant="ghost" size="sm" onClick={() => handleEdit(slot)}>
-                      <Edit className="h-4 w-4" />
-                    </Button>
-                    <Button variant="ghost" size="sm" onClick={() => handleDelete(slot.id)}>
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
+                    <div className="flex space-x-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleEdit(room)}
+                      >
+                        <Edit className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleDelete(room.id)}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
                   </TableCell>
                 </TableRow>
               ))}
@@ -236,5 +274,5 @@ export default function TimeSlotsPage() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
