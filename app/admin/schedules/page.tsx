@@ -393,7 +393,9 @@ Babi, [8/18/2025 1:17 AM]
                   </SelectTrigger>
                   <SelectContent>
                     {labRooms
-                      .filter((r) => r.isActive)
+                      .filter((r) => r.isActive
+                    
+                    )
                       .map((room) => (
                         <SelectItem key={room.id} value={room.id}>
                           {room.name} - {room.location} (Capacity: {room.capacity})
