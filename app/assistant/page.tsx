@@ -6,19 +6,10 @@ import { Badge } from "@/components/ui/badge"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
 import { AuthService } from "@/lib/auth"
-import {
-  db,
-  type ScheduleAssignment,
-  type LabRoom,
-  type TimeSlot,
-  type Section,
-  type Group,
-  type LabAssistant,
-  type Course,
-} from "@/lib/local-storage"
 import { Calendar, Clock, MapPin, User, LogOut, Key, BookOpen } from "lucide-react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
+import { Course, Group, LabAssistant, LabRoom, ScheduleAssignment, Section, TimeSlot } from "@/lib/generated/prisma"
 
 interface ScheduleWithDetails extends ScheduleAssignment {
   course: Course
@@ -38,52 +29,30 @@ export default function AssistantDashboard() {
     loadSchedules()
   }, [])
 
-  const loadSchedules = () => {
-    const user = AuthService.getCurrentUser()
-    if (!user || !user.labAssistantId) {
-      setLoading(false)
-      return
-    }
-
-    // Get lab assistant details
-    const assistantData = db.findById<LabAssistant>("lab_assistants", user.labAssistantId)
-    setAssistant(assistantData)
-
-    // Get all active schedule assignments for this lab assistant
-    const assignments = db.findWhere<ScheduleAssignment>(
-      "schedule_assignments",
-      (assignment) => assignment.labAssistantId === user.labAssistantId && assignment.status === "active",
-    )
-
-    // Enrich with related data
-    const enrichedSchedules: ScheduleWithDetails[] = assignments.map((assignment) => {
-      const course = db.findById<Course>("courses", assignment.courseId)!
-      const labRoom = db.findById<LabRoom>("lab_rooms", assignment.labRoomId)!
-      const timeSlot = db.findById<TimeSlot>("time_slots", assignment.timeSlotId)!
-      const section = db.findById<Section>("sections", assignment.sectionId)!
-      const group = assignment.groupId ? db.findById<Group>("groups", assignment.groupId) : undefined
-
-      return {
-        ...assignment,
-        course,
-        labRoom,
-        timeSlot,
-        section,
-        group,
+  const loadSchedules = async () => {
+    try {
+      const user = AuthService.getCurrentUser()
+      if (!user || !user.labAssistantId) {
+        setLoading(false)
+        return
       }
-    })
 
-    // Sort by day of week and time
-    const dayOrder = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
-    enrichedSchedules.sort((a, b) => {
-      const dayA = dayOrder.indexOf(a.timeSlot.dayOfWeek)
-      const dayB = dayOrder.indexOf(b.timeSlot.dayOfWeek)
-      if (dayA !== dayB) return dayA - dayB
-      return a.timeSlot.startTime.localeCompare(b.timeSlot.startTime)
-    })
+      // ✅ Fetch schedules + assistant details from backend
+      const res = await fetch("/api/assistant/schedule", { cache: "no-store" })
+      if (!res.ok) {
+        console.error("Failed to fetch schedule")
+        setLoading(false)
+        return
+      }
 
-    setSchedules(enrichedSchedules)
-    setLoading(false)
+      const data = await res.json()
+      setAssistant(data) // contains lab assistant
+      setSchedules(data.ScheduleAssignments || []) // contains enriched assignments
+    } catch (err) {
+      console.error("Error loading schedule", err)
+    } finally {
+      setLoading(false)
+    }
   }
 
   const handleLogout = () => {
@@ -130,6 +99,7 @@ export default function AssistantDashboard() {
         </div>
       </div>
 
+      {/* Dashboard Stats */}
       <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -187,6 +157,7 @@ export default function AssistantDashboard() {
         </Card>
       </div>
 
+      {/* Weekly Schedule Table */}
       <Card>
         <CardHeader>
           <CardTitle>Weekly Schedule</CardTitle>

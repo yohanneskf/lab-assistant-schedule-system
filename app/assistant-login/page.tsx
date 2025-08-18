@@ -10,7 +10,6 @@ import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { AuthService } from "@/lib/auth"
-import { initializeDefaultData } from "@/lib/local-storage"
 import { Users, ArrowLeft } from "lucide-react"
 import Link from "next/link"
 
@@ -21,9 +20,6 @@ export default function AssistantLoginPage() {
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
 
-  useEffect(() => {
-    initializeDefaultData()
-  }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
