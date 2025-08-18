@@ -60,6 +60,24 @@ export type ScheduleAssignment = $Result.DefaultSelection<Prisma.$ScheduleAssign
 export type User = $Result.DefaultSelection<Prisma.$UserPayload>
 
 /**
+ * Enums
+ */
+export namespace $Enums {
+  export const SlotType: {
+  Lab: 'Lab',
+  Lecture: 'Lecture',
+  Tutorial: 'Tutorial'
+};
+
+export type SlotType = (typeof SlotType)[keyof typeof SlotType]
+
+}
+
+export type SlotType = $Enums.SlotType
+
+export const SlotType: typeof $Enums.SlotType
+
+/**
  * ##  Prisma Client ʲˢ
  *
  * Type-safe database client for TypeScript & Node.js
@@ -8791,6 +8809,7 @@ export namespace Prisma {
     dayOfWeek: string | null
     startTime: string | null
     endTime: string | null
+    slotType: $Enums.SlotType | null
     isActive: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -8801,6 +8820,7 @@ export namespace Prisma {
     dayOfWeek: string | null
     startTime: string | null
     endTime: string | null
+    slotType: $Enums.SlotType | null
     isActive: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -8811,6 +8831,7 @@ export namespace Prisma {
     dayOfWeek: number
     startTime: number
     endTime: number
+    slotType: number
     isActive: number
     createdAt: number
     updatedAt: number
@@ -8823,6 +8844,7 @@ export namespace Prisma {
     dayOfWeek?: true
     startTime?: true
     endTime?: true
+    slotType?: true
     isActive?: true
     createdAt?: true
     updatedAt?: true
@@ -8833,6 +8855,7 @@ export namespace Prisma {
     dayOfWeek?: true
     startTime?: true
     endTime?: true
+    slotType?: true
     isActive?: true
     createdAt?: true
     updatedAt?: true
@@ -8843,6 +8866,7 @@ export namespace Prisma {
     dayOfWeek?: true
     startTime?: true
     endTime?: true
+    slotType?: true
     isActive?: true
     createdAt?: true
     updatedAt?: true
@@ -8926,6 +8950,7 @@ export namespace Prisma {
     dayOfWeek: string
     startTime: string
     endTime: string
+    slotType: $Enums.SlotType
     isActive: boolean
     createdAt: Date
     updatedAt: Date
@@ -8953,6 +8978,7 @@ export namespace Prisma {
     dayOfWeek?: boolean
     startTime?: boolean
     endTime?: boolean
+    slotType?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -8965,6 +8991,7 @@ export namespace Prisma {
     dayOfWeek?: boolean
     startTime?: boolean
     endTime?: boolean
+    slotType?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -8975,6 +9002,7 @@ export namespace Prisma {
     dayOfWeek?: boolean
     startTime?: boolean
     endTime?: boolean
+    slotType?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -8985,12 +9013,13 @@ export namespace Prisma {
     dayOfWeek?: boolean
     startTime?: boolean
     endTime?: boolean
+    slotType?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type TimeSlotOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "dayOfWeek" | "startTime" | "endTime" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["timeSlot"]>
+  export type TimeSlotOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "dayOfWeek" | "startTime" | "endTime" | "slotType" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["timeSlot"]>
   export type TimeSlotInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     ScheduleAssignments?: boolean | TimeSlot$ScheduleAssignmentsArgs<ExtArgs>
     _count?: boolean | TimeSlotCountOutputTypeDefaultArgs<ExtArgs>
@@ -9008,6 +9037,7 @@ export namespace Prisma {
       dayOfWeek: string
       startTime: string
       endTime: string
+      slotType: $Enums.SlotType
       isActive: boolean
       createdAt: Date
       updatedAt: Date
@@ -9439,6 +9469,7 @@ export namespace Prisma {
     readonly dayOfWeek: FieldRef<"TimeSlot", 'String'>
     readonly startTime: FieldRef<"TimeSlot", 'String'>
     readonly endTime: FieldRef<"TimeSlot", 'String'>
+    readonly slotType: FieldRef<"TimeSlot", 'SlotType'>
     readonly isActive: FieldRef<"TimeSlot", 'Boolean'>
     readonly createdAt: FieldRef<"TimeSlot", 'DateTime'>
     readonly updatedAt: FieldRef<"TimeSlot", 'DateTime'>
@@ -12185,6 +12216,7 @@ export namespace Prisma {
     dayOfWeek: 'dayOfWeek',
     startTime: 'startTime',
     endTime: 'endTime',
+    slotType: 'slotType',
     isActive: 'isActive',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -12297,6 +12329,20 @@ export namespace Prisma {
    * Reference to a field of type 'DateTime[]'
    */
   export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'SlotType'
+   */
+  export type EnumSlotTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SlotType'>
+    
+
+
+  /**
+   * Reference to a field of type 'SlotType[]'
+   */
+  export type ListEnumSlotTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SlotType[]'>
     
 
 
@@ -12799,6 +12845,7 @@ export namespace Prisma {
     dayOfWeek?: StringFilter<"TimeSlot"> | string
     startTime?: StringFilter<"TimeSlot"> | string
     endTime?: StringFilter<"TimeSlot"> | string
+    slotType?: EnumSlotTypeFilter<"TimeSlot"> | $Enums.SlotType
     isActive?: BoolFilter<"TimeSlot"> | boolean
     createdAt?: DateTimeFilter<"TimeSlot"> | Date | string
     updatedAt?: DateTimeFilter<"TimeSlot"> | Date | string
@@ -12810,6 +12857,7 @@ export namespace Prisma {
     dayOfWeek?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
+    slotType?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -12824,6 +12872,7 @@ export namespace Prisma {
     dayOfWeek?: StringFilter<"TimeSlot"> | string
     startTime?: StringFilter<"TimeSlot"> | string
     endTime?: StringFilter<"TimeSlot"> | string
+    slotType?: EnumSlotTypeFilter<"TimeSlot"> | $Enums.SlotType
     isActive?: BoolFilter<"TimeSlot"> | boolean
     createdAt?: DateTimeFilter<"TimeSlot"> | Date | string
     updatedAt?: DateTimeFilter<"TimeSlot"> | Date | string
@@ -12835,6 +12884,7 @@ export namespace Prisma {
     dayOfWeek?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
+    slotType?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -12851,6 +12901,7 @@ export namespace Prisma {
     dayOfWeek?: StringWithAggregatesFilter<"TimeSlot"> | string
     startTime?: StringWithAggregatesFilter<"TimeSlot"> | string
     endTime?: StringWithAggregatesFilter<"TimeSlot"> | string
+    slotType?: EnumSlotTypeWithAggregatesFilter<"TimeSlot"> | $Enums.SlotType
     isActive?: BoolWithAggregatesFilter<"TimeSlot"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"TimeSlot"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"TimeSlot"> | Date | string
@@ -13555,6 +13606,7 @@ export namespace Prisma {
     dayOfWeek: string
     startTime: string
     endTime: string
+    slotType: $Enums.SlotType
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -13566,6 +13618,7 @@ export namespace Prisma {
     dayOfWeek: string
     startTime: string
     endTime: string
+    slotType: $Enums.SlotType
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -13577,6 +13630,7 @@ export namespace Prisma {
     dayOfWeek?: StringFieldUpdateOperationsInput | string
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
+    slotType?: EnumSlotTypeFieldUpdateOperationsInput | $Enums.SlotType
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13588,6 +13642,7 @@ export namespace Prisma {
     dayOfWeek?: StringFieldUpdateOperationsInput | string
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
+    slotType?: EnumSlotTypeFieldUpdateOperationsInput | $Enums.SlotType
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13599,6 +13654,7 @@ export namespace Prisma {
     dayOfWeek: string
     startTime: string
     endTime: string
+    slotType: $Enums.SlotType
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -13609,6 +13665,7 @@ export namespace Prisma {
     dayOfWeek?: StringFieldUpdateOperationsInput | string
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
+    slotType?: EnumSlotTypeFieldUpdateOperationsInput | $Enums.SlotType
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13619,6 +13676,7 @@ export namespace Prisma {
     dayOfWeek?: StringFieldUpdateOperationsInput | string
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
+    slotType?: EnumSlotTypeFieldUpdateOperationsInput | $Enums.SlotType
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14190,11 +14248,19 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type EnumSlotTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.SlotType | EnumSlotTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.SlotType[] | ListEnumSlotTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SlotType[] | ListEnumSlotTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumSlotTypeFilter<$PrismaModel> | $Enums.SlotType
+  }
+
   export type TimeSlotCountOrderByAggregateInput = {
     id?: SortOrder
     dayOfWeek?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
+    slotType?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -14205,6 +14271,7 @@ export namespace Prisma {
     dayOfWeek?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
+    slotType?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -14215,9 +14282,20 @@ export namespace Prisma {
     dayOfWeek?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
+    slotType?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type EnumSlotTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.SlotType | EnumSlotTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.SlotType[] | ListEnumSlotTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SlotType[] | ListEnumSlotTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumSlotTypeWithAggregatesFilter<$PrismaModel> | $Enums.SlotType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumSlotTypeFilter<$PrismaModel>
+    _max?: NestedEnumSlotTypeFilter<$PrismaModel>
   }
 
   export type StringNullableFilter<$PrismaModel = never> = {
@@ -14712,6 +14790,10 @@ export namespace Prisma {
     connect?: ScheduleAssignmentWhereUniqueInput | ScheduleAssignmentWhereUniqueInput[]
   }
 
+  export type EnumSlotTypeFieldUpdateOperationsInput = {
+    set?: $Enums.SlotType
+  }
+
   export type ScheduleAssignmentUpdateManyWithoutTimeSlotNestedInput = {
     create?: XOR<ScheduleAssignmentCreateWithoutTimeSlotInput, ScheduleAssignmentUncheckedCreateWithoutTimeSlotInput> | ScheduleAssignmentCreateWithoutTimeSlotInput[] | ScheduleAssignmentUncheckedCreateWithoutTimeSlotInput[]
     connectOrCreate?: ScheduleAssignmentCreateOrConnectWithoutTimeSlotInput | ScheduleAssignmentCreateOrConnectWithoutTimeSlotInput[]
@@ -14935,6 +15017,23 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumSlotTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.SlotType | EnumSlotTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.SlotType[] | ListEnumSlotTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SlotType[] | ListEnumSlotTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumSlotTypeFilter<$PrismaModel> | $Enums.SlotType
+  }
+
+  export type NestedEnumSlotTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.SlotType | EnumSlotTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.SlotType[] | ListEnumSlotTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SlotType[] | ListEnumSlotTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumSlotTypeWithAggregatesFilter<$PrismaModel> | $Enums.SlotType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumSlotTypeFilter<$PrismaModel>
+    _max?: NestedEnumSlotTypeFilter<$PrismaModel>
   }
 
   export type NestedStringNullableFilter<$PrismaModel = never> = {
@@ -15717,6 +15816,7 @@ export namespace Prisma {
     dayOfWeek: string
     startTime: string
     endTime: string
+    slotType: $Enums.SlotType
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -15727,6 +15827,7 @@ export namespace Prisma {
     dayOfWeek: string
     startTime: string
     endTime: string
+    slotType: $Enums.SlotType
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -15934,6 +16035,7 @@ export namespace Prisma {
     dayOfWeek?: StringFieldUpdateOperationsInput | string
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
+    slotType?: EnumSlotTypeFieldUpdateOperationsInput | $Enums.SlotType
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15944,6 +16046,7 @@ export namespace Prisma {
     dayOfWeek?: StringFieldUpdateOperationsInput | string
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
+    slotType?: EnumSlotTypeFieldUpdateOperationsInput | $Enums.SlotType
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string

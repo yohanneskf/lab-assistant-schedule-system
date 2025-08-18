@@ -99,12 +99,22 @@ model LabAssistant {
   ScheduleAssignments ScheduleAssignment[]
 }
 
+// This is your updated schema.prisma file
+
+// First, define the enum outside of the models
+enum SlotType {
+  Lab
+  Lecture
+  Tutorial
+}
+
 model TimeSlot {
   id        String   @id @default(cuid())
   dayOfWeek String
   startTime String
   endTime   String
-  isActive  Boolean @default(true)
+  slotType  SlotType // Add this new field and use the enum type
+  isActive  Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   ScheduleAssignments ScheduleAssignment[]

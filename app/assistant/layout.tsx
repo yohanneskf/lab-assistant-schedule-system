@@ -22,7 +22,7 @@ export default function AssistantLayout({
       return;
     }
 
-    if (user.role !== "LAB_ASSISTANT") {
+    if (user.role !== "lab_assistant") {
       setTimeout(() => router.push("/assistant-login"), 10);
       return;
     }
