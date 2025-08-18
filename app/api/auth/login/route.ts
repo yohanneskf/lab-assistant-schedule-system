@@ -1,39 +1,56 @@
-import { NextResponse } from "next/server";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 import prisma from "@/lib/prisma";
 
-const JWT_SECRET = process.env.JWT_SECRET!;
+import { NextResponse } from "next/server";
+import bcrypt from "bcryptjs";
 
-export async function POST(req: Request) {
-
+export async function POST(request: Request) {
   try {
-    const { email, password } = await req.json();
+    const { email, password } = await request.json();
 
-    const user = await prisma.user.findUnique({ where: { email } });
+    if (!email || !password) {
+      return NextResponse.json(
+        { message: "Email and password are required" },
+        { status: 400 }
+      );
+    }
+
+    // Find the user by email in your database
+    const user = await prisma.user.findUnique({
+      where: { email },
+    });
 
     if (!user) {
-      console.log("[Backend.login] No user found, returning 401");
-      return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
+      return NextResponse.json(
+        { message: "Invalid email or password" },
+        { status: 401 }
+      );
     }
 
-    const isMatch = await bcrypt.compare(password, user.password);
+    // Compare the plain text password with the hashed password
+    const isPasswordValid = await bcrypt.compare(password, user.password);
 
-    if (!isMatch) {
-      console.log("[Backend.login] Wrong password");
-      return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
+    if (!isPasswordValid) {
+      return NextResponse.json(
+        { message: "Invalid email or password" },
+        { status: 401 }
+      );
     }
 
-    const token = jwt.sign(
-      { id: user.id, email: user.email, role: user.role },
-      process.env.JWT_SECRET!,
-      { expiresIn: "1h" }
-    );
+    // Return a subset of user data (excluding the password)
+    // The client-side code will expect this format
+    const userData = {
+      id: user.id,
+      email: user.email,
+      role: user.role as "admin" | "lab_assistant", // Cast to match AuthUser type
+      labAssistantId: user.labAssistantId,
+    };
 
-
-    return NextResponse.json({ token, user: { id: user.id, email: user.email, role: user.role } });
+    return NextResponse.json(userData, { status: 200 });
   } catch (error) {
-    console.error("[Backend.login] Internal server error:", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    console.error("Login API error:", error);
+    return NextResponse.json(
+      { message: "An unexpected error occurred" },
+      { status: 500 }
+    );
   }
 }

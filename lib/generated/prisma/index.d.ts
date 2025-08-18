@@ -13555,7 +13555,7 @@ export namespace Prisma {
     dayOfWeek: string
     startTime: string
     endTime: string
-    isActive: boolean
+    isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     ScheduleAssignments?: ScheduleAssignmentCreateNestedManyWithoutTimeSlotInput
@@ -13566,7 +13566,7 @@ export namespace Prisma {
     dayOfWeek: string
     startTime: string
     endTime: string
-    isActive: boolean
+    isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     ScheduleAssignments?: ScheduleAssignmentUncheckedCreateNestedManyWithoutTimeSlotInput
@@ -13599,7 +13599,7 @@ export namespace Prisma {
     dayOfWeek: string
     startTime: string
     endTime: string
-    isActive: boolean
+    isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -15717,7 +15717,7 @@ export namespace Prisma {
     dayOfWeek: string
     startTime: string
     endTime: string
-    isActive: boolean
+    isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -15727,7 +15727,7 @@ export namespace Prisma {
     dayOfWeek: string
     startTime: string
     endTime: string
-    isActive: boolean
+    isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
