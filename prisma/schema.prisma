@@ -4,6 +4,7 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
+<<<<<<< HEAD
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
@@ -139,3 +140,14 @@ model User {
   updatedAt      DateTime @updatedAt
   labAssistant   LabAssistant? @relation(fields: [labAssistantId], references: [id]) 
 }
+=======
+generator client {
+  provider = "prisma-client-js"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+>>>>>>> a5a845334a36782b30d174d9c528f643cb6f95f8
