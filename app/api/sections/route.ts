@@ -13,7 +13,7 @@ export async function GET() {
   })
 
   // normalize Groups -> groups
-  const normalized = sections.map((section ) => ({
+  const normalized = sections.map((section: { Groups: any } ) => ({
     ...section,
     groups: section.Groups,
   }))
