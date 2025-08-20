@@ -37,7 +37,7 @@ export default function AssistantLoginPage() {
         return
       }
 
-      if (user.role !== "LAB_ASSISTANT") {
+      if (user.role !== "lab_assistant") {
         setError("Access denied. Assistant only.")
         return
       }

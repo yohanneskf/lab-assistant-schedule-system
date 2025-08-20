@@ -86,7 +86,7 @@ model Group {
 
 model LabAssistant {
   id                  String               @id @default(cuid())
-  labAssistantId      String
+  labAssistantId      String               @unique
   username            String
   firstName           String
   lastName            String
@@ -97,6 +97,16 @@ model LabAssistant {
   createdAt           DateTime             @default(now())
   updatedAt           DateTime             @updatedAt
   ScheduleAssignments ScheduleAssignment[]
+  user                User?
+}
+
+// This is your updated schema.prisma file
+
+// First, define the enum outside of the models
+enum SlotType {
+  Lab
+  Lecture
+  Tutorial
 }
 
 model TimeSlot {
@@ -104,7 +114,8 @@ model TimeSlot {
   dayOfWeek           String
   startTime           String
   endTime             String
-  isActive            Boolean
+  slotType            SlotType // Add this new field and use the enum type
+  isActive            Boolean              @default(true)
   createdAt           DateTime             @default(now())
   updatedAt           DateTime             @updatedAt
   ScheduleAssignments ScheduleAssignment[]
@@ -126,16 +137,17 @@ model ScheduleAssignment {
   section      Section      @relation(fields: [sectionId], references: [id])
   group        Group?       @relation(fields: [groupId], references: [id])
   labRoom      LabRoom      @relation(fields: [labRoomId], references: [id])
-  labAssistant LabAssistant @relation(fields: [labAssistantId], references: [id])
+  labAssistant LabAssistant @relation(fields: [labAssistantId], references: [labAssistantId])
   timeSlot     TimeSlot     @relation(fields: [timeSlotId], references: [id])
 }
 
 model User {
-  id             String   @id @default(cuid())
-  email          String   @unique
+  id             String        @id @default(cuid())
+  email          String        @unique
   password       String
   role           String
-  labAssistantId String?
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  labAssistantId String?       @unique
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  labAssistant   LabAssistant? @relation(fields: [labAssistantId], references: [labAssistantId])
 }

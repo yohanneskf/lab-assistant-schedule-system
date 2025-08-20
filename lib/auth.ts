@@ -26,20 +26,18 @@ export const AuthService = {
   },
 
   getCurrentUser() {
+  const token = localStorage.getItem("token");
+  if (!token) return null;
 
-    const token = localStorage.getItem("token");
-    if (!token) {
-      return null;
-    }
-
-    try {
-      const payload = JSON.parse(atob(token.split(".")[1]));
-      return payload; // { id, email, role, iat, exp }
-    } catch (err) {
-      console.error("[AuthService.getCurrentUser] Error decoding token:", err);
-      return null;
-    }
-  },
+  try {
+    const payload = JSON.parse(atob(token.split(".")[1]));
+    // payload now contains labAssistantId
+    return payload;
+  } catch (err) {
+    console.error("[AuthService.getCurrentUser] Error decoding token:", err);
+    return null;
+  }
+},
 
   async assistantLogin(email: string, password: string) {
     console.log("[AuthService.assistantLogin] Called with:", { email, password });
@@ -88,7 +86,7 @@ export const AuthService = {
       console.error("[AuthService.changePassword] Error:", err);
       return { success: false, error: "Internal server error" };
     }
-  },
+  }
 
 };
 

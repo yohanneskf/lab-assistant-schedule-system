@@ -1,77 +1,212 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Plus, Edit, Trash2, Calendar, AlertCircle } from "lucide-react"
+import type React from "react";
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Plus, Edit, Trash2, Calendar, AlertCircle } from "lucide-react";
+
+// Import types from a central location, not the server
+import {
+  type ScheduleAssignment,
+  type LabRoom,
+  type LabAssistant,
+  type TimeSlot,
+  type Course,
+  type Section,
+  type Group,
+} from "@/types/type";
 
 export default function SchedulesPage() {
-  const [schedules, setSchedules] = useState<any[]>([])
-  const [labRooms, setLabRooms] = useState<any[]>([])
-  const [assistants, setAssistants] = useState<any[]>([])
-  const [timeSlots, setTimeSlots] = useState<any[]>([])
-  const [courses, setCourses] = useState<any[]>([])
-  const [sections, setSections] = useState<any[]>([])
-  const [groups, setGroups] = useState<any[]>([])
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
-  const [editingSchedule, setEditingSchedule] = useState<any>(null)
-  const [formData, setFormData] = useState<any>({
+  const [schedules, setSchedules] = useState<ScheduleAssignment[]>([]);
+  const [labRooms, setLabRooms] = useState<LabRoom[]>([]);
+  const [assistants, setAssistants] = useState<LabAssistant[]>([]);
+  const [timeSlots, setTimeSlots] = useState<TimeSlot[]>([]);
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [sections, setSections] = useState<Section[]>([]);
+  const [groups, setGroups] = useState<Group[]>([]);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [editingSchedule, setEditingSchedule] =
+    useState<ScheduleAssignment | null>(null);
+  const [formData, setFormData] = useState({
     courseId: "",
     sectionId: "",
     groupId: "",
     labRoomId: "",
     labAssistantId: "",
     timeSlotId: "",
-  })
+  });
 
   useEffect(() => {
-    loadData()
-  }, [])
+    loadData();
+  }, []);
 
-  async function loadData() {
-    const [schedulesRes, coursesRes, sectionsRes, groupsRes, labRoomsRes, assistantsRes, timeSlotsRes] =
-      await Promise.all([
-        fetch("/api/schedules").then((res) => res.json()),
-        fetch("/api/courses").then((res) => res.json()),
-        fetch("/api/sections").then((res) => res.json()),
-        fetch("/api/groups").then((res) => res.json()),
-        fetch("/api/lab-rooms").then((res) => res.json()),
-        fetch("/api/lab-assistants").then((res) => res.json()),
-        fetch("/api/time-slots").then((res) => res.json()),
-      ])
+  const loadData = async () => {
+    try {
+      const [
+        schedulesRes,
+        labRoomsRes,
+        assistantsRes,
+        timeSlotsRes,
+        coursesRes,
+        sectionsRes,
+        groupsRes,
+      ] = await Promise.all([
+        fetch("/api/schedules"),
+        fetch("/api/lab-rooms"),
+        fetch("/api/lab-assistants"),
+        fetch("/api/time-slots"),
+        fetch("/api/courses"),
+        fetch("/api/sections"),
+        fetch("/api/groups"),
+      ]);
 
-    setSchedules(schedulesRes)
-    setCourses(coursesRes)
-    setSections(sectionsRes)
-    setGroups(groupsRes)
-    setLabRooms(labRoomsRes)
-    setAssistants(assistantsRes)
-    setTimeSlots(timeSlotsRes)
-  }
+      const schedulesData = await schedulesRes.json();
+      const labRoomsData = await labRoomsRes.json();
+      const assistantsData = await assistantsRes.json();
+      const timeSlotsData = await timeSlotsRes.json();
+      const coursesData = await coursesRes.json();
+      const sectionsData = await sectionsRes.json();
+      const groupsData = await groupsRes.json();
+
+      setSchedules(schedulesData);
+      setLabRooms(labRoomsData);
+      setAssistants(assistantsData);
+      setTimeSlots(timeSlotsData);
+      setCourses(coursesData);
+      setSections(sectionsData);
+      setGroups(groupsData);
+
+      console.log("Data loaded successfully");
+    } catch (error) {
+      console.error("Failed to load data:", error);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    const payload = { ...formData }
+    const conflictCheckRes = await fetch(`/api/schedules/check-conflict`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        labRoomId: formData.labRoomId,
+        labAssistantId: formData.labAssistantId,
+        timeSlotId: formData.timeSlotId,
+        excludeAssignmentId: editingSchedule?.id,
+      }),
+    });
 
-    if (editingSchedule) {
-      await fetch("/api/schedules", {
-        method: "PUT",
-        body: JSON.stringify({ id: editingSchedule.id, ...payload }),
-      })
-    } else {
-      await fetch("/api/schedules", {
-        method: "POST",
-        body: JSON.stringify(payload),
-      })
+    const conflicts = await conflictCheckRes.json();
+
+    if (conflicts.length > 0) {
+      alert(
+        "Conflict detected: The selected lab room or assistant is already scheduled for this time slot."
+      );
+      return;
     }
 
-    setIsDialogOpen(false)
-    setEditingSchedule(null)
+    const scheduleData = {
+      ...formData,
+      status: "active",
+    };
+
+    try {
+      if (editingSchedule) {
+        const response = await fetch("/api/schedules", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id: editingSchedule.id, ...scheduleData }),
+        });
+        if (response.ok) {
+          loadData();
+          setIsDialogOpen(false);
+          resetForm();
+        } else {
+          console.error("Failed to update schedule");
+        }
+      } else {
+        const response = await fetch("/api/schedules", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(scheduleData),
+        });
+        if (response.ok) {
+          loadData();
+          setIsDialogOpen(false);
+          resetForm();
+        } else {
+          console.error("Failed to create schedule");
+        }
+      }
+    } catch (error) {
+      console.error("An error occurred during form submission:", error);
+    }
+  };
+
+  const handleEdit = (schedule: ScheduleAssignment) => {
+    setEditingSchedule(schedule);
+    setFormData({
+      courseId: schedule.courseId,
+      sectionId: schedule.sectionId,
+      groupId: schedule.groupId || "",
+      labRoomId: schedule.labRoomId,
+      labAssistantId: schedule.labAssistantId,
+      timeSlotId: schedule.timeSlotId,
+    });
+    setIsDialogOpen(true);
+  };
+
+  const handleDelete = async (id: string) => {
+    if (confirm("Are you sure you want to delete this schedule assignment?")) {
+      try {
+        const response = await fetch("/api/schedules", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id, status: "inactive" }),
+        });
+        if (response.ok) {
+          loadData();
+        } else {
+          console.error("Failed to delete schedule");
+        }
+      } catch (error) {
+        console.error("An error occurred during deletion:", error);
+      }
+    }
+  };
+
+  const resetForm = () => {
     setFormData({
       courseId: "",
       sectionId: "",
@@ -79,51 +214,58 @@ export default function SchedulesPage() {
       labRoomId: "",
       labAssistantId: "",
       timeSlotId: "",
-    })
-    loadData()
-  }
+    });
+    setEditingSchedule(null);
+  };
 
-  const handleDelete = async (id: string) => {
-    if (!confirm("Are you sure you want to delete this schedule?")) return
-    await fetch(`/api/schedules?id=${id}`, { method: "DELETE" })
-    loadData()
-  }
+  const handleDialogChange = (open: boolean) => {
+    setIsDialogOpen(open);
+    if (!open) {
+      resetForm();
+    }
+  };
+
+  const getLabRoom = (id: string) => labRooms.find((room) => room.id === id);
+  // Corrected: find by labAssistantId
+  const getAssistant = (labAssistantId: string) =>
+    assistants.find((assistant) => assistant.labAssistantId === labAssistantId);
+  const getTimeSlot = (id: string) => timeSlots.find((slot) => slot.id === id);
+  const getSection = (id: string) =>
+    sections.find((section) => section.id === id);
+  const getGroup = (id: string) => groups.find((group) => group.id === id);
+  const getCourse = (id: string) => courses.find((course) => course.id === id);
 
   const formatTime = (time: string) => {
-    const [hours, minutes] = time.split(":")
-    const hour = Number.parseInt(hours)
-    const ampm = hour >= 12 ? "PM" : "AM"
-    const displayHour = hour % 12 || 12
-    return `${displayHour}:${minutes} ${ampm}`
-  }
+    const [hours, minutes] = time.split(":");
+    const hour = Number.parseInt(hours);
+    const ampm = hour >= 12 ? "PM" : "AM";
+    const displayHour = hour % 12 || 12;
+    return `${displayHour}:${minutes} ${ampm}`;
+  };
 
   const availableGroups = formData.sectionId
-    ? groups.filter((g) => g.sectionId === formData.sectionId)
-    : []
+    ? groups.filter((group) => group.sectionId === formData.sectionId)
+    : [];
 
   const hasRequiredData =
     labRooms.length > 0 &&
     courses.length > 0 &&
     sections.length > 0 &&
     assistants.length > 0 &&
-    timeSlots.length > 0
-
-  const getCourse = (id: string) => courses.find((c) => c.id === id)
-  const getSection = (id: string) => sections.find((s) => s.id === id)
-  const getGroup = (id: string) => groups.find((g) => g.id === id)
-  const getLabRoom = (id: string) => labRooms.find((r) => r.id === id)
-  const getAssistant = (id: string) => assistants.find((a) => a.id === id)
-  const getTimeSlot = (id: string) => timeSlots.find((t) => t.id === id)
+    timeSlots.length > 0;
 
   return (
     <div className="space-y-6">
-      {/* Header & Add Button */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Schedule Assignments</h1>
-          <p className="text-muted-foreground">Manage lab session schedules and assignments</p>
+          <h1 className="text-3xl font-bold tracking-tight">
+            Schedule Assignments
+          </h1>
+          <p className="text-muted-foreground">
+            Manage lab session schedules and assignments
+          </p>
         </div>
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <Dialog open={isDialogOpen} onOpenChange={handleDialogChange}>
           <DialogTrigger asChild>
             <Button disabled={!hasRequiredData}>
               <Plus className="mr-2 h-4 w-4" />
@@ -132,135 +274,224 @@ export default function SchedulesPage() {
           </DialogTrigger>
           <DialogContent className="sm:max-w-[500px]">
             <DialogHeader>
-              <DialogTitle>{editingSchedule ? "Edit Schedule Assignment" : "Add New Schedule Assignment"}</DialogTitle>
+              <DialogTitle>
+                {editingSchedule
+                  ? "Edit Schedule Assignment"
+                  : "Add New Schedule Assignment"}
+              </DialogTitle>
+              <DialogDescription>
+                {editingSchedule
+                  ? "Update schedule assignment details"
+                  : "Create a new lab session schedule"}
+              </DialogDescription>
             </DialogHeader>
-            {/* Form */}
-            <form className="space-y-4" onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
-                <Label>Course</Label>
-                <Select value={formData.courseId} onValueChange={(value) => setFormData({ ...formData, courseId: value })}>
+                <Label htmlFor="courseId">Course</Label>
+                <Select
+                  value={formData.courseId}
+                  onValueChange={(value) =>
+                    setFormData({ ...formData, courseId: value })
+                  }
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Select a course" />
                   </SelectTrigger>
                   <SelectContent>
-                    {courses.map((c) => (
-                      <SelectItem key={c.id} value={c.id}>
-                        {c.code} - {c.name}
-                      </SelectItem>
-                    ))}
+                    {courses
+                      .filter((c) => c.isActive)
+                      .map((course) => (
+                        <SelectItem key={course.id} value={course.id}>
+                          <div className="flex flex-col">
+                            <span className="font-medium">
+                              {course.code} - {course.name}
+                            </span>
+                            <span className="text-sm text-muted-foreground">
+                              {course.department} • {course.year} Year •{" "}
+                              {course.credits} Credits
+                            </span>
+                          </div>
+                        </SelectItem>
+                      ))}
                   </SelectContent>
                 </Select>
               </div>
               <div className="space-y-2">
-                <Label>Section</Label>
+                <Label htmlFor="sectionId">Section</Label>
                 <Select
                   value={formData.sectionId}
-                  onValueChange={(value) => setFormData({ ...formData, sectionId: value, groupId: "" })}
+                  onValueChange={(value) =>
+                    setFormData({ ...formData, sectionId: value, groupId: "" })
+                  }
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="Select a section" />
                   </SelectTrigger>
                   <SelectContent>
-                    {sections.map((s) => (
-                      <SelectItem key={s.id} value={s.id}>
-                        {s.name} ({s.year} Year)
-                      </SelectItem>
-                    ))}
+                    {sections
+                      .filter((s) => s.isActive)
+                      .map((section) => (
+                        <SelectItem key={section.id} value={section.id}>
+                          {section.name} - {section.year} Year (
+                          {section.department})
+                        </SelectItem>
+                      ))}
                   </SelectContent>
                 </Select>
               </div>
               {availableGroups.length > 0 && (
                 <div className="space-y-2">
-                  <Label>Group (Optional)</Label>
+                  <Label htmlFor="groupId">Group (Optional)</Label>
                   <Select
                     value={formData.groupId}
-                    onValueChange={(value) => setFormData({ ...formData, groupId: value })}
+                    onValueChange={(value) =>
+                      setFormData({ ...formData, groupId: value })
+                    }
                   >
                     <SelectTrigger>
-                      <SelectValue placeholder="Select group" />
+                      <SelectValue placeholder="Select a group (optional)" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="none">No specific group</SelectItem>
-                      {availableGroups.map((g) => (
-                        <SelectItem key={g.id} value={g.id}>
-                          {g.name}
+                      <SelectItem value="no-group">
+                        No specific group
+                      </SelectItem>
+                      {availableGroups.map((group) => (
+                        <SelectItem key={group.id} value={group.id}>
+                          {group.name} (Capacity: {group.capacity})
                         </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
                 </div>
               )}
-              {/* Lab Room, Assistant, Time Slot */}
               <div className="space-y-2">
-                <Label>Lab Room</Label>
-                <Select value={formData.labRoomId} onValueChange={(v) => setFormData({ ...formData, labRoomId: v })}>
+                <Label htmlFor="labRoomId">Lab Room</Label>
+                <Select
+                  value={formData.labRoomId}
+                  onValueChange={(value) =>
+                    setFormData({ ...formData, labRoomId: value })
+                  }
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Select a lab room" />
                   </SelectTrigger>
                   <SelectContent>
-                    {labRooms.map((r) => (
-                      <SelectItem key={r.id} value={r.id}>
-                        {r.name}
-                      </SelectItem>
-                    ))}
+                    {labRooms
+                      .filter((r) => r.isActive)
+                      .map((room) => (
+                        <SelectItem key={room.id} value={room.id}>
+                          {room.name} - {room.location} (Capacity:{" "}
+                          {room.capacity})
+                        </SelectItem>
+                      ))}
                   </SelectContent>
                 </Select>
               </div>
               <div className="space-y-2">
-                <Label>Lab Assistant</Label>
+                <Label htmlFor="labAssistantId">Lab Assistant</Label>
                 <Select
                   value={formData.labAssistantId}
-                  onValueChange={(v) => setFormData({ ...formData, labAssistantId: v })}
+                  onValueChange={(value) =>
+                    setFormData({ ...formData, labAssistantId: value })
+                  }
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="Select a lab assistant" />
                   </SelectTrigger>
                   <SelectContent>
-                    {assistants.map((a) => (
-                      <SelectItem key={a.id} value={a.id}>
-                        {a.firstName} {a.lastName}
-                      </SelectItem>
-                    ))}
+                    {assistants
+                      .filter((a) => a.isActive)
+                      .map((assistant) => (
+                        <SelectItem
+                          key={assistant.id}
+                          value={assistant.labAssistantId}
+                        >
+                          <div className="flex flex-col">
+                            <span className="font-medium">
+                              {assistant.firstName} {assistant.lastName}
+                            </span>
+                            <span className="text-sm text-muted-foreground">
+                              {assistant.email} • {assistant.labAssistantId}
+                            </span>
+                          </div>
+                        </SelectItem>
+                      ))}
                   </SelectContent>
                 </Select>
               </div>
               <div className="space-y-2">
-                <Label>Time Slot</Label>
-                <Select value={formData.timeSlotId} onValueChange={(v) => setFormData({ ...formData, timeSlotId: v })}>
+                <Label htmlFor="timeSlotId">Time Slot</Label>
+                <Select
+                  value={formData.timeSlotId}
+                  onValueChange={(value) =>
+                    setFormData({ ...formData, timeSlotId: value })
+                  }
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Select a time slot" />
                   </SelectTrigger>
                   <SelectContent>
-                    {timeSlots.map((t) => (
-                      <SelectItem key={t.id} value={t.id}>
-                        {t.dayOfWeek} {formatTime(t.startTime)} - {formatTime(t.endTime)}
-                      </SelectItem>
-                    ))}
+                    {timeSlots
+                      .filter((t) => t.isActive)
+                      .map((slot) => (
+                        <SelectItem key={slot.id} value={slot.id}>
+                          {slot.dayOfWeek} {formatTime(slot.startTime)} -{" "}
+                          {formatTime(slot.endTime)}
+                        </SelectItem>
+                      ))}
                   </SelectContent>
                 </Select>
               </div>
-
               <div className="flex justify-end space-x-2">
-                <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setIsDialogOpen(false)}
+                >
                   Cancel
                 </Button>
-                <Button type="submit">{editingSchedule ? "Update" : "Create"}</Button>
+                <Button type="submit">
+                  {editingSchedule ? "Update Schedule" : "Create Schedule"}
+                </Button>
               </div>
             </form>
           </DialogContent>
         </Dialog>
       </div>
-
-      {/* Schedule Table */}
+      {!hasRequiredData && (
+        <Card className="border-yellow-200 bg-yellow-50">
+          <CardContent className="pt-6">
+            <div className="flex items-center gap-2 text-yellow-800">
+              <AlertCircle className="h-5 w-5" />
+              <div>
+                <p className="font-medium">Missing Required Data</p>
+                <p className="text-sm">
+                  You need to create courses, lab rooms, sections, lab
+                  assistants, and time slots before you can create schedule
+                  assignments.
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Calendar className="h-5 w-5" /> Schedule Assignments ({schedules.length})
+            <Calendar className="h-5 w-5" />
+            Schedule Assignments (
+            {schedules.filter((s) => s.status === "active").length})
           </CardTitle>
+          <CardDescription>
+            All lab session schedule assignments
+          </CardDescription>
         </CardHeader>
         <CardContent>
-          {schedules.length === 0 ? (
-            <div className="text-center py-8 text-muted-foreground">No schedules found.</div>
+          {schedules.filter((s) => s.status === "active").length === 0 ? (
+            <div className="text-center py-8 text-muted-foreground">
+              No schedule assignments found. Create your first schedule
+              assignment to get started.
+            </div>
           ) : (
             <Table>
               <TableHeader>
@@ -274,45 +505,94 @@ export default function SchedulesPage() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {schedules.map((s) => (
-                  <TableRow key={s.id}>
-                    <TableCell>{s.course?.code}</TableCell>
-                    <TableCell>
-                      {s.section?.name} {s.group?.name && `• ${s.group.name}`}
-                    </TableCell>
-                    <TableCell>{s.labRoom?.name}</TableCell>
-                    <TableCell>
-                      {s.labAssistant?.firstName} {s.labAssistant?.lastName}
-                    </TableCell>
-                    <TableCell>
-                      {s.timeSlot?.dayOfWeek} {formatTime(s.timeSlot?.startTime)} -{" "}
-                      {formatTime(s.timeSlot?.endTime)}
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex justify-end gap-2">
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => {
-                            setEditingSchedule(s)
-                            setIsDialogOpen(true)
-                          }}
-                        >
-                          <Edit className="h-4 w-4" />
-                        </Button>
+                {schedules
+                  .filter((s) => s.status === "active")
+                  .map((schedule) => {
+                    const course = getCourse(schedule.courseId);
+                    const section = getSection(schedule.sectionId);
+                    const group = schedule.groupId
+                      ? getGroup(schedule.groupId)
+                      : null;
+                    const labRoom = getLabRoom(schedule.labRoomId);
+                    const assistant = getAssistant(schedule.labAssistantId); // Corrected: passing labAssistantId
+                    const timeSlot = getTimeSlot(schedule.timeSlotId);
 
-                        <Button size="sm" variant="outline" onClick={() => handleDelete(s.id)}>
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                    return (
+                      <TableRow key={schedule.id}>
+                        <TableCell>
+                          <div>
+                            <div className="font-medium">{course?.code}</div>
+                            <div className="text-sm text-muted-foreground">
+                              {course?.name}
+                            </div>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div>
+                            <div className="font-medium">{section?.name}</div>
+                            <div className="text-sm text-muted-foreground">
+                              {section?.year} Year • {section?.department}
+                              {group && <span> • {group.name}</span>}
+                            </div>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div>
+                            <div className="font-medium">{labRoom?.name}</div>
+                            <div className="text-sm text-muted-foreground">
+                              {labRoom?.location}
+                            </div>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div>
+                            <div className="font-medium">
+                              {assistant?.firstName} {assistant?.lastName}
+                            </div>
+                            <div className="text-sm text-muted-foreground">
+                              {assistant?.email} • {assistant?.labAssistantId}
+                            </div>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          {timeSlot && (
+                            <div>
+                              <div className="font-medium">
+                                {timeSlot.dayOfWeek}
+                              </div>
+                              <div className="text-sm text-muted-foreground">
+                                {formatTime(timeSlot.startTime)} -{" "}
+                                {formatTime(timeSlot.endTime)}
+                              </div>
+                            </div>
+                          )}
+                        </TableCell>
+                        <TableCell className="text-right">
+                          <div className="flex justify-end space-x-2">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => handleEdit(schedule)}
+                            >
+                              <Edit className="h-4 w-4" />
+                            </Button>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => handleDelete(schedule.id)}
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
               </TableBody>
             </Table>
           )}
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

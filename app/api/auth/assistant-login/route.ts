@@ -11,13 +11,13 @@ export async function POST(req: Request) {
     console.log("[Backend.assistantLogin] Data received:", { email, password });
 
     const user = await prisma.user.findUnique({ where: { email } });
-    console.log("[Backend.assistantLogin] Found user:", user ? { email: user.email, role: user.role } : null);
+    console.log("[Backend.assistantLogin] Found user:", user ? { email: user.email, role: user.role, labAssistantId: user.labAssistantId, } : null);
 
     if (!user) {
       return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
     }
 
-    if (user.role !== "LAB_ASSISTANT") {
+    if (user.role !== "lab_assistant") {
       return NextResponse.json({ error: "Access denied. Assistant only." }, { status: 403 });
     }
 
@@ -29,7 +29,7 @@ export async function POST(req: Request) {
     }
 
     const token = jwt.sign(
-      { id: user.id, email: user.email, role: user.role },
+      { id: user.id, email: user.email, role: user.role,labAssistantId: user.labAssistantId, },
       process.env.JWT_SECRET!,
       { expiresIn: "1h" }
     );
@@ -38,7 +38,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({
       token,
-      user: { id: user.id, email: user.email, role: user.role }
+      user: { id: user.id, email: user.email, role: user.role,labAssistantId: user.labAssistantId, }
     });
 
   } catch (err) {

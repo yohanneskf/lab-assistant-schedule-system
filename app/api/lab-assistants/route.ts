@@ -26,27 +26,41 @@ export async function POST(request: Request) {
   const hashedPassword = await bcrypt.hash(password, 10);
 
   // Use a transaction to ensure both records are created or neither are
-  const [newLabAssistant, newUser] = await prisma.$transaction([
-    prisma.labAssistant.create({
-      data: {
-        labAssistantId,
-        username,
-        firstName,
-        lastName,
-        email,
-        password: hashedPassword, // Store the hashed password
-        department,
-        isActive: true,
-      },
-    }),
-    prisma.user.create({
-      data: {
-        email,
-        password: hashedPassword, // Store the hashed password
-        role: "lab_assistant",
-      },
-    }),
-  ]);
+  try {
+    const [newLabAssistant, newUser] = await prisma.$transaction([
+      // 1. Create the new LabAssistant record
+      prisma.labAssistant.create({
+        data: {
+          labAssistantId,
+          username,
+          firstName,
+          lastName,
+          email,
+          password: hashedPassword, // Store the hashed password
+          department,
+          isActive: true,
+        },
+      }),
+      // 2. Create the User record and link it to the LabAssistant
+      prisma.user.create({
+        data: {
+          email,
+          password: hashedPassword, // Store the hashed password
+          role: "lab_assistant",
+          // The key change: We use the labAssistantId provided in the request
+          // to link the two models.
+          labAssistantId: labAssistantId,
+        },
+      }),
+    ]);
 
-  return NextResponse.json(newLabAssistant);
+    // Return the newly created lab assistant
+    return NextResponse.json(newLabAssistant, { status: 201 });
+  } catch (error) {
+    console.error("Lab assistant creation error:", error);
+    return NextResponse.json(
+      { message: "An unexpected error occurred during creation" },
+      { status: 500 }
+    );
+  }
 }

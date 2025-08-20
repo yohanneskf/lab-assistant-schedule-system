@@ -1,19 +1,7 @@
-import { NextResponse } from "next/server"
-import prisma from "@/lib/prisma"
+// This is the server-side API endpoint
+import { NextResponse } from "next/server";
+import prisma from "@/prisma/client";
 
-function sanitizeData(data: any) {
-  return {
-    courseId: data.courseId || null,
-    sectionId: data.sectionId || null,
-    groupId: !data.groupId || data.groupId === "none" ? null : data.groupId,
-    labRoomId: data.labRoomId || null,
-    labAssistantId: data.labAssistantId || null,
-    timeSlotId: data.timeSlotId || null,
-    status: "active",
-  }
-}
-
-// GET /api/schedules
 export async function GET() {
   try {
     const schedules = await prisma.scheduleAssignment.findMany({
@@ -26,95 +14,84 @@ export async function GET() {
         labAssistant: true,
         timeSlot: true,
       },
-    })
-
-    return NextResponse.json(schedules)
+    });
+    return NextResponse.json(schedules);
   } catch (error) {
-    console.error("GET /api/schedules error:", error)
-    return NextResponse.json({ error: "Failed to fetch schedules", details: error }, { status: 500 })
+    console.error("Failed to fetch schedules:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch schedules" },
+      { status: 500 }
+    );
   }
 }
 
-// POST /api/schedules
-export async function POST(req: Request) {
+export async function POST(request: Request) {
   try {
-    const data = await req.json()
-    const payload = sanitizeData(data)
+    const data = await request.json();
 
-    const schedule = await prisma.scheduleAssignment.create({
-      data: payload,
-      include: {
-        course: true,
-        section: true,
-        group: true,
-        labRoom: true,
-        labAssistant: true,
-        timeSlot: true,
+    // Deconstruct the data to ensure labAssistantId is included
+    const {
+      courseId,
+      sectionId,
+      groupId,
+      labRoomId,
+      labAssistantId, // This is the key field from the client
+      timeSlotId,
+      status,
+    } = data;
+
+    // Create the new schedule assignment with the labAssistantId
+    const newSchedule = await prisma.scheduleAssignment.create({
+      data: {
+        courseId,
+        sectionId,
+        groupId,
+        labRoomId,
+        labAssistantId,
+        timeSlotId,
+        status,
       },
-    })
+    });
 
-    return NextResponse.json(schedule)
+    return NextResponse.json(newSchedule, { status: 201 });
   } catch (error) {
-    console.error("POST /api/schedules error:", error)
-    return NextResponse.json({ error: "Failed to create schedule", details: error }, { status: 500 })
+    console.error("Failed to create schedule:", error);
+    return NextResponse.json(
+      { error: "Failed to create schedule" },
+      { status: 500 }
+    );
   }
 }
 
-// PUT /api/schedules
-export async function PUT(req: Request) {
+export async function PUT(request: Request) {
   try {
-    const data = await req.json()
-    const { id, ...updateData } = data
-
-    if (!id) {
-      return NextResponse.json({ error: "Missing schedule id" }, { status: 400 })
-    }
-
-    const payload = sanitizeData(updateData)
-
-    const schedule = await prisma.scheduleAssignment.update({
+    const data = await request.json();
+    const { id, ...updateData } = data;
+    const updatedSchedule = await prisma.scheduleAssignment.update({
       where: { id },
-      data: payload,
-      include: {
-        course: true,
-        section: true,
-        group: true,
-        labRoom: true,
-        labAssistant: true,
-        timeSlot: true,
-      },
-    })
-
-    return NextResponse.json(schedule)
+      data: updateData,
+    });
+    return NextResponse.json(updatedSchedule);
   } catch (error) {
-    console.error("PUT /api/schedules error:", error)
-    return NextResponse.json({ error: "Failed to update schedule", details: error }, { status: 500 })
+    console.error("Failed to update schedule:", error);
+    return NextResponse.json(
+      { error: "Failed to update schedule" },
+      { status: 500 }
+    );
   }
 }
 
-// DELETE /api/schedules?id=...
-export async function DELETE(req: Request) {
+export async function DELETE(request: Request) {
   try {
-    const { searchParams } = new URL(req.url)
-    const id = searchParams.get("id")
-    if (!id) return NextResponse.json({ error: "Missing id" }, { status: 400 })
-
-    const schedule = await prisma.scheduleAssignment.update({
-      where: { id },
-      data: { status: "inactive" },
-      include: {
-        course: true,
-        section: true,
-        group: true,
-        labRoom: true,
-        labAssistant: true,
-        timeSlot: true,
-      },
-    })
-
-    return NextResponse.json(schedule)
+    const data = await request.json();
+    const { id } = data;
+    await prisma.scheduleAssignment.delete({ where: { id } });
+    return NextResponse.json({ message: "Schedule deleted successfully" });
   } catch (error) {
-    console.error("DELETE /api/schedules error:", error)
-    return NextResponse.json({ error: "Failed to delete schedule", details: error }, { status: 500 })
+    console.error("Failed to delete schedule:", error);
+    return NextResponse.json(
+      { error: "Failed to delete schedule" },
+      { status: 500 }
+    );
   }
 }
