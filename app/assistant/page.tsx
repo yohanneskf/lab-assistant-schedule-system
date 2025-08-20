@@ -25,9 +25,9 @@ export default function AssistantDashboard() {
   const [loading, setLoading] = useState(true)
   const router = useRouter()
 
-  // useEffect(() => {
-  //   fetchData()
-  // }, [])
+  useEffect(() => {
+    fetchData()
+  }, [])
 
   const fetchData = async () => {
     const user = AuthService.getCurrentUser()
@@ -38,13 +38,20 @@ export default function AssistantDashboard() {
 
     try {
       const res = await fetch(`/api/assistant/${user.labAssistantId}/dashboard`)
-      if (!res.ok) throw new Error("Failed to fetch data")
-
       const data = await res.json()
-      setAssistant(data.assistant)
-      setSchedules(data.schedules)
+
+      if (data.error) {
+        console.error("[Dashboard] API error:", data.error)
+        setAssistant(null)
+        setSchedules([])
+      } else {
+        setAssistant(data.assistant)
+        setSchedules(data.schedules)
+      }
     } catch (err) {
       console.error("[Dashboard] Error fetching schedules:", err)
+      setAssistant(null)
+      setSchedules([])
     } finally {
       setLoading(false)
     }
@@ -66,7 +73,7 @@ export default function AssistantDashboard() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-64">
-        <div className="text-lg">Loading your schedule Please Wait...</div>
+        <div className="text-lg">Loading your schedule...</div>
       </div>
     )
   }
@@ -77,7 +84,7 @@ export default function AssistantDashboard() {
         <div>
           <h1 className="text-3xl font-bold text-gray-900">My Schedule</h1>
           <p className="text-gray-600">
-            Welcome, {assistant?.firstName} {assistant?.lastName} ({assistant?.id})
+            Welcome, {assistant?.email} {assistant?.lastName} ({assistant?.id})
           </p>
         </div>
         <div className="flex space-x-2">
@@ -145,7 +152,7 @@ export default function AssistantDashboard() {
             <User className="h-4 w-4 text-orange-600" />
           </CardHeader>
           <CardContent>
-            <div className="text-lg font-bold">{assistant?.department}</div>
+            <div className="text-lg font-bold">{assistant?.department || "N/A"}</div>
             <p className="text-xs text-muted-foreground">Your department</p>
           </CardContent>
         </Card>

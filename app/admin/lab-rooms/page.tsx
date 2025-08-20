@@ -1,13 +1,17 @@
-"use client"
-
-import type React from "react"
-
-import { useEffect, useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Badge } from "@/components/ui/badge"
+// Replace this with a direct call to the API route
+"use client";
+import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
 import {
   Dialog,
   DialogContent,
@@ -16,85 +20,120 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { db, type LabRoom } from "@/lib/local-storage"
-import { Plus, Edit, Trash2 } from "lucide-react"
+} from "@/components/ui/dialog";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Plus, Edit, Trash2 } from "lucide-react";
+
+// Define the LabRoom type here or import it from a shared file
+interface LabRoom {
+  id: string;
+  name: string;
+  capacity: number;
+  location: string;
+  equipment: string[];
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
 
 export default function LabRoomsPage() {
-  const [labRooms, setLabRooms] = useState<LabRoom[]>([])
-  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false)
-  const [editingRoom, setEditingRoom] = useState<LabRoom | null>(null)
+  const [labRooms, setLabRooms] = useState<LabRoom[]>([]);
+  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+  const [editingRoom, setEditingRoom] = useState<LabRoom | null>(null);
   const [formData, setFormData] = useState({
     name: "",
     capacity: "",
     location: "",
     equipment: "",
-  })
+  });
 
   useEffect(() => {
-    loadLabRooms()
-  }, [])
+    loadLabRooms();
+  }, []);
 
-  const loadLabRooms = () => {
-    const rooms = db.findAll<LabRoom>("lab_rooms").filter((room) => room.isActive)
-    setLabRooms(rooms)
-  }
+  // Use fetch to get data from the API route
+  const loadLabRooms = async () => {
+    const res = await fetch("/api/lab-rooms");
+    const rooms = await res.json();
+    setLabRooms(rooms);
+  };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
     const roomData = {
       name: formData.name,
-      capacity: Number.parseInt(formData.capacity),
+      capacity: Number(formData.capacity),
       location: formData.location,
       equipment: formData.equipment
         .split(",")
         .map((item) => item.trim())
         .filter(Boolean),
-      isActive: true,
-    }
+    };
 
     if (editingRoom) {
-      db.update<LabRoom>("lab_rooms", editingRoom.id, roomData)
+      // Use fetch with the PATCH method to update a room
+      await fetch(`/api/lab-rooms/${editingRoom.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(roomData),
+      });
     } else {
-      db.create<LabRoom>("lab_rooms", roomData)
+      // Use fetch with the POST method to create a new room
+      await fetch("/api/lab-rooms", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(roomData),
+      });
     }
 
-    resetForm()
-    loadLabRooms()
-  }
+    resetForm();
+    loadLabRooms(); // Reload the list after the action
+  };
 
   const handleEdit = (room: LabRoom) => {
-    setEditingRoom(room)
+    setEditingRoom(room);
     setFormData({
       name: room.name,
       capacity: room.capacity.toString(),
       location: room.location,
       equipment: room.equipment.join(", "),
-    })
-    setIsCreateDialogOpen(true)
-  }
+    });
+    setIsCreateDialogOpen(true);
+  };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
     if (confirm("Are you sure you want to delete this lab room?")) {
-      db.update<LabRoom>("lab_rooms", id, { isActive: false })
-      loadLabRooms()
+      // Use fetch with the DELETE method to deactivate a room
+      await fetch(`/api/lab-rooms/${id}`, {
+        method: "DELETE",
+      });
+      loadLabRooms(); // Reload the list after the action
     }
-  }
+  };
 
   const resetForm = () => {
-    setFormData({ name: "", capacity: "", location: "", equipment: "" })
-    setEditingRoom(null)
-    setIsCreateDialogOpen(false)
-  }
+    setFormData({ name: "", capacity: "", location: "", equipment: "" });
+    setEditingRoom(null);
+    setIsCreateDialogOpen(false);
+  };
 
+  // The rest of the return JSX remains the same
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Lab Rooms</h1>
-          <p className="text-gray-600">Manage laboratory spaces and facilities</p>
+          <p className="text-gray-600">
+            Manage laboratory spaces and facilities
+          </p>
         </div>
         <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
           <DialogTrigger asChild>
@@ -105,9 +144,13 @@ export default function LabRoomsPage() {
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>{editingRoom ? "Edit Lab Room" : "Create New Lab Room"}</DialogTitle>
+              <DialogTitle>
+                {editingRoom ? "Edit Lab Room" : "Create New Lab Room"}
+              </DialogTitle>
               <DialogDescription>
-                {editingRoom ? "Update the lab room details." : "Add a new lab room to the system."}
+                {editingRoom
+                  ? "Update the lab room details."
+                  : "Add a new lab room to the system."}
               </DialogDescription>
             </DialogHeader>
             <form onSubmit={handleSubmit}>
@@ -117,7 +160,9 @@ export default function LabRoomsPage() {
                   <Input
                     id="name"
                     value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, name: e.target.value })
+                    }
                     required
                   />
                 </div>
@@ -127,7 +172,9 @@ export default function LabRoomsPage() {
                     id="capacity"
                     type="number"
                     value={formData.capacity}
-                    onChange={(e) => setFormData({ ...formData, capacity: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, capacity: e.target.value })
+                    }
                     required
                   />
                 </div>
@@ -136,7 +183,9 @@ export default function LabRoomsPage() {
                   <Input
                     id="location"
                     value={formData.location}
-                    onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, location: e.target.value })
+                    }
                     required
                   />
                 </div>
@@ -145,7 +194,9 @@ export default function LabRoomsPage() {
                   <Input
                     id="equipment"
                     value={formData.equipment}
-                    onChange={(e) => setFormData({ ...formData, equipment: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, equipment: e.target.value })
+                    }
                     placeholder="Computers, Projector, Whiteboard"
                   />
                 </div>
@@ -154,7 +205,9 @@ export default function LabRoomsPage() {
                 <Button type="button" variant="outline" onClick={resetForm}>
                   Cancel
                 </Button>
-                <Button type="submit">{editingRoom ? "Update" : "Create"}</Button>
+                <Button type="submit">
+                  {editingRoom ? "Update" : "Create"}
+                </Button>
               </DialogFooter>
             </form>
           </DialogContent>
@@ -186,7 +239,11 @@ export default function LabRoomsPage() {
                   <TableCell>
                     <div className="flex flex-wrap gap-1">
                       {room.equipment.map((item, index) => (
-                        <Badge key={index} variant="secondary" className="text-xs">
+                        <Badge
+                          key={index}
+                          variant="secondary"
+                          className="text-xs"
+                        >
                           {item}
                         </Badge>
                       ))}
@@ -194,10 +251,18 @@ export default function LabRoomsPage() {
                   </TableCell>
                   <TableCell>
                     <div className="flex space-x-2">
-                      <Button variant="outline" size="sm" onClick={() => handleEdit(room)}>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleEdit(room)}
+                      >
                         <Edit className="h-4 w-4" />
                       </Button>
-                      <Button variant="outline" size="sm" onClick={() => handleDelete(room.id)}>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleDelete(room.id)}
+                      >
                         <Trash2 className="h-4 w-4" />
                       </Button>
                     </div>
@@ -209,5 +274,5 @@ export default function LabRoomsPage() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

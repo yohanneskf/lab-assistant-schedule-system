@@ -10,6 +10,7 @@ export async function POST(req: Request) {
     const { email, password } = await req.json();
     console.log("[Backend.adminLogin] Data received:", { email, password });
 
+    // Find user by email
     const user = await prisma.user.findUnique({ where: { email } });
     console.log("[Backend.adminLogin] Found user:", user ? { email: user.email, role: user.role } : null);
 
@@ -17,10 +18,12 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
     }
 
+    // Only allow ADMIN role
     if (user.role !== "ADMIN") {
       return NextResponse.json({ error: "Access denied. Admin only." }, { status: 403 });
     }
 
+    // Compare password
     const isMatch = await bcrypt.compare(password, user.password);
     console.log("[Backend.adminLogin] Password match:", isMatch);
 
@@ -28,6 +31,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
     }
 
+    // Generate JWT token
     const token = jwt.sign(
       { id: user.id, email: user.email, role: user.role },
       process.env.JWT_SECRET!,

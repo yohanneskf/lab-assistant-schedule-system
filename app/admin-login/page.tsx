@@ -26,7 +26,7 @@ export default function AdminLoginPage() {
   setError("")
 
   try {
-    const user = await AuthService.login(email, password) // ✅ add await
+    const user = await AuthService.adminLogin(email, password) // ✅ add await
 
     console.log("[handleSubmit] Logged in user:", user);
 
@@ -112,7 +112,7 @@ export default function AdminLoginPage() {
 
         <div className="text-center text-sm text-gray-600">
           <p>Default admin credentials:</p>
-          <p>Email: admin@lab.edu | Password: admin123</p>
+          <p>Email: admin@1234.edu | Password: 5678</p>
         </div>
       </div>
     </div>

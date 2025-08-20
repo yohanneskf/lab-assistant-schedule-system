@@ -8791,6 +8791,7 @@ export namespace Prisma {
     dayOfWeek: string | null
     startTime: string | null
     endTime: string | null
+    slotType: string | null
     isActive: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -8801,6 +8802,7 @@ export namespace Prisma {
     dayOfWeek: string | null
     startTime: string | null
     endTime: string | null
+    slotType: string | null
     isActive: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -8811,6 +8813,7 @@ export namespace Prisma {
     dayOfWeek: number
     startTime: number
     endTime: number
+    slotType: number
     isActive: number
     createdAt: number
     updatedAt: number
@@ -8823,6 +8826,7 @@ export namespace Prisma {
     dayOfWeek?: true
     startTime?: true
     endTime?: true
+    slotType?: true
     isActive?: true
     createdAt?: true
     updatedAt?: true
@@ -8833,6 +8837,7 @@ export namespace Prisma {
     dayOfWeek?: true
     startTime?: true
     endTime?: true
+    slotType?: true
     isActive?: true
     createdAt?: true
     updatedAt?: true
@@ -8843,6 +8848,7 @@ export namespace Prisma {
     dayOfWeek?: true
     startTime?: true
     endTime?: true
+    slotType?: true
     isActive?: true
     createdAt?: true
     updatedAt?: true
@@ -8926,6 +8932,7 @@ export namespace Prisma {
     dayOfWeek: string
     startTime: string
     endTime: string
+    slotType: string
     isActive: boolean
     createdAt: Date
     updatedAt: Date
@@ -8953,6 +8960,7 @@ export namespace Prisma {
     dayOfWeek?: boolean
     startTime?: boolean
     endTime?: boolean
+    slotType?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -8965,6 +8973,7 @@ export namespace Prisma {
     dayOfWeek?: boolean
     startTime?: boolean
     endTime?: boolean
+    slotType?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -8975,6 +8984,7 @@ export namespace Prisma {
     dayOfWeek?: boolean
     startTime?: boolean
     endTime?: boolean
+    slotType?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -8985,12 +8995,13 @@ export namespace Prisma {
     dayOfWeek?: boolean
     startTime?: boolean
     endTime?: boolean
+    slotType?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type TimeSlotOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "dayOfWeek" | "startTime" | "endTime" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["timeSlot"]>
+  export type TimeSlotOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "dayOfWeek" | "startTime" | "endTime" | "slotType" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["timeSlot"]>
   export type TimeSlotInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     ScheduleAssignments?: boolean | TimeSlot$ScheduleAssignmentsArgs<ExtArgs>
     _count?: boolean | TimeSlotCountOutputTypeDefaultArgs<ExtArgs>
@@ -9008,6 +9019,7 @@ export namespace Prisma {
       dayOfWeek: string
       startTime: string
       endTime: string
+      slotType: string
       isActive: boolean
       createdAt: Date
       updatedAt: Date
@@ -9439,6 +9451,7 @@ export namespace Prisma {
     readonly dayOfWeek: FieldRef<"TimeSlot", 'String'>
     readonly startTime: FieldRef<"TimeSlot", 'String'>
     readonly endTime: FieldRef<"TimeSlot", 'String'>
+    readonly slotType: FieldRef<"TimeSlot", 'String'>
     readonly isActive: FieldRef<"TimeSlot", 'Boolean'>
     readonly createdAt: FieldRef<"TimeSlot", 'DateTime'>
     readonly updatedAt: FieldRef<"TimeSlot", 'DateTime'>
@@ -12185,6 +12198,7 @@ export namespace Prisma {
     dayOfWeek: 'dayOfWeek',
     startTime: 'startTime',
     endTime: 'endTime',
+    slotType: 'slotType',
     isActive: 'isActive',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -12799,6 +12813,7 @@ export namespace Prisma {
     dayOfWeek?: StringFilter<"TimeSlot"> | string
     startTime?: StringFilter<"TimeSlot"> | string
     endTime?: StringFilter<"TimeSlot"> | string
+    slotType?: StringFilter<"TimeSlot"> | string
     isActive?: BoolFilter<"TimeSlot"> | boolean
     createdAt?: DateTimeFilter<"TimeSlot"> | Date | string
     updatedAt?: DateTimeFilter<"TimeSlot"> | Date | string
@@ -12810,6 +12825,7 @@ export namespace Prisma {
     dayOfWeek?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
+    slotType?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -12824,6 +12840,7 @@ export namespace Prisma {
     dayOfWeek?: StringFilter<"TimeSlot"> | string
     startTime?: StringFilter<"TimeSlot"> | string
     endTime?: StringFilter<"TimeSlot"> | string
+    slotType?: StringFilter<"TimeSlot"> | string
     isActive?: BoolFilter<"TimeSlot"> | boolean
     createdAt?: DateTimeFilter<"TimeSlot"> | Date | string
     updatedAt?: DateTimeFilter<"TimeSlot"> | Date | string
@@ -12835,6 +12852,7 @@ export namespace Prisma {
     dayOfWeek?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
+    slotType?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -12851,6 +12869,7 @@ export namespace Prisma {
     dayOfWeek?: StringWithAggregatesFilter<"TimeSlot"> | string
     startTime?: StringWithAggregatesFilter<"TimeSlot"> | string
     endTime?: StringWithAggregatesFilter<"TimeSlot"> | string
+    slotType?: StringWithAggregatesFilter<"TimeSlot"> | string
     isActive?: BoolWithAggregatesFilter<"TimeSlot"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"TimeSlot"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"TimeSlot"> | Date | string
@@ -13555,7 +13574,8 @@ export namespace Prisma {
     dayOfWeek: string
     startTime: string
     endTime: string
-    isActive: boolean
+    slotType: string
+    isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     ScheduleAssignments?: ScheduleAssignmentCreateNestedManyWithoutTimeSlotInput
@@ -13566,7 +13586,8 @@ export namespace Prisma {
     dayOfWeek: string
     startTime: string
     endTime: string
-    isActive: boolean
+    slotType: string
+    isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     ScheduleAssignments?: ScheduleAssignmentUncheckedCreateNestedManyWithoutTimeSlotInput
@@ -13577,6 +13598,7 @@ export namespace Prisma {
     dayOfWeek?: StringFieldUpdateOperationsInput | string
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
+    slotType?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13588,6 +13610,7 @@ export namespace Prisma {
     dayOfWeek?: StringFieldUpdateOperationsInput | string
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
+    slotType?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13599,7 +13622,8 @@ export namespace Prisma {
     dayOfWeek: string
     startTime: string
     endTime: string
-    isActive: boolean
+    slotType: string
+    isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -13609,6 +13633,7 @@ export namespace Prisma {
     dayOfWeek?: StringFieldUpdateOperationsInput | string
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
+    slotType?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13619,6 +13644,7 @@ export namespace Prisma {
     dayOfWeek?: StringFieldUpdateOperationsInput | string
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
+    slotType?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14195,6 +14221,7 @@ export namespace Prisma {
     dayOfWeek?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
+    slotType?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -14205,6 +14232,7 @@ export namespace Prisma {
     dayOfWeek?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
+    slotType?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -14215,6 +14243,7 @@ export namespace Prisma {
     dayOfWeek?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
+    slotType?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -15717,7 +15746,8 @@ export namespace Prisma {
     dayOfWeek: string
     startTime: string
     endTime: string
-    isActive: boolean
+    slotType: string
+    isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -15727,7 +15757,8 @@ export namespace Prisma {
     dayOfWeek: string
     startTime: string
     endTime: string
-    isActive: boolean
+    slotType: string
+    isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -15934,6 +15965,7 @@ export namespace Prisma {
     dayOfWeek?: StringFieldUpdateOperationsInput | string
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
+    slotType?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15944,6 +15976,7 @@ export namespace Prisma {
     dayOfWeek?: StringFieldUpdateOperationsInput | string
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
+    slotType?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string

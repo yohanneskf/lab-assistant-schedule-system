@@ -1,29 +1,16 @@
 export const AuthService = {
   // General user login
   async login(email: string, password: string) {
-    try {
-      const res = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
+    const res = await fetch("/api/auth/assistant-login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password })
+    });
+    if (!res.ok) return null;
 
-      if (!res.ok) {
-        console.log("[AuthService.login] Login failed with status:", res.status);
-        return null;
-      }
-
-      const data = await res.json();
-
-      if (typeof window !== "undefined") {
-        localStorage.setItem("token", data.token);
-      }
-
-      return data.user;
-    } catch (err) {
-      console.error("[AuthService.login] Error:", err);
-      return null;
-    }
+    const data = await res.json();
+    if (typeof window !== "undefined") localStorage.setItem("token", data.token);
+    return data.user;
   },
 
   // Lab assistant login
@@ -56,28 +43,47 @@ export const AuthService = {
     }
   },
 
-  // Logout user
-  logout() {
-    console.log("[AuthService.logout] Removing token");
-    if (typeof window !== "undefined") {
-      localStorage.removeItem("token");
+  // Admin login
+  async adminLogin(email: string, password: string) {
+    try {
+      console.log("[AuthService.adminLogin] Called with:", { email, password });
+
+      const res = await fetch("/api/auth/admin-login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!res.ok) {
+        console.log("[AuthService.adminLogin] Login failed with status:", res.status);
+        return null;
+      }
+
+      const data = await res.json();
+      console.log("[AuthService.adminLogin] Data received:", data);
+
+      if (typeof window !== "undefined") {
+        localStorage.setItem("token", data.token);
+      }
+
+      return data.user;
+    } catch (err) {
+      console.error("[AuthService.adminLogin] Error:", err);
+      return null;
     }
   },
 
-  // Get currently logged-in user from JWT
-  getCurrentUser() {
-    if (typeof window === "undefined") return null;
+  // Logout user
+logout() { if (typeof window !== "undefined") localStorage.removeItem("token"); },
 
+  // Get currently logged-in user from JWT
+getCurrentUser() {
+    if (typeof window === "undefined") return null;
     const token = localStorage.getItem("token");
     if (!token) return null;
 
-    try {
-      const payload = JSON.parse(atob(token.split(".")[1]));
-      return payload; // { id, email, role, iat, exp }
-    } catch (err) {
-      console.error("[AuthService.getCurrentUser] Error decoding token:", err);
-      return null;
-    }
+    try { return JSON.parse(atob(token.split(".")[1])); }
+    catch { return null; }
   },
 
   // Change password for authenticated user

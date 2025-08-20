@@ -2,7 +2,11 @@
 
 import { useEffect, useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Building2, BookOpen, Users, Calendar } from "lucide-react"
+import { Building2, BookOpen, Users, Calendar, Key, LogOut } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { AuthService } from "@/lib/auth"
+import { useRouter } from "next/navigation"
+import Link from "next/link"   // ✅ fixed import
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState({
@@ -58,9 +62,28 @@ export default function AdminDashboard() {
       color: "text-orange-600",
     },
   ]
+  const router = useRouter()
+
+  const handleLogout = () => {
+    AuthService.logout()
+    router.push("/admin-login")
+  }
 
   return (
     <div className="space-y-6">
+      <div className="flex justify-end space-x-2 align-right">
+        <Link href="/admin/change-password">
+          <Button variant="outline">
+            <Key className="mr-2 h-4 w-4" />
+            Change Password
+          </Button>
+        </Link>
+        <Button variant="outline" onClick={handleLogout}>
+          <LogOut className="mr-2 h-4 w-4" />
+          Logout
+        </Button>
+      </div>
+
       <div>
         <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
         <p className="text-gray-600">Welcome to the Lab Management System</p>

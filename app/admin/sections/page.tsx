@@ -1,7 +1,5 @@
 "use client"
 
-import type React from "react"
-
 import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -19,14 +17,27 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Plus, Edit, Trash2 } from "lucide-react"
-import { db, type Section, type Group } from "@/lib/local-storage"
 
-interface SectionWithGroups extends Section {
+interface Group {
+  id: string
+  name: string
+  sectionId: string
+  capacity: number
+  isActive: boolean
+}
+
+interface Section {
+  id: string
+  name: string
+  year: number
+  department: string
+  capacity: number
+  isActive: boolean
   groups: Group[]
 }
 
 export default function SectionsPage() {
-  const [sections, setSections] = useState<SectionWithGroups[]>([])
+  const [sections, setSections] = useState<Section[]>([])
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [editingSection, setEditingSection] = useState<Section | null>(null)
   const [formData, setFormData] = useState({
@@ -36,28 +47,23 @@ export default function SectionsPage() {
     capacity: "",
   })
 
-  // Group form state
+  // Group state
   const [isGroupDialogOpen, setIsGroupDialogOpen] = useState(false)
   const [selectedSectionId, setSelectedSectionId] = useState<string>("")
-  const [groupFormData, setGroupFormData] = useState({
-    name: "",
-    capacity: "",
-  })
+  const [groupFormData, setGroupFormData] = useState({ name: "", capacity: "" })
 
   useEffect(() => {
     loadSections()
   }, [])
 
-  const loadSections = () => {
-    const allSections = db.findAll<Section>("sections").filter((section) => section.isActive)
-    const allGroups = db.findAll<Group>("groups").filter((group) => group.isActive)
-
-    const sectionsWithGroups: SectionWithGroups[] = allSections.map((section) => ({
-      ...section,
-      groups: allGroups.filter((group) => group.sectionId === section.id),
-    }))
-
-    setSections(sectionsWithGroups)
+  const loadSections = async () => {
+    try {
+      const res = await fetch("/api/sections")
+      const data = await res.json()
+      setSections(data)
+    } catch (err) {
+      console.error("Failed to fetch sections:", err)
+    }
   }
 
   const handleDialogChange = (open: boolean) => {
@@ -76,44 +82,57 @@ export default function SectionsPage() {
     }
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    const sectionData: Omit<Section, "id"> = {
+    const sectionData = {
       name: formData.name,
-      year: Number.parseInt(formData.year),
+      year: Number(formData.year),
       department: formData.department,
-      capacity: Number.parseInt(formData.capacity),
-      isActive: true,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      capacity: Number(formData.capacity),
     }
 
-    if (editingSection) {
-      db.update("sections", editingSection.id, { ...sectionData, updatedAt: new Date().toISOString() })
-    } else {
-      db.create("sections", sectionData)
+    try {
+      if (editingSection) {
+        await fetch(`/api/sections/${editingSection.id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(sectionData),
+        })
+      } else {
+        await fetch("/api/sections", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(sectionData),
+        })
+      }
+      loadSections()
+      handleDialogChange(false)
+    } catch (err) {
+      console.error("Failed to save section:", err)
     }
-
-    loadSections()
-    handleDialogChange(false)
   }
 
-  const handleGroupSubmit = (e: React.FormEvent) => {
+  const handleGroupSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    const groupData: Omit<Group, "id"> = {
+    const groupData = {
       name: groupFormData.name,
       sectionId: selectedSectionId,
-      capacity: Number.parseInt(groupFormData.capacity),
-      isActive: true,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      capacity: Number(groupFormData.capacity),
     }
 
-    db.create("groups", groupData)
-    loadSections()
-    handleGroupDialogChange(false)
+    try {
+      await fetch("/api/groups", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(groupData),
+      })
+      loadSections()
+      handleGroupDialogChange(false)
+    } catch (err) {
+      console.error("Failed to save group:", err)
+    }
   }
 
   const handleEdit = (section: Section) => {
@@ -127,16 +146,16 @@ export default function SectionsPage() {
     setIsDialogOpen(true)
   }
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
     if (confirm("Are you sure you want to delete this section?")) {
-      db.update("sections", id, { isActive: false, updatedAt: new Date().toISOString() })
+      await fetch(`/api/sections/${id}`, { method: "DELETE" })
       loadSections()
     }
   }
 
-  const handleDeleteGroup = (groupId: string) => {
+  const handleDeleteGroup = async (groupId: string) => {
     if (confirm("Are you sure you want to delete this group?")) {
-      db.update("groups", groupId, { isActive: false, updatedAt: new Date().toISOString() })
+      await fetch(`/api/groups/${groupId}`, { method: "DELETE" })
       loadSections()
     }
   }
